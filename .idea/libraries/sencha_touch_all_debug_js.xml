@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sencha-touch-all-debug.js" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/touch/sencha-touch-all-debug.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/touch/sencha-touch-all-debug.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

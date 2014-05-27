@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fc4853aa-1923-4107-a81d-b1cf098a50a7" name="Default" comment="" />
+    <ignored path="OnlineJudges.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="OnlineJudges" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="Judges.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/api/Judges.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="46" selection-start="596" selection-end="596" vertical-scroll-proportion="0.49712312" vertical-offset="0" max-vertical-offset="4416">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/app/store/Questions.js" />
+        <option value="$PROJECT_DIR$/api/index.php" />
+        <option value="$PROJECT_DIR$/api/History.php" />
+        <option value="$PROJECT_DIR$/api/Questions.php" />
+        <option value="$PROJECT_DIR$/app/view/admin/Settings.js" />
+        <option value="$PROJECT_DIR$/api/ViewInvitation.php" />
+        <option value="$PROJECT_DIR$/app/view/judge/Home.js" />
+        <option value="$PROJECT_DIR$/app/controller/Login.js" />
+        <option value="$PROJECT_DIR$/app/controller/Admin.js" />
+        <option value="$PROJECT_DIR$/app/controller/Judge.js" />
+        <option value="$PROJECT_DIR$/api/Invites.php" />
+        <option value="$PROJECT_DIR$/app/view/judge/Confirmation.js" />
+        <option value="$PROJECT_DIR$/api/Judges.php" />
+        <option value="$PROJECT_DIR$/app/store/Judges.js" />
+        <option value="$PROJECT_DIR$/api/Settings.php" />
+        <option value="$PROJECT_DIR$/api/Students.php" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-1928" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1096" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents ProjectPane="true" />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OnlineJudges" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OnlineJudges" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OnlineJudges" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/api" />
+    <property name="FullScreen" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="PublishConfig" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="Local IIS" serverId="fc2f9cd6-f97e-4bb8-a869-c9a96835b23f" deleteMissingItems="true" createEmptyFolders="true" promptOnLocalOverwrite="false" autoUpload="true" autoUploadExternalChanges="true" notifyRemoteChanges="true">
+    <servers>
+      <server id="80d37c49-428e-4306-bdf3-aea10545621a">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$/build/production/OnlineJudges" web="/" />
+            <mapping deploy="/api" local="$PROJECT_DIR$/api" web="/api" />
+          </mappings>
+        </serverdata>
+      </server>
+      <server id="c370064a-198e-42e2-9f0d-40ac15aa3be1">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$/build/production/OnlineJudges" web="/" />
+            <mapping deploy="/api" local="$PROJECT_DIR$/api" web="/api" />
+          </mappings>
+        </serverdata>
+      </server>
+      <server id="fc2f9cd6-f97e-4bb8-a869-c9a96835b23f">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/OnlineJudges" local="$PROJECT_DIR$/build/production/OnlineJudges" web="/OnlineJudges" />
+            <mapping deploy="/OnlineJudges/api" local="$PROJECT_DIR$/api" web="/OnlineJudges/api" />
+          </mappings>
+        </serverdata>
+      </server>
+    </servers>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\view\admin" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\store\admin" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\touch\resources\themes\stylesheets\sencha-touch\cupertino\src" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\store\student" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\store\judge" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\view" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\view\ux" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\view\student" />
+      <recent name="C:\Users\Linnet Fernandez\PhpstormProjects\OnlineJudges\app\view\judge" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="fc2f9cd6-f97e-4bb8-a869-c9a96835b23f" server_name="Local IIS">
+      <method />
+    </configuration>
+    <list size="0" />
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc4853aa-1923-4107-a81d-b1cf098a50a7" name="Default" comment="" />
+      <created>1380220308004</created>
+      <updated>1380220308004</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-1928" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3248731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.10992529" sideWeight="0.6751269" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34179357" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="11" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/controller/Judge.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="30" selection-start="3699" selection-end="3699" vertical-scroll-proportion="0.19821826" vertical-offset="2582" max-vertical-offset="5280" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/view/judge/Confirmation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="49" selection-start="3076" selection-end="3076" vertical-scroll-proportion="0.0" vertical-offset="1728" max-vertical-offset="4416">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/view/admin/Judges.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="898">
+          <folding>
+            <marker date="1385171056000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1385171056000" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/view/admin/JudgesGrades.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
+          <folding>
+            <marker date="1385612794000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1385612794000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1385612794000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1385612794000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1385612794000" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/view/admin/StudentView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="29" selection-start="2036" selection-end="2036" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2064">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/store/Judges.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="71" selection-start="601" selection-end="601" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="864">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/view/admin/SendInvitation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1032">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controller/Admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="360" column="21" selection-start="11036" selection-end="11045" vertical-scroll-proportion="-12.92" vertical-offset="8317" max-vertical-offset="13416">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="204" column="20" selection-start="9199" selection-end="9199" vertical-scroll-proportion="-0.21212122" vertical-offset="4889" max-vertical-offset="7056">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controller/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="45" selection-start="1492" selection-end="1492" vertical-scroll-proportion="0.0" vertical-offset="648" max-vertical-offset="2304">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Invites.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="29" selection-start="1617" selection-end="1624" vertical-scroll-proportion="1.2139094" vertical-offset="0" max-vertical-offset="4344">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/login_callback.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="5" selection-start="105" selection-end="173" vertical-scroll-proportion="-3.6363637" vertical-offset="0" max-vertical-offset="864">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/google/Google_Client.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11112">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Students.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="136" selection-end="202" vertical-scroll-proportion="-0.17255718" vertical-offset="310" max-vertical-offset="1272">
+          <folding>
+            <element signature="n#load#0;n#Students#0;n#!!top" expanded="false" />
+            <element signature="n#getAll#0;n#Students#0;n#!!top" expanded="false" />
+            <element signature="n#getByJudge#0;n#Students#0;n#!!top" expanded="false" />
+            <element signature="n#getByEmail#0;n#Students#0;n#!!top" expanded="false" />
+            <element signature="n#setLocation#0;n#Students#0;n#!!top" expanded="false" />
+            <element signature="n#logout#0;n#Students#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="31" selection-start="413" selection-end="926" vertical-scroll-proportion="0.3314154" vertical-offset="192" max-vertical-offset="2496">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Judges.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="46" selection-start="596" selection-end="596" vertical-scroll-proportion="0.49712312" vertical-offset="0" max-vertical-offset="4416">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+
