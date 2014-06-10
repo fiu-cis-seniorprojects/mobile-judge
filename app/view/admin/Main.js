@@ -69,6 +69,9 @@ Ext.define('OnlineJudges.view.admin.Main', {
                         xtype: 'questions'
                     },
                     {
+                        xtype: 'livestats'
+                    },
+                    {
                         xtype: 'settings'
                     }
                 ],

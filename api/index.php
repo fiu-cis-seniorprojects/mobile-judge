@@ -10,6 +10,7 @@ require_once 'Questions.php';
 //require_once 'History.php';
 require_once 'Settings.php';
 require_once 'Students.php';
+require_once 'Livestats.php';
 
 ExtDirect::$allowCors = true;
-ExtDirect::provide( array('Settings','Judges','Students','Invites','Questions'/*,'History'*/) );
+ExtDirect::provide( array('Settings','Judges','Students','Invites','Questions', 'Livestats'/*,'History'*/) );
