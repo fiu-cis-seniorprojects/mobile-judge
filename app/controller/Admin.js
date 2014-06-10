@@ -590,11 +590,5 @@ Ext.define('OnlineJudges.controller.Admin', {
             xtype: 'loadmask',
             message: 'Loading...'
         });
-
-        Ext.php.Livestats.load(function(){
-                        var allOption = {id: 0, FirstName: 'All'};
-                        Ext.getStore('Livestats').insert(0, allOption);
-                        Ext.getStore('Livestats').getAll();
-                    });
     }
 });
