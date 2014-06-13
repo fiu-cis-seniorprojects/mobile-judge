@@ -16,13 +16,13 @@ Ext.define("OnlineJudges.view.admin.LivestatsList", {
             '<div align="left"  style="font-size:12px"></div>',
             '</div>'
         ],
-        store: 'Livestats',
+        store: 'LivestatsGraph',
         onItemDisclosure: false,
         disableSelection: true,
         plugins: [{type: 'pullrefresh'}]
     },
         initialize: function() {
-        var store = Ext.getStore('Livestats');
+        var store = Ext.getStore('LivestatsGraph');
         if (!store.isLoaded()) store.load();
     }
 });

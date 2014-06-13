@@ -1726,6 +1726,7 @@ Ext.ClassManager.addNameAliasMappings({
   "OnlineJudges.store.judge.Students": [],
   "OnlineJudges.store.student.Judges": [],
   "OnlineJudges.store.Livestats": [],
+  "OnlineJudges.store.LivestatsGraph": [],
   "OnlineJudges.ux.PDF": [
     "widget.pdfpanel"
   ],

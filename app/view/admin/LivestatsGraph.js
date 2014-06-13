@@ -14,7 +14,7 @@ Ext.define("OnlineJudges.view.admin.LivestatsGraph", {
     config: {
         //flex: 1,
         xtype: "chart",
-        store: "Livestats",
+        store: "LivestatsGraph",
         cls: "chart",
         innerPadding: 10,
         animate: false,
