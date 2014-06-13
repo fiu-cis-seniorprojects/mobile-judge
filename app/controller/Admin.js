@@ -30,7 +30,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'Judges',
             'student.Judges',
             'Invitations',
-            'Livestats'
+            'Livestats',
+            'LivestatsGraph'
         ],
 
         refs: {
