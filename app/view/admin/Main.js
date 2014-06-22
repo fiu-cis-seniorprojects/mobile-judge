@@ -15,12 +15,19 @@ Ext.define('OnlineJudges.view.admin.Main', {
             docked: 'top',
             items: [
                 {
+                     align: 'right',
+                     hidden: true,
+                     iconCls: 'arrow_left',
+                     itemId: 'backBtn',
+                     ui: 'action'
+                 },
+                {
                     align: 'right',
                     disabled: false,
                     iconCls: 'refresh',
                     itemId: 'navigBtn',
                     ui: 'action'
-                },
+                },        
                 {
                     text: 'Logout',
                     ui: 'back',
@@ -68,6 +75,11 @@ Ext.define('OnlineJudges.view.admin.Main', {
                     {
                         xtype: 'questions'
                     },
+
+                    {
+                        xtype: 'email'
+                    },
+
                     {
                         xtype: 'settings'
                     }
