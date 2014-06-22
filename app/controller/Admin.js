@@ -23,13 +23,18 @@ Ext.define('OnlineJudges.controller.Admin', {
             'admin.Email',
             'admin.NewEmailTemplate',
             'admin.JudgesOptions'
+            'admin.Livestats',
+            'admin.LivestatsList',
+            'admin.LivestatsGraph'
         ],
         stores: [
             'Questions',
             'Students',
             'Judges',
             'student.Judges',
-            'Invitations'
+            'Invitations',
+            'Livestats',
+            'LivestatsGraph'
         ],
 
         refs: {
@@ -145,6 +150,12 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "emailTemplate": {
                 show: 'onEmailTemplateShow'
+            },
+            "adminMain Livestats": {
+                show: 'onLivestatsShow'
+            },
+            "livestats #livestatsGraphBtn": {
+                tap: 'onlivestatsGraphBtnTap'
             }
            
         }
@@ -924,5 +935,35 @@ Ext.define('OnlineJudges.controller.Admin', {
         }
 
         else navBtn.hide();
+    },
+
+
+    onlivestatsGraphBtnTap: function() {
+        var mainView = this.getMain();
+        this.getLogoutBtn().hide();
+        mainView.push({
+            xtype: 'livestatsGraph'
+        });
+    },
+
+    onLivestatsShow: function() {   
+        var navBtn = this.getNavBtn(),
+            mainView = this.getMain(),
+            navBar = mainView.getNavigationBar(),
+            form = mainView.down('livestats'),
+            store = Ext.getStore('Livestats');
+            store.load();
+
+        navBar.setTitle("Livestats");
+        navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
+        navBtn.from = 'LivestatsTab';
+        navBtn.setText('');
+        navBtn.setIconCls('refresh');
+        navBtn.show();
+        
+        form.setMasked({
+            xtype: 'loadmask',
+            message: 'Loading...'
+        });
     }
 });

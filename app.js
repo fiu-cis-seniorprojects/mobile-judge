@@ -18,6 +18,10 @@ Ext.application({
         'Ext.direct.*'
     ],
 
+    models:[
+        "LivestatsGraph"
+    ],
+
     controllers: [
         'Login',
         'Admin',

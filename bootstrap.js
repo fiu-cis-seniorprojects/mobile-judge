@@ -774,7 +774,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "OnlineJudges.view.admin.Students": [],
   "OnlineJudges.view.judge.Confirmation": [],
   "OnlineJudges.view.judge.Home": [],
-  "OnlineJudges.view.student.Home": []
+  "OnlineJudges.view.student.Home": [],
+  "OnlineJudges.view.admin.Livestats": [],
+  "OnlineJudges.view.admin.LivestatsList": [],
+  "OnlineJudges.view.admin.LivestatsGraph": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1722,6 +1725,8 @@ Ext.ClassManager.addNameAliasMappings({
   "OnlineJudges.store.Students": [],
   "OnlineJudges.store.judge.Students": [],
   "OnlineJudges.store.student.Judges": [],
+  "OnlineJudges.store.Livestats": [],
+  "OnlineJudges.store.LivestatsGraph": [],
   "OnlineJudges.ux.PDF": [
     "widget.pdfpanel"
   ],
@@ -1783,5 +1788,14 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "OnlineJudges.view.student.Home": [
     "widget.studentHome"
+  ],
+  "OnlineJudges.view.admin.Livestats": [
+    "widget.livestats"
+  ],
+  "OnlineJudges.view.admin.LivestatsList": [
+    "widget.livestatsList"
+  ],
+  "OnlineJudges.view.admin.LivestatsGraph": [
+    "widget.livestatsGraph"
   ]
 });
