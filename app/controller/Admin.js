@@ -22,7 +22,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             'admin.ChangePwd',
             'admin.Email',
             'admin.NewEmailTemplate',
-            'admin.JudgesOptions'
+            'admin.JudgesOptions',
             'admin.Livestats',
             'admin.LivestatsList',
             'admin.LivestatsGraph'
