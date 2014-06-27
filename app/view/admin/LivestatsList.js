@@ -3,26 +3,39 @@ Ext.define("OnlineJudges.view.admin.LivestatsList", {
     alias: "widget.livestatsList",
     
     requires:[
-        'Ext.plugin.PullRefresh'
+        'Ext.plugin.PullRefresh',
     ],
 
-    
     config: {
+        title: 'Livestats',
+        iconCls: 'favorites',
         itemTpl: [
-            '<div align="left">{FirstName} {LastName}</div>',
-            '<div align="right"><tpl if= \'Grade != null\'>Grade: {Grade}<tpl else>Grade: N/A </tpl></div>',
+        '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
+            '<div class="x-form-label" style="background:none;padding: 0">',
+            '<div align="left"><tpl if= \'LastName != null\'>{Name} {LastName}<tpl else>{Name}</tpl></div>',
+            '<div align="left"  style="font-size:12px"><tpl if= \'LastName != null\'> Student ID: id</tpl></div>', 
+            //'<div align="left"  style="font-size:12px"></div>',
+        '</div>',
+            //'<div class="x-component-outer">',
+            //'<div align="center"><tpl if= \'RawGrade != null\'> Raw Grade: {RawGrade}<tpl else>Raw Grade: N/A</tpl></div>',
+            //'</div>',
             '<div class="x-component-outer">',
-            '<div align="left"  style="font-size:12px">Student ID: {id}</div>', 
-            '<div align="left"  style="font-size:12px"></div>',
-            '</div>'
+            //'<div align="right"><tpl if= \'RawGrade != null\'> Raw Grade: {RawGrade}<tpl else>Raw Grade: n/a</tpl> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <tpl if= \'ApprovedGrade != null\'>Approved Grade: {ApprovedGrade}<tpl else>Approved Grade: n/a</tpl></div>',
+            '<div align="right"><tpl if= \'RawGrade != null\'> Raw Grade: n/a<tpl else>Raw Grade: n/a</tpl> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  <tpl if= \'ApprovedGrade != null\'>Approved Grade: n/a<tpl else>Approved Grade: n/a</tpl></div>',
+            '</div>',
+        '</div>'
         ],
-        store: 'LivestatsGraph',
-        onItemDisclosure: false,
-        disableSelection: true,
-        plugins: [{type: 'pullrefresh'}]
+        store: 'Livestats'
+        //onItemDisclosure: false,
+        //disableSelection: true,
+        //plugins: [{type: 'pullrefresh'}]
     },
+
         initialize: function() {
-        var store = Ext.getStore('LivestatsGraph');
-        if (!store.isLoaded()) store.load();
+         var store = Ext.getStore('Livestats');
+             if (!store.isLoaded()) store.load();
+        // var storeGraph = Ext.getStore('LivestatsGraph');
+        //     if (!storeGraph.isLoaded()) storeGraph.load();
+        this.callParent();
     }
 });
