@@ -33,6 +33,13 @@ Ext.define('OnlineJudges.view.admin.Main', {
                     ui: 'back',
                     itemId: 'logoutBtn',
                     align: 'left'
+                },
+                {
+                    align: 'right',
+                    hidden: true,
+                    //iconCls: '',
+                    text: 'Selection',
+                    itemId: 'LivestatsBtn'
                 }
             ]
         },

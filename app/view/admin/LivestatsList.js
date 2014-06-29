@@ -10,7 +10,7 @@ Ext.define("OnlineJudges.view.admin.LivestatsList", {
         title: 'Livestats',
         iconCls: 'favorites',
         itemTpl:[
-            '<table width="100%"><tr> <td width="60%" align="left">{Name} {LastName}</td> <td width="20%" align="right">{RawGrade}</td> <td width="20%" align="right">{ApprovedGrade}</td> </tr></table>'
+            '<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: {RawGrade}<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: {ApprovedGrade}<tpl else>Approved: n/a</tpl></td> </tr></table>'
         ],
         store: 'Livestats'
         //onItemDisclosure: false,

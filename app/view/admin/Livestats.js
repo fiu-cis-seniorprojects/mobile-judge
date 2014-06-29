@@ -26,59 +26,59 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
             scrollable: 'true'
         },
         items: [
-        {
-            xtype: "container",
-            flex: 1,
-            docked: "top",
-            minHeight: '20px',
-            height: '40px',
-            layout: "hbox",
-            items: [
-                {
-                    xtype: "container",
-                    flex: 1,
-                    height: '20px',
-                    layout: "vbox",
-                    xtype:'selectfield',
-                    label: 'Grouping',
-                    name: 'Grouping',
-                    labelWrap: true,
-                    options: [
-                    {text:'Students', value: 'Students'},
-                    {text:'Projects', value: 'Projects'}
-                    ],
-                    listeners: {
-                    change: function(cmp, newValue, oldValue){
-                        if(newValue === 'Students')
-                        {
-                            var msg = "Selected Students";
-                            var stre = Ext.getStore('Livestats');
-                            stre.removeAll();
-                            var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
-                            stre.getProxy().setDirectFn(method);
-                            stre.load();
-                            //var msg = "Selected Students" + stre.getDirectFn();
-                            //stre.getProxy().setUrl('Ext.php.Livestats.getAll');
-                            //Ext.Msg.alert('Details', msg);
-                        }
-                        else if(newValue === 'Projects')
-                        {
-                            //var msg = "Selected Projects";
-                            var stre = Ext.getStore('Livestats');
-                            stre.removeAll();
-                            var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllProjects');
-                            stre.getProxy().setDirectFn(method);
-                            stre.load();
-                            //var msg = "Selected Students" + stre.getDirectFn();
-                            //stre.getProxy().setUrl('Ext.php.Livestats.getAll');
-                            //Ext.Msg.alert('Details', msg);
-                            //Ext.Msg.alert('Details', msg);
-                        }
-                    }
-                    }
-                }
-            ]
-        },
+        // {
+        //     xtype: "container",
+        //     flex: 1,
+        //     docked: "top",
+        //     minHeight: '20px',
+        //     height: '40px',
+        //     layout: "hbox",
+        //     items: [
+        //         {
+        //             xtype: "container",
+        //             flex: 1,
+        //             height: '20px',
+        //             layout: "vbox",
+        //             xtype:'selectfield',
+        //             label: 'Grouping',
+        //             name: 'Grouping',
+        //             labelWrap: true,
+        //             options: [
+        //             {text:'Students', value: 'Students'},
+        //             {text:'Projects', value: 'Projects'}
+        //             ],
+        //             listeners: {
+        //             change: function(cmp, newValue, oldValue){
+        //                 if(newValue === 'Students')
+        //                 {
+        //                     var msg = "Selected Students";
+        //                     var stre = Ext.getStore('Livestats');
+        //                     stre.removeAll();
+        //                     var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
+        //                     stre.getProxy().setDirectFn(method);
+        //                     stre.load();
+        //                     //var msg = "Selected Students" + stre.getDirectFn();
+        //                     //stre.getProxy().setUrl('Ext.php.Livestats.getAll');
+        //                     //Ext.Msg.alert('Details', msg);
+        //                 }
+        //                 else if(newValue === 'Projects')
+        //                 {
+        //                     //var msg = "Selected Projects";
+        //                     var stre = Ext.getStore('Livestats');
+        //                     stre.removeAll();
+        //                     var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllProjects');
+        //                     stre.getProxy().setDirectFn(method);
+        //                     stre.load();
+        //                     //var msg = "Selected Students" + stre.getDirectFn();
+        //                     //stre.getProxy().setUrl('Ext.php.Livestats.getAll');
+        //                     //Ext.Msg.alert('Details', msg);
+        //                     //Ext.Msg.alert('Details', msg);
+        //                 }
+        //             }
+        //             }
+        //         }
+        //     ]
+        // },
         {
             xtype: 'livestatsList',
             flex: 1,

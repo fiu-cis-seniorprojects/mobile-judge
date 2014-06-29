@@ -54,7 +54,8 @@ Ext.define('OnlineJudges.controller.Admin', {
                 autoCreate: true,
                 xtype: 'emailTemplate',
                 selector: 'emailTemplate'
-            }
+            },
+            LivestatsBtn: 'adminMain #LivestatsBtn'
         },
 
         control: {
@@ -154,7 +155,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             "emailTemplate": {
                 show: 'onEmailTemplateShow'
             },
-            "adminMain Livestats": {
+            "adminMain livestats": {
                 show: 'onLivestatsListShow'
             },
             "livestats #livestatsGraphBtn": {
@@ -942,11 +943,11 @@ Ext.define('OnlineJudges.controller.Admin', {
 
 
     onlivestatsGraphBtnTap: function() {
-        var mainView = this.getMain(),
+        var navBtn = this.getNavBtn(),
+        mainView = this.getMain(),
         navBar = mainView.getNavigationBar();
         this.getLogoutBtn().hide();
 
-        navBar.setHidden(false);
         mainView.push({
             xtype: 'livestatsGraph'
         });
@@ -960,13 +961,58 @@ Ext.define('OnlineJudges.controller.Admin', {
             store = Ext.getStore('Livestats');
             store.load();
 
+
+
         navBar.setTitle("Livestats");
         navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
-        //navBtn.from = 'LivestatsTab';
-        //navBtn.setText('Graph');
-        //navBtn.setIconCls('');
-        //navBtn.show();
-        navBar.setHidden(true);
+        //navBtn.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
+        navBtn.from = 'livestatsTab';
+        navBtn.setText('');
+        navBtn.setIconCls('list');
+
+        navBtn.setListeners({
+            tap: function() {
+                var swidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+                    sheight = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+                    popup = new Ext.Panel({
+                        top: 20,
+                        right: 5,
+                        items: []
+                    });
+                selStudents = {
+                    xtype: 'button',
+                    text: 'Students',
+                    margin: '5',
+                    handler: function() {
+                        popup.hide();
+                        var stre = Ext.getStore('Livestats');
+                            stre.removeAll();
+                            var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
+                            stre.getProxy().setDirectFn(method);
+                            stre.load();
+                        
+                    }
+                }
+                selProjects = {
+                    xtype: 'button',
+                    text: 'Projects',
+                    margin: '5',
+                    handler: function() {
+                        popup.hide();
+                        var stre = Ext.getStore('Livestats');
+                            stre.removeAll();
+                            var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllProjects');
+                            stre.getProxy().setDirectFn(method);
+                            stre.load();
+                        
+                    }
+                }
+                popup.add(selStudents);
+                popup.add(selProjects);
+                popup.show();
+            }
+
+        });
         form.setMasked({
             xtype: 'loadmask',
             message: 'Loading...'
