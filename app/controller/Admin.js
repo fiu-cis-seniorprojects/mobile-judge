@@ -155,7 +155,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 show: 'onEmailTemplateShow'
             },
             "adminMain Livestats": {
-                show: 'onLivestatsShow'
+                show: 'onLivestatsListShow'
             },
             "livestats #livestatsGraphBtn": {
                 tap: 'onlivestatsGraphBtnTap'
@@ -942,14 +942,17 @@ Ext.define('OnlineJudges.controller.Admin', {
 
 
     onlivestatsGraphBtnTap: function() {
-        var mainView = this.getMain();
+        var mainView = this.getMain(),
+        navBar = mainView.getNavigationBar();
         this.getLogoutBtn().hide();
+
+        navBar.setHidden(false);
         mainView.push({
             xtype: 'livestatsGraph'
         });
     },
 
-    onLivestatsShow: function() {   
+    onLivestatsListShow: function() {   
         var navBtn = this.getNavBtn(),
             mainView = this.getMain(),
             navBar = mainView.getNavigationBar(),
@@ -959,14 +962,16 @@ Ext.define('OnlineJudges.controller.Admin', {
 
         navBar.setTitle("Livestats");
         navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
-        navBtn.from = 'LivestatsTab';
-        navBtn.setText('');
-        navBtn.setIconCls('refresh');
-        navBtn.show();
-        
+        //navBtn.from = 'LivestatsTab';
+        //navBtn.setText('Graph');
+        //navBtn.setIconCls('');
+        //navBtn.show();
+        navBar.setHidden(true);
         form.setMasked({
             xtype: 'loadmask',
             message: 'Loading...'
         });
+        form.setMasked(false);
+
     }
 });

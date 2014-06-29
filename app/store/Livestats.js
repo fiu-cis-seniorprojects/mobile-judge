@@ -13,7 +13,7 @@ Ext.define('OnlineJudges.store.Livestats', {
             paramsAsHash: false,
             reader: {
                 type: 'json',
-                idProperty: 'id',
+                //idProperty: 'id',
                 rootProperty: 'data'
             }
         },
@@ -23,7 +23,7 @@ Ext.define('OnlineJudges.store.Livestats', {
                 type: 'int'
             }, 
             {
-                name: 'FirstName',
+                name: 'Name',
                 type: 'string'
             }, 
             {
@@ -31,10 +31,22 @@ Ext.define('OnlineJudges.store.Livestats', {
                 type: 'string'
             },
             {
-                name: 'Grade',
+                name: 'RawGrade',
                 type: 'int'
+            },
+            {
+                name: 'ApprovedGrade',
+                type: 'int'
+            },
+            {
+                name: 'project',
+                type: 'string'
+            },
+            {
+                name: 'location',
+                type: 'string'
             }
         ],
-        sorters: ['FirstName','LastName']
+        sorters: ['RawGrade', 'ApprovedGrade']
     }
 });
