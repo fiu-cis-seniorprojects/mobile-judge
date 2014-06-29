@@ -34,7 +34,10 @@ Ext.define('OnlineJudges.controller.Admin', {
             'student.Judges',
             'Invitations',
             'Livestats',
-            'LivestatsGraph'
+            'LivestatsGraph',
+            'Terms',
+            'StudentsContacts',
+            'JudgesContacts'
         ],
 
         refs: {
@@ -164,7 +167,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         var main = this.getMain();
         if (panel.tinyMCEinitialized !== true) {
             tinymce.init({
-                selector: "textarea",
+                selector: "textarea#elm1",
                 theme: "modern",
                 width: main.getWidth(),
                 height: 200,
