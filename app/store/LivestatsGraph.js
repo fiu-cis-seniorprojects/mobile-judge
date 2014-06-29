@@ -10,7 +10,7 @@ Ext.define('OnlineJudges.store.LivestatsGraph', {
         proxy: {
             type: 'direct',
             directFn: 'Ext.php.Livestats.getJudges',
-            paramOrder: 'id',
+            paramOrder: 'StudentId',
             paramsAsHash: false,
             reader: {
                 type: 'json',

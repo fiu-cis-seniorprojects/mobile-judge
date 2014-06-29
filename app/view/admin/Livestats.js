@@ -92,7 +92,7 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
                                 //var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getJudges');
                                 //store.getProxy().setDirectFn(method);
                                 var studentid = record.get('id');
-                                store.getProxy().setExtraParams({ 'id': studentid});
+                                store.getProxy().setExtraParams({ 'StudentId': studentid});
                                 store.load();
                                 var msg = " ";
                                 if(record.get('LastName') != null)

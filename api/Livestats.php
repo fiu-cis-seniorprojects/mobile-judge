@@ -64,14 +64,10 @@ class Livestats {
     //Get $StudentId's information
     public function getJudges($StudentId) {
         $db = new Database();
-        // $db->sql("select u.id, j.Grade, s.FirstName as Name, s.LastName, j.Accepted
-        //     FROM JudgeStudentGrade as j 
-        //     inner join Judges as u on j.JudgeId = u.id
-        //     inner join Users as s on s.JudgeId = u.id
-        //     where j.StudentId = '".$StudentId."'");
-        $db->select('Users','Judges.id, Users.FirstName AS Name,Users.LastName,Students.Project,Students.Location,Students.Grade, JudgeStudentGrade.Grade AS RawGrade, JudgeStudentGrade.Accepted',
-            'Students ON Users.StudentId = Students.id JOIN JudgeStudentGrade ON Users.StudentId = JudgeStudentGrade.StudentId',
-            'JudgeStudentGrade.JudgeId = '.$StudentId);
+        $db->sql("select j.JudgeId AS id, u.FirstName AS Name,u.LastName, j.Grade AS RawGrade, j.Accepted
+      FROM      JudgeStudentGrade as j
+      inner join Users  as u ON u.JudgeId = j.JudgeId
+      where j.StudentId = '".$StudentId."'");
 
         $res = $db->getResult();
         if (array_key_exists('id', $res)) $res=array($res);
