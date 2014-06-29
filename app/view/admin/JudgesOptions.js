@@ -7,8 +7,6 @@ Ext.define('OnlineJudges.view.admin.JudgesOptions', {
         items: [
             {
                 xtype: 'fieldset',
-                modal: true,
-                hideOnMaskTab: true,
                 layout: 'vbox',
                 items: [
                     {
