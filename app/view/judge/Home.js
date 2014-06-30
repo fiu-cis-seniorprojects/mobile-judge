@@ -24,6 +24,11 @@ Ext.define('OnlineJudges.view.judge.Home', {
                     itemId: 'submitBtn',
                     text: 'Submit',
                     ui: 'action'
+                },
+                {
+                    xtype: 'button',
+                    text: 'Roles',
+                    itemId: 'rolesBtnJudge'
                 }
             ]
         },

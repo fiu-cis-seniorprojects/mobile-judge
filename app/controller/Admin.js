@@ -34,7 +34,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'student.Judges',
             'Invitations',
             'Livestats',
-            'LivestatsGraph'
+            'LivestatsGraph',
+            'LoginInstance'
         ],
 
         refs: {
@@ -51,12 +52,14 @@ Ext.define('OnlineJudges.controller.Admin', {
                 autoCreate: true,
                 xtype: 'emailTemplate',
                 selector: 'emailTemplate'
-            }
+            },
+            rolesBtn: 'adminMain #rolesBtnAdmin',
+            studentEmail: 'adminStudentView #studentEmail'
         },
 
         control: {
             "adminMain": {
-                show: 'onHomeTabShow',
+                show: 'onAdminLoadRoles',
                 back: 'onHomeBack'
             },
             "adminMain #navigBtn": {
@@ -156,8 +159,13 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "livestats #livestatsGraphBtn": {
                 tap: 'onlivestatsGraphBtnTap'
+            },
+            "adminStudentView #studentRolesBtnAdmin": {
+                tap: 'onStudentRolesBtnTap'
+            },
+            "settings #myRolesBtn": {
+                tap: 'onMyRolesBtnTap'
             }
-           
         }
     },
     onEmailTemplateShow: function(panel){
@@ -442,6 +450,9 @@ Ext.define('OnlineJudges.controller.Admin', {
 
     },
 
+    //===========================================================================
+    //First version stuff
+    //===========================================================================
     onAcceptJudgeGradeTap: function (btn) {
         var me = this,
             main = me.getMain(),
@@ -937,7 +948,9 @@ Ext.define('OnlineJudges.controller.Admin', {
         else navBtn.hide();
     },
 
-
+    //==============================================================
+    //Livestats stuff
+    //==============================================================
     onlivestatsGraphBtnTap: function() {
         var mainView = this.getMain();
         this.getLogoutBtn().hide();
@@ -964,6 +977,401 @@ Ext.define('OnlineJudges.controller.Admin', {
         form.setMasked({
             xtype: 'loadmask',
             message: 'Loading...'
+        });
+    },
+
+    //================================================================
+    //Roles stuff
+    //================================================================
+    onAdminLoadRoles: function() {
+        var me = this,
+            mainView = this.getMain(),
+            navBar = mainView.getNavigationBar(),
+            store = Ext.getStore('LoginInstance'),
+            user = store.getById(0),
+            rolesBtn = this.getRolesBtn();
+
+        me.onHomeTabShow();
+
+        rolesBtn.setListeners({
+            tap: function () {
+                var swidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+                    sheight = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+                    popup = new Ext.Panel({
+                        floating: true,
+                        centered: true,
+                        modal: true,
+                        width: swidth/3,
+                        height: sheight/3,
+                        items: []
+                    });
+                Ext.php.LoginMain.getRoles(user.get('email'), user.get('password'), function (res) {
+                    var roles = res.Roles.split(";");
+
+                    for (i = 0; i < roles.length; i++) {
+                        if (roles[i] == "admin") {
+                            adminRoleTab = {
+                                xtype: 'button',
+                                text: 'Admin',
+                                margin: '5',
+                                handler: function () {
+                                    popup.hide();
+                                    me.loadMainView('adminMain');
+                                }
+                            }
+                            popup.add(adminRoleTab);
+                        }
+                        else if (roles[i] == "judge") {
+                            judgeRoleTab = {
+                                xtype: 'button',
+                                text: 'Judge',
+                                margin: '5',
+                                handler: function () {
+                                    popup.hide();
+                                    me.loadMainView('judgeHome');
+                                }
+                            }
+                            popup.add(judgeRoleTab);
+                        }
+                        else if (roles[i] == "student") {
+                            studentRoleTab = {
+                                xtype: 'button',
+                                text: 'Student',
+                                margin: '5',
+                                handler: function () {
+                                    popup.hide();
+                                    me.loadMainView('studentHome');
+                                }
+                            }
+                            popup.add(studentRoleTab);
+                        }
+                    }
+                });
+                popup.add({
+                    xtype: 'button',
+                    docked: 'bottom',
+                    text: 'Cancel',
+                    handler: function () {
+                        popup.hide();
+                    }
+                });
+                popup.show();
+            }
+        });
+    },
+
+    onStudentRolesBtnTap: function(button) {
+        var me = this,
+            swidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+            sheight = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+            email = this.getStudentEmail().getValue(),
+            popup = new Ext.Panel({
+                floating: true,
+                centered: true,
+                modal: true,
+                width: swidth / 3,
+                height: sheight / 3,
+                items: [
+                    {
+                        xtype: 'button',
+                        docked: 'top',
+                        iconCls: 'add',
+                        ui: 'action-round',
+                        handler: function () {
+                            //Ext.Msg.alert("clicked");
+                            me.addRoleDialog(popup, email);
+                        }
+                    },
+                    {
+                        xtype: 'button',
+                        docked: 'bottom',
+                        text: 'Cancel',
+                        handler: function () {popup.hide();}
+                    }
+                ]
+            });
+
+        Ext.php.LoginMain.getOtherRoles(email, function (res) {
+            var roles = res.Roles.split(";");
+
+            for (i = 0; i < roles.length; i++) {
+                if (roles[i] == "admin") {
+                    adminRoleTab = {
+                        xtype: 'container',
+                        layout: 'hbox',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                value: 'Admin',
+                                readOnly: true,
+                                style: { 'border': '2px solid black' }
+                            },
+                            {
+                                xtype: 'button',
+                                iconCls: 'delete',
+                                ui: 'decline',
+                                docked: 'right',
+                                margin: '10',
+                                handler: function () { me.confirmRemoveRole(popup, email, "admin"); }
+                            }
+                        ]                        
+                    }
+                    popup.add(adminRoleTab);
+                }
+                else if (roles[i] == "judge") {
+                    judgeRoleTab = {
+                        xtype: 'container',
+                        layout: 'hbox',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                value: 'Judge',
+                                readOnly: true,
+                                style: { 'border': '2px solid black' }
+                            },
+                            {
+                                xtype: 'button',
+                                iconCls: 'delete',
+                                ui: 'decline',
+                                docked: 'right',
+                                margin: '10',
+                                handler: function () { me.confirmRemoveRole(popup, email, "judge"); }
+                            }
+                        ]
+                    }
+                    popup.add(judgeRoleTab);
+                }
+                else if (roles[i] == "student") {
+                    studentRoleTab = {
+                        xtype: 'container',
+                        layout: 'hbox',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                value: 'Student',
+                                readOnly: true,
+                                style: {'border': '2px solid black'}
+                            },
+                            {
+                                xtype: 'button',
+                                iconCls: 'delete',
+                                ui: 'decline',
+                                docked: 'right',
+                                margin: '10',
+                                handler: function () { me.confirmRemoveRole(popup, email, "student"); }
+                            }
+                        ]
+                    }
+                    popup.add(studentRoleTab);
+                }
+            }
+        });
+        popup.show();
+    },
+
+    onMyRolesBtnTap: function() {
+        var me = this,
+            swidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+            sheight = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+            store = Ext.getStore('LoginInstance'),
+            user = store.getById(0),
+            email = user.get('email');
+            popup = new Ext.Panel({
+                floating: true,
+                centered: true,
+                modal: true,
+                width: swidth / 3,
+                height: sheight / 3,
+                items: [
+                    {
+                        xtype: 'button',
+                        docked: 'top',
+                        iconCls: 'add',
+                        ui: 'action-round',
+                        handler: function () {
+                            me.addRoleDialog(popup, email);
+                        }
+                    },
+                    {
+                        xtype: 'button',
+                        docked: 'bottom',
+                        text: 'Cancel',
+                        handler: function () { popup.hide(); }
+                    }
+                ]
+            });
+
+        Ext.php.LoginMain.getOtherRoles(email, function (res) {
+            var roles = res.Roles.split(";");
+
+            for (i = 0; i < roles.length; i++) {
+                if (roles[i] == "admin") {
+                    adminRoleTab = {
+                        xtype: 'container',
+                        layout: 'hbox',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                value: 'Admin',
+                                readOnly: true,
+                                style: { 'border': '2px solid black' }
+                            },
+                            {
+                                xtype: 'button',
+                                iconCls: 'delete',
+                                ui: 'decline',
+                                docked: 'right',
+                                margin: '10',
+                                handler: function () { me.confirmRemoveRole(popup, email, "admin"); }
+                            }
+                        ]
+                    }
+                    popup.add(adminRoleTab);
+                }
+                else if (roles[i] == "judge") {
+                    judgeRoleTab = {
+                        xtype: 'container',
+                        layout: 'hbox',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                value: 'Judge',
+                                readOnly: true,
+                                style: { 'border': '2px solid black' }
+                            },
+                            {
+                                xtype: 'button',
+                                iconCls: 'delete',
+                                ui: 'decline',
+                                docked: 'right',
+                                margin: '10',
+                                handler: function () { me.confirmRemoveRole(popup, email, "judge"); }
+                            }
+                        ]
+                    }
+                    popup.add(judgeRoleTab);
+                }
+                else if (roles[i] == "student") {
+                    studentRoleTab = {
+                        xtype: 'container',
+                        layout: 'hbox',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                value: 'Student',
+                                readOnly: true,
+                                style: { 'border': '2px solid black' }
+                            },
+                            {
+                                xtype: 'button',
+                                iconCls: 'delete',
+                                ui: 'decline',
+                                docked: 'right',
+                                margin: '10',
+                                handler: function () { me.confirmRemoveRole(popup, email, "student"); }
+                            }
+                        ]
+                    }
+                    popup.add(studentRoleTab);
+                }
+            }
+        });
+
+        popup.show();
+    },
+
+    //======================================================================
+    //Role Helper methods
+    //======================================================================
+    loadMainView: function (view, options) {
+        Ext.Viewport.removeAll().add(Ext.create('widget.' + view, Ext.apply({
+            title: 'CIS 4911 Online Judges'
+        }, options || {})));
+    },
+
+    confirmRemoveRole: function (popup, user, role) {
+        Ext.Msg.confirm('Remove Role', 'Are you sure you want to remove this role?', function (btn) {
+            if (btn === 'yes') {
+                Ext.php.LoginMain.removeRole(user, role, function (res) {
+                    Ext.Msg.alert(""+res);
+                });
+                popup.hide();
+            }
+            else {/*do nothing*/ }
+        });
+    },
+
+    addRoleDialog: function (popup, user) {
+        popup.removeAll();
+        popup.removeAt(0);
+        var addAdminBtn = {
+                xtype: 'button',
+                text: 'Admin',
+                ui: 'confirm',
+                margin: '5',
+                handler: function () {
+                    Ext.php.LoginMain.addRole(user, "admin", function (resA) {
+                        popup.hide();
+                        Ext.Msg.alert("" + resA);
+                    });
+                }
+            },
+            addJudgeBtn = {
+                xtype: 'button',
+                text: 'Judge',
+                ui: 'confirm',
+                margin: '5',
+                handler: function () {
+                    Ext.php.LoginMain.addRole(user, "judge", function (resJ) {
+                        popup.hide();
+                        Ext.Msg.alert("" + resJ);
+                    });
+                }
+            },
+            addStudentBtn = {
+                xtype: 'button',
+                text: 'Student',
+                ui: 'confirm',
+                margin: '5',
+                handler: function () {
+                    Ext.php.LoginMain.addRole(user, "student", function (resS) {
+                        popup.hide();
+                        Ext.Msg.alert("" + resS);
+                    });
+                }
+            };
+        Ext.php.LoginMain.getOtherRoles(user, function (res) {
+            var uRoles = res.Roles;
+            if (uRoles == "admin;judge;student") {
+                popup.hide();
+                Ext.Msg.alert("No more roles to add");
+            }
+            else if (uRoles == "admin;judge") {
+                popup.add(addStudentBtn);
+            }
+            else if (uRoles == "admin;student") {
+                popup.add(addJudgeBtn);
+            }
+            else if (uRoles == "admin") {
+                popup.add(addJudgeBtn);
+                popup.add(addStudentBtn);
+            }
+            else if (uRoles == "judge;student") {
+                popup.add(addAdminBtn);
+            }
+            else if (uRoles == "judge") {
+                popup.add(addAdminBtn);
+                popup.add(addStudentBtn);
+            }
+            else if (uRoles == "student") {
+                popup.add(addAdminBtn);
+                popup.add(addJudgeBtn);
+            }
+            else {
+                popup.add(addAdminBtn);
+                popup.add(addJudgeBtn);
+                popup.add(addStudentBtn);
+            }
         });
     }
 });

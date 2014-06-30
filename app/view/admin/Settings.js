@@ -163,15 +163,23 @@ Ext.define('OnlineJudges.view.admin.Settings',{
                 xtype: 'button',
                 itemId: 'changePwdBtn',
                 text: 'Change Password',
-                margin: '20 10 20 10'
+                margin: '20 10 10 10'
+            },
+            {
+                xtype: 'button',
+                itemId: 'myRolesBtn',
+                ui: 'action-round',
+                text: 'Roles',
+                margin: '10 10 10 10'
+
             },
             {
                 xtype: 'button',
                 ui: 'decline',
                 itemId: 'resetBtn',
                 text: 'Reset App',
-                margin: '0 10 20 10'
-            }
+                margin: '20 10 10 10'
+            },
         ]
     }
 });

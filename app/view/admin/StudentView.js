@@ -30,6 +30,7 @@ Ext.define('OnlineJudges.view.admin.StudentView', {
                     {
                         label: 'Email',
                         name: 'Email',
+                        itemId: 'studentEmail',
                         readOnly:true
                     },
                     {
@@ -74,6 +75,13 @@ Ext.define('OnlineJudges.view.admin.StudentView', {
                 xtype:'button',
                 text: 'Show Judges',
                 ui:'forward',
+                margin: '10 20 0 10'
+            },
+            {
+                xtype: 'button',
+                itemId: 'studentRolesBtnAdmin',
+                text: 'Roles',
+                ui: 'action-round',
                 margin: '10 20 0 10'
             }
         ]

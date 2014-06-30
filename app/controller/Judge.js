@@ -10,7 +10,8 @@ Ext.define('OnlineJudges.controller.Judge', {
 
         stores: [
             'Questions',
-            'judge.Students'
+            'judge.Students',
+            'LoginInstance'
         ],
 
         refs: {
@@ -19,12 +20,13 @@ Ext.define('OnlineJudges.controller.Judge', {
             logoutBtn: 'judgeHome #logoutBtn',
             submitBtn: 'judgeHome #submitBtn',
             showMapBtn: 'judgeHome #showMapBtn',
-            wizard: 'judgeConfirmation'
+            wizard: 'judgeConfirmation',
+            rolesBtn: 'judgeHome #rolesBtnJudge'
         },
 
         control: {
             "judgeHome": {
-                show: 'onJudgeStudentsListShow'
+                show: 'onJudgeLoadRoles'
             },
             "judgeHome list": {
                 itemtap: 'onJudgeStudentsListTap'
@@ -211,5 +213,95 @@ Ext.define('OnlineJudges.controller.Judge', {
         });
 
         view.push(Ext.create('widget.formpanel', form).setValues(values));
+    },
+    //======================================================================
+    //Roles stuff
+    //======================================================================
+    onJudgeLoadRoles: function () {
+        var me = this,
+            mainView = this.getJudgeHome(),
+            navBar = mainView.getNavigationBar(),
+            store = Ext.getStore('LoginInstance'),
+            user = store.getById(0),
+            rolesBtn = this.getRolesBtn();
+
+        me.onJudgeStudentsListShow(mainView);
+
+        rolesBtn.setListeners({
+            tap: function () {
+                var swidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+                    sheight = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+                    popup = new Ext.Panel({
+                        floating: true,
+                        centered: true,
+                        modal: true,
+                        width: swidth / 3,
+                        height: sheight / 3,
+                        items: []
+                    });
+                Ext.php.LoginMain.getRoles(user.get('email'), user.get('password'), function (res) {
+                    var roles = res.Roles.split(";");
+
+                    for (i = 0; i < roles.length; i++) {
+                        if (roles[i] == "admin") {
+                            adminRoleTab = {
+                                xtype: 'button',
+                                text: 'Admin',
+                                margin: '5',
+                                handler: function () {
+                                    popup.hide();
+                                    me.loadMainView('adminMain', { title: 'Home' });
+                                }
+                            }
+                            popup.add(adminRoleTab);
+                        }
+                        else if (roles[i] == "judge") {
+                            judgeRoleTab = {
+                                xtype: 'button',
+                                text: 'Judge',
+                                margin: '5',
+                                handler: function () {
+                                    popup.hide();
+                                    me.loadMainView('judgeHome');
+                                }
+                            }
+                            popup.add(judgeRoleTab);
+                        }
+                        else if (roles[i] == "student") {
+                            studentRoleTab = {
+                                xtype: 'button',
+                                text: 'Student',
+                                margin: '5',
+                                handler: function () {
+                                    popup.hide();
+                                    me.loadMainView('studentHome');
+                                }
+                            }
+                            popup.add(studentRoleTab);
+                        }
+                    }
+                });
+                popup.add({
+                    xtype: 'button',
+                    docked: 'bottom',
+                    text: 'Cancel',
+                    listeners: {
+                        tap: function () {
+                            popup.hide();
+                        }
+                    }
+                });
+                popup.show();
+            }
+        });
+    },
+
+    //======================================================================
+    //Role Helper methods
+    //======================================================================
+    loadMainView: function (view, options) {
+        Ext.Viewport.removeAll().add(Ext.create('widget.' + view, Ext.apply({
+            title: 'CIS 4911 Online Judges'
+        }, options || {})));
     }
 });

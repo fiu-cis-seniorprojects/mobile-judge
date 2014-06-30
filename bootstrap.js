@@ -753,6 +753,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "OnlineJudges.store.Students": [],
   "OnlineJudges.store.judge.Students": [],
   "OnlineJudges.store.student.Judges": [],
+  "OnlineJudges.store.LoginInstance": [],
   "OnlineJudges.ux.PDF": [],
   "OnlineJudges.ux.PDFJSLib": [],
   "OnlineJudges.ux.PinchZoomImage": [],
@@ -1727,6 +1728,7 @@ Ext.ClassManager.addNameAliasMappings({
   "OnlineJudges.store.student.Judges": [],
   "OnlineJudges.store.Livestats": [],
   "OnlineJudges.store.LivestatsGraph": [],
+  "OnlineJudges.store.LoginInstance": [],
   "OnlineJudges.ux.PDF": [
     "widget.pdfpanel"
   ],

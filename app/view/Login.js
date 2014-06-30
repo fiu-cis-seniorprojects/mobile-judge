@@ -46,14 +46,8 @@ Ext.define('OnlineJudges.view.Login', {
                     {
                         xtype: 'button',
                         margin: '10px',
-                        itemId: 'loginJudges',
-                        text: 'Judges Login'
-                    },
-                    {
-                        xtype: 'button',
-                        margin: '10px',
-                        itemId: 'loginStudents',
-                        text: 'Students Login with FIU'
+                        itemId: 'login',
+                        text: 'Login'
                     }
                 ]
             }
