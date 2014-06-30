@@ -10,14 +10,13 @@ Ext.define('OnlineJudges.view.admin.Email', {
         iconCls: 'reply',
         cls: 'home',
         indicator: false,
-        padding: '5',
         items: [
             {
                 xtype: 'panel',
                 name: 'filterPanel',
                 layout: 'auto',
                 scrollable: true,
-                margin: '5 5 5 5',
+                //margin: '5 5 5 5',
                 
 
                 items: [{
