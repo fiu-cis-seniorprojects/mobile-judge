@@ -17,7 +17,8 @@ Ext.Loader.addClassPathMappings({
   "Ext.device.sqlite.SQLResultSetRowList": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLTransaction": "touch/src/device/sqlite/Sencha.js",
   "Ext.draw.engine.SvgContext.Gradient": "touch/src/draw/engine/SvgContext.js",
-  "OnlineJudges": "app"
+  "OnlineJudges": "app",
+  "OnlineJudges.view.admin.LivestatsList": "app/view/admin/GradeList.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -745,15 +746,22 @@ Ext.ClassManager.addNameAlternateMappings({
   "OnlineJudges.controller.Admin": [],
   "OnlineJudges.controller.Judge": [],
   "OnlineJudges.controller.Login": [],
+  "OnlineJudges.model.LivestatsGraph": [],
   "OnlineJudges.profile.Phone": [],
   "OnlineJudges.profile.Tablet": [],
+  "OnlineJudges.store.GradeList": [],
   "OnlineJudges.store.Invitations": [],
   "OnlineJudges.store.Judges": [],
+  "OnlineJudges.store.JudgesContacts": [],
+  "OnlineJudges.store.Livestats": [],
+  "OnlineJudges.store.LivestatsGraph": [],
+  "OnlineJudges.store.LoginInstance": [],
   "OnlineJudges.store.Questions": [],
   "OnlineJudges.store.Students": [],
+  "OnlineJudges.store.StudentsContacts": [],
+  "OnlineJudges.store.Terms": [],
   "OnlineJudges.store.judge.Students": [],
   "OnlineJudges.store.student.Judges": [],
-  "OnlineJudges.store.LoginInstance": [],
   "OnlineJudges.ux.PDF": [],
   "OnlineJudges.ux.PDFJSLib": [],
   "OnlineJudges.ux.PinchZoomImage": [],
@@ -761,24 +769,29 @@ Ext.ClassManager.addNameAlternateMappings({
   "OnlineJudges.view.FiuMap": [],
   "OnlineJudges.view.Login": [],
   "OnlineJudges.view.admin.ChangePwd": [],
+  "OnlineJudges.view.admin.Email": [],
   "OnlineJudges.view.admin.Grade": [],
   "OnlineJudges.view.admin.Home": [],
   "OnlineJudges.view.admin.Invitations": [],
   "OnlineJudges.view.admin.Judges": [],
   "OnlineJudges.view.admin.JudgesGrades": [],
+  "OnlineJudges.view.admin.JudgesOptions": [],
+  "OnlineJudges.view.admin.Livestats": [],
+  "OnlineJudges.view.admin.LivestatsGraph": [],
+  "OnlineJudges.view.admin.LivestatsList": [],
   "OnlineJudges.view.admin.Main": [],
+  "OnlineJudges.view.admin.NewEmailTemplate": [],
   "OnlineJudges.view.admin.NewQuestion": [],
   "OnlineJudges.view.admin.Questions": [],
   "OnlineJudges.view.admin.SendInvitation": [],
   "OnlineJudges.view.admin.Settings": [],
+  "OnlineJudges.view.admin.StatsList": [],
+  "OnlineJudges.view.admin.StudentGradeView": [],
   "OnlineJudges.view.admin.StudentView": [],
   "OnlineJudges.view.admin.Students": [],
   "OnlineJudges.view.judge.Confirmation": [],
   "OnlineJudges.view.judge.Home": [],
-  "OnlineJudges.view.student.Home": [],
-  "OnlineJudges.view.admin.Livestats": [],
-  "OnlineJudges.view.admin.LivestatsList": [],
-  "OnlineJudges.view.admin.LivestatsGraph": []
+  "OnlineJudges.view.student.Home": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1718,17 +1731,22 @@ Ext.ClassManager.addNameAliasMappings({
   "OnlineJudges.controller.Admin": [],
   "OnlineJudges.controller.Judge": [],
   "OnlineJudges.controller.Login": [],
+  "OnlineJudges.model.LivestatsGraph": [],
   "OnlineJudges.profile.Phone": [],
   "OnlineJudges.profile.Tablet": [],
+  "OnlineJudges.store.GradeList": [],
   "OnlineJudges.store.Invitations": [],
   "OnlineJudges.store.Judges": [],
-  "OnlineJudges.store.Questions": [],
-  "OnlineJudges.store.Students": [],
-  "OnlineJudges.store.judge.Students": [],
-  "OnlineJudges.store.student.Judges": [],
+  "OnlineJudges.store.JudgesContacts": [],
   "OnlineJudges.store.Livestats": [],
   "OnlineJudges.store.LivestatsGraph": [],
   "OnlineJudges.store.LoginInstance": [],
+  "OnlineJudges.store.Questions": [],
+  "OnlineJudges.store.Students": [],
+  "OnlineJudges.store.StudentsContacts": [],
+  "OnlineJudges.store.Terms": [],
+  "OnlineJudges.store.judge.Students": [],
+  "OnlineJudges.store.student.Judges": [],
   "OnlineJudges.ux.PDF": [
     "widget.pdfpanel"
   ],
@@ -1746,6 +1764,9 @@ Ext.ClassManager.addNameAliasMappings({
   "OnlineJudges.view.admin.ChangePwd": [
     "widget.adminChangePwd"
   ],
+  "OnlineJudges.view.admin.Email": [
+    "widget.email"
+  ],
   "OnlineJudges.view.admin.Grade": [
     "widget.adminStudentGrade"
   ],
@@ -1761,8 +1782,23 @@ Ext.ClassManager.addNameAliasMappings({
   "OnlineJudges.view.admin.JudgesGrades": [
     "widget.adminJudgesGrades"
   ],
+  "OnlineJudges.view.admin.JudgesOptions": [
+    "widget.judgesOptions"
+  ],
+  "OnlineJudges.view.admin.Livestats": [
+    "widget.livestats"
+  ],
+  "OnlineJudges.view.admin.LivestatsGraph": [
+    "widget.livestatsGraph"
+  ],
+  "OnlineJudges.view.admin.LivestatsList": [
+    "widget.livestatsList"
+  ],
   "OnlineJudges.view.admin.Main": [
     "widget.adminMain"
+  ],
+  "OnlineJudges.view.admin.NewEmailTemplate": [
+    "widget.emailTemplate"
   ],
   "OnlineJudges.view.admin.NewQuestion": [
     "widget.newQuestion"
@@ -1775,6 +1811,12 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "OnlineJudges.view.admin.Settings": [
     "widget.settings"
+  ],
+  "OnlineJudges.view.admin.StatsList": [
+    "widget.statsList"
+  ],
+  "OnlineJudges.view.admin.StudentGradeView": [
+    "widget.adminStudentGradeView"
   ],
   "OnlineJudges.view.admin.StudentView": [
     "widget.adminStudentView"
@@ -1790,14 +1832,5 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "OnlineJudges.view.student.Home": [
     "widget.studentHome"
-  ],
-  "OnlineJudges.view.admin.Livestats": [
-    "widget.livestats"
-  ],
-  "OnlineJudges.view.admin.LivestatsList": [
-    "widget.livestatsList"
-  ],
-  "OnlineJudges.view.admin.LivestatsGraph": [
-    "widget.livestatsGraph"
   ]
 });

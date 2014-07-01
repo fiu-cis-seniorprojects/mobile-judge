@@ -78,7 +78,7 @@
             "update": "delta"
         },
         {
-            "path": "resources/css/wp.css",
+            "path": "resources/css/app.css",
             "platform": ["ie10","windows"],
             "update": "delta"
         },
@@ -93,7 +93,7 @@
             "update": "delta"
         },
         {
-            "path": "resources/css/android.css",
+            "path": "resources/css/app.css",
             "platform": ["android"],
             "update": "delta"
         }
