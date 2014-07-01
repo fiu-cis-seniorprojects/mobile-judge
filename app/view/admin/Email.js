@@ -91,11 +91,36 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     flex: 1
                 }, {
                     xtype: 'list',
-                    itemTpl: '{FirstName} {LastName} <a style="font-size:small">({Email})</a>',
+                    disableSelection: true,
+                    itemTpl: [
+                               '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
+                                   '<div class="x-form-label" style="background:none;padding: 0">',
+                                       '<div>{FirstName} {LastName}</div>',
+                                       '<div style="font-size:12px">Email: {Email}</div>',
+                                   '</div>',
+                                   '<div class="x-component-outer">',
+                                       '<div class="x-unsized x-field-input" style="border:0;background:none;">',
+                                           '<input type="checkbox" <tpl if=\'Send === true\'>checked="checked"</tpl> class="x-input-el x-input-checkbox">',
+                                           '<div class="x-field-mask"></div>',
+                                       '</div>',
+                                   '</div>',
+                               '</div>'
+                    ],
                     ui: 'round',
-                    mode: 'MULTI', 
                     flex: 3,
-                    store: 'StudentsContacts'
+                    store: 'StudentsContacts',
+                    listeners: {
+                        itemtap: function (item, num, ev, record) {
+                            var flag = record.get('Send');
+                            if (flag === true) {
+                                record.set('Send', false);
+                            } else {
+                                record.set('Send', true);
+                            }
+                        }
+                    }
+                    
+
                 }, {
                     xtype: 'label',
                     html: '<h4><b>Judges</b></h4>',
@@ -103,11 +128,34 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     flex: 1
                 }, {
                     xtype: 'list',
-                    itemTpl: '{FirstName} {LastName} <a style="font-size:small">({Email})</a>',
-                    mode: 'MULTI',
+                    disableSelection: true,
+                    itemTpl: [
+                               '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
+                                   '<div class="x-form-label" style="background:none;padding: 0">',
+                                       '<div>{FirstName} {LastName}</div>',
+                                       '<div style="font-size:12px">Email: {Email}</div>',
+                                   '</div>',
+                                   '<div class="x-component-outer">',
+                                       '<div class="x-unsized x-field-input" style="border:0;background:none;">',
+                                           '<input type="checkbox" <tpl if=\'Send === true\'>checked="checked"</tpl> class="x-input-el x-input-checkbox">',
+                                           '<div class="x-field-mask"></div>',
+                                       '</div>',
+                                   '</div>',
+                               '</div>'
+                    ],
                     flex: 3,
                     ui: 'round',
-                    store: 'JudgesContacts'
+                    store: 'JudgesContacts',
+                    listeners: {
+                        itemtap: function (item, num, ev, record) {
+                            var flag = record.get('Send');
+                            if (flag === true) {
+                                record.set('Send', false);
+                            } else {
+                                record.set('Send', true);
+                            }
+                        }
+                    }
                 }, {
                     xtype: 'label',
                     html: '<h4><b>Extra e-mails</b></h4>',

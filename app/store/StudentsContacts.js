@@ -31,6 +31,11 @@ Ext.define('OnlineJudges.store.StudentsContacts', {
             {
                 name: 'Term',
                 type: 'String'
+            },
+            {
+                name: 'Send',
+                type: 'boolean',
+                defaultValue: true
             }
         ]
     }
