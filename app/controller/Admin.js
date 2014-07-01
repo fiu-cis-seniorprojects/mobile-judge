@@ -1054,8 +1054,6 @@ Ext.define('OnlineJudges.controller.Admin', {
                         floating: true,
                         centered: true,
                         modal: true,
-                        width: swidth/3,
-                        height: sheight/3,
                         items: []
                     });
                 Ext.php.LoginMain.getRoles(user.get('email'), user.get('password'), function (res) {
@@ -1122,8 +1120,6 @@ Ext.define('OnlineJudges.controller.Admin', {
                 floating: true,
                 centered: true,
                 modal: true,
-                width: swidth / 3,
-                height: sheight / 3,
                 items: [
                     {
                         xtype: 'button',
@@ -1131,7 +1127,6 @@ Ext.define('OnlineJudges.controller.Admin', {
                         iconCls: 'add',
                         ui: 'action-round',
                         handler: function () {
-                            //Ext.Msg.alert("clicked");
                             me.addRoleDialog(popup, email);
                         }
                     },
@@ -1156,8 +1151,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             {
                                 xtype: 'textfield',
                                 value: 'Admin',
-                                readOnly: true,
-                                style: { 'border': '2px solid black' }
+                                readOnly: true
                             },
                             {
                                 xtype: 'button',
@@ -1179,8 +1173,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             {
                                 xtype: 'textfield',
                                 value: 'Judge',
-                                readOnly: true,
-                                style: { 'border': '2px solid black' }
+                                readOnly: true
                             },
                             {
                                 xtype: 'button',
@@ -1202,8 +1195,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             {
                                 xtype: 'textfield',
                                 value: 'Student',
-                                readOnly: true,
-                                style: {'border': '2px solid black'}
+                                readOnly: true
                             },
                             {
                                 xtype: 'button',
@@ -1233,8 +1225,6 @@ Ext.define('OnlineJudges.controller.Admin', {
                 floating: true,
                 centered: true,
                 modal: true,
-                width: swidth / 3,
-                height: sheight / 3,
                 items: [
                     {
                         xtype: 'button',
@@ -1266,8 +1256,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             {
                                 xtype: 'textfield',
                                 value: 'Admin',
-                                readOnly: true,
-                                style: { 'border': '2px solid black' }
+                                readOnly: true
                             },
                             {
                                 xtype: 'button',
@@ -1289,8 +1278,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             {
                                 xtype: 'textfield',
                                 value: 'Judge',
-                                readOnly: true,
-                                style: { 'border': '2px solid black' }
+                                readOnly: true
                             },
                             {
                                 xtype: 'button',
@@ -1312,8 +1300,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             {
                                 xtype: 'textfield',
                                 value: 'Student',
-                                readOnly: true,
-                                style: { 'border': '2px solid black' }
+                                readOnly: true
                             },
                             {
                                 xtype: 'button',
