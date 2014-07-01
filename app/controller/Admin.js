@@ -426,7 +426,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             navBtn = this.getNavBtn(),
             backBtn = this.getBackBtn();
            
-
+        navBtn.show();
         navBar.setTitle('Email');
         if (email.getActiveItem().name === 'sendPanel') {
             navBtn.setIconCls('');
