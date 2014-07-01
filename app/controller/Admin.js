@@ -159,7 +159,8 @@ Ext.define('OnlineJudges.controller.Admin', {
                 show: 'onEmailTemplateShow'
             },
             "adminMain livestats": {
-                show: 'onLivestatsListShow'
+                show: 'onLivestatsListShow',
+                hide: 'onLivestatsHide'
             },
             "livestats #livestatsGraphBtn": {
                 tap: 'onlivestatsGraphBtnTap'
@@ -955,6 +956,11 @@ Ext.define('OnlineJudges.controller.Admin', {
     //==============================================================
     //Livestats stuff
     //==============================================================
+    onLivestatsHide: function() {
+        var LivestatsBtn = this.getLivestatsBtn();
+            LivestatsBtn.hide();
+    },
+
     onlivestatsGraphBtnTap: function() {
         var navBtn = this.getNavBtn(),
         mainView = this.getMain(),
@@ -968,6 +974,7 @@ Ext.define('OnlineJudges.controller.Admin', {
 
     onLivestatsListShow: function() {   
         var navBtn = this.getNavBtn(),
+            LivestatsBtn = this.getLivestatsBtn(),
             mainView = this.getMain(),
             navBar = mainView.getNavigationBar(),
             form = mainView.down('livestats'),
@@ -976,18 +983,20 @@ Ext.define('OnlineJudges.controller.Admin', {
 
 
 
-        navBar.setTitle("Livestats");
+        navBar.setTitle("Stats");
         navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
         //navBtn.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
         navBtn.from = 'livestatsTab';
-        navBtn.setText('');
-        navBtn.setIconCls('list');
+        navBtn.hide();
 
-        navBtn.setListeners({
+
+        LivestatsBtn.setListeners({
             tap: function() {
                 var swidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
                     sheight = (window.innerHeight > 0) ? window.innerHeight : screen.height,
                     popup = new Ext.Panel({
+                        modal: true,
+                        //floating: true,
                         top: 20,
                         right: 5,
                         items: []
@@ -1026,6 +1035,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             }
 
         });
+        LivestatsBtn.show();
         form.setMasked({
             xtype: 'loadmask',
             message: 'Loading...'
