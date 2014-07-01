@@ -83,9 +83,9 @@ Ext.define('OnlineJudges.view.admin.Main', {
                             }
                         ]
                     },
-                    {
-                        xtype: 'questions'
-                    },
+                    //{
+                    //    xtype: 'questions'
+                    //},
 
                     {
                         xtype: 'email'

@@ -159,6 +159,12 @@ Ext.define('OnlineJudges.view.admin.Settings',{
                     }
                 ]
             },
+             {
+                 xtype: 'button',
+                 itemId: 'questionsBtn',
+                 text: 'Questions Config',
+                 margin: '20 10 10 10'
+             },
             {
                 xtype: 'button',
                 itemId: 'changePwdBtn',
