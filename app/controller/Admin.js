@@ -1132,13 +1132,52 @@ Ext.define('OnlineJudges.controller.Admin', {
                 modal: true,
                 items: [
                     {
-                        xtype: 'button',
-                        docked: 'top',
-                        iconCls: 'add',
-                        ui: 'action-round',
-                        handler: function () {
-                            me.addRoleDialog(popup, email);
-                        }
+                        xtype: 'fieldset',
+                        name: 'studentRolesFieldSet',
+                        items: [
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'studentAdminRoleCheckbox',
+                                label: 'Admin',
+                                labelWrap: true,
+                                listeners: {
+                                    check: function (chk, e, eO) {
+                                        if (Ext.isDefined(e)) {
+                                            me.confirmAddRole(popup, email, "admin");
+                                        }
+                                    },
+                                    uncheck: function() {me.confirmRemoveRole(popup, email, "admin")}
+                                }
+                            },
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'studentJudgeRoleCheckbox',
+                                label: 'Judge',
+                                labelWrap: true,
+                                listeners: {
+                                    check: function (chk, e, eO) {
+                                        if (Ext.isDefined(e)) {
+                                            me.confirmAddRole(popup, email, "judge");
+                                        }
+                                    },
+                                    uncheck: function () { me.confirmRemoveRole(popup, email, "judge") }
+                                }
+                            },
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'studentStudentRoleCheckbox',
+                                label: 'Student',
+                                labelWrap: true,
+                                listeners: {
+                                    check: function (chk, e, eO) {
+                                        if (Ext.isDefined(e)) {
+                                            me.confirmAddRole(popup, email, "student");
+                                        }
+                                    },
+                                    uncheck: function () { me.confirmRemoveRole(popup, email, "student") }
+                                }
+                            },
+                        ]
                     },
                     {
                         xtype: 'button',
@@ -1153,71 +1192,14 @@ Ext.define('OnlineJudges.controller.Admin', {
             var roles = res.Roles.split(";");
 
             for (i = 0; i < roles.length; i++) {
-                if (roles[i] == "admin") {
-                    adminRoleTab = {
-                        xtype: 'container',
-                        layout: 'hbox',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                value: 'Admin',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'button',
-                                iconCls: 'delete',
-                                ui: 'decline',
-                                docked: 'right',
-                                margin: '10',
-                                handler: function () { me.confirmRemoveRole(popup, email, "admin"); }
-                            }
-                        ]                        
-                    }
-                    popup.add(adminRoleTab);
+                if (roles[i] === "admin") {
+                    popup.down('checkboxfield[name=studentAdminRoleCheckbox]').check();
                 }
-                else if (roles[i] == "judge") {
-                    judgeRoleTab = {
-                        xtype: 'container',
-                        layout: 'hbox',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                value: 'Judge',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'button',
-                                iconCls: 'delete',
-                                ui: 'decline',
-                                docked: 'right',
-                                margin: '10',
-                                handler: function () { me.confirmRemoveRole(popup, email, "judge"); }
-                            }
-                        ]
-                    }
-                    popup.add(judgeRoleTab);
+                else if (roles[i] === "judge") {
+                    popup.down('checkboxfield[name=studentJudgeRoleCheckbox]').check();
                 }
-                else if (roles[i] == "student") {
-                    studentRoleTab = {
-                        xtype: 'container',
-                        layout: 'hbox',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                value: 'Student',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'button',
-                                iconCls: 'delete',
-                                ui: 'decline',
-                                docked: 'right',
-                                margin: '10',
-                                handler: function () { me.confirmRemoveRole(popup, email, "student"); }
-                            }
-                        ]
-                    }
-                    popup.add(studentRoleTab);
+                else if (roles[i] === "student") {
+                    popup.down('checkboxfield[name=studentStudentRoleCheckbox]').check();
                 }
             }
         });
@@ -1237,18 +1219,57 @@ Ext.define('OnlineJudges.controller.Admin', {
                 modal: true,
                 items: [
                     {
-                        xtype: 'button',
-                        docked: 'top',
-                        iconCls: 'add',
-                        ui: 'action-round',
-                        handler: function () {
-                            me.addRoleDialog(popup, email);
-                        }
+                        xtype: 'fieldset',
+                        name: 'meRolesFieldSet',
+                        items: [
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'meAdminRoleCheckbox',
+                                label: 'Admin',
+                                labelWrap: true,
+                                listeners: {
+                                    check: function (chk, e, eO) {
+                                        if (Ext.isDefined(e)) {
+                                            me.confirmAddRole(popup, email, "admin");
+                                        }
+                                    },
+                                    uncheck: function () { me.confirmRemoveRole(popup, email, "admin") }
+                                }
+                            },
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'meJudgeRoleCheckbox',
+                                label: 'Judge',
+                                labelWrap: true,
+                                listeners: {
+                                    check: function (chk, e, eO) {
+                                        if (Ext.isDefined(e)) {
+                                            me.confirmAddRole(popup, email, "judge");
+                                        }                                        
+                                    },
+                                    uncheck: function () { me.confirmRemoveRole(popup, email, "judge"); }
+                                }
+                            },
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'meStudentRoleCheckbox',
+                                label: 'Student',
+                                labelWrap: true,
+                                listeners: {
+                                    check: function (chk, e, eO) {
+                                        if (Ext.isDefined(e)) {
+                                            me.confirmAddRole(popup, email, "student");
+                                        }
+                                    },
+                                    uncheck: function () { me.confirmRemoveRole(popup, email, "student") }
+                                }
+                            },
+                        ]
                     },
                     {
                         xtype: 'button',
                         docked: 'bottom',
-                        text: 'Cancel',
+                        text: 'OK',
                         handler: function () { popup.hide(); }
                     }
                 ]
@@ -1258,71 +1279,14 @@ Ext.define('OnlineJudges.controller.Admin', {
             var roles = res.Roles.split(";");
 
             for (i = 0; i < roles.length; i++) {
-                if (roles[i] == "admin") {
-                    adminRoleTab = {
-                        xtype: 'container',
-                        layout: 'hbox',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                value: 'Admin',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'button',
-                                iconCls: 'delete',
-                                ui: 'decline',
-                                docked: 'right',
-                                margin: '10',
-                                handler: function () { me.confirmRemoveRole(popup, email, "admin"); }
-                            }
-                        ]
-                    }
-                    popup.add(adminRoleTab);
+                if (roles[i] === "admin") {
+                    popup.down('checkboxfield[name=meAdminRoleCheckbox]').check();
                 }
-                else if (roles[i] == "judge") {
-                    judgeRoleTab = {
-                        xtype: 'container',
-                        layout: 'hbox',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                value: 'Judge',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'button',
-                                iconCls: 'delete',
-                                ui: 'decline',
-                                docked: 'right',
-                                margin: '10',
-                                handler: function () { me.confirmRemoveRole(popup, email, "judge"); }
-                            }
-                        ]
-                    }
-                    popup.add(judgeRoleTab);
+                else if (roles[i] === "judge") {
+                    popup.down('checkboxfield[name=meJudgeRoleCheckbox]').check();
                 }
-                else if (roles[i] == "student") {
-                    studentRoleTab = {
-                        xtype: 'container',
-                        layout: 'hbox',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                value: 'Student',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'button',
-                                iconCls: 'delete',
-                                ui: 'decline',
-                                docked: 'right',
-                                margin: '10',
-                                handler: function () { me.confirmRemoveRole(popup, email, "student"); }
-                            }
-                        ]
-                    }
-                    popup.add(studentRoleTab);
+                else if (roles[i] === "student") {
+                    popup.down('checkboxfield[name=meStudentRoleCheckbox]').check();
                 }
             }
         });
@@ -1344,6 +1308,18 @@ Ext.define('OnlineJudges.controller.Admin', {
             if (btn === 'yes') {
                 Ext.php.LoginMain.removeRole(user, role, function (res) {
                     Ext.Msg.alert(""+res);
+                });
+                popup.hide();
+            }
+            else {/*do nothing*/ }
+        });
+    },
+
+    confirmAddRole: function (popup, user, role) {
+        Ext.Msg.confirm('Add Role', 'Are you sure you want to add this role?', function (btn) {
+            if (btn === 'yes') {
+                Ext.php.LoginMain.addRole(user, role, function (res) {
+                    Ext.Msg.alert("" + res);
                 });
                 popup.hide();
             }
