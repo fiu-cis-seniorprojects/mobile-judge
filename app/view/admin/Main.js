@@ -35,9 +35,17 @@ Ext.define('OnlineJudges.view.admin.Main', {
                     align: 'left'
                 },
                 {
+<<<<<<< HEAD
                     xtype: 'button',
                     text: 'Roles',
                     itemId: 'rolesBtnAdmin'
+=======
+                    align: 'right',
+                    hidden: true,
+                    //iconCls: '',
+                    text: 'Selection',
+                    itemId: 'LivestatsBtn'
+>>>>>>> a52f380b4ab6bab54eddd6eba77f0053c2c11524
                 }
             ]
         },

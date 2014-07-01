@@ -35,6 +35,9 @@ Ext.define('OnlineJudges.controller.Admin', {
             'Invitations',
             'Livestats',
             'LivestatsGraph',
+            'Terms',
+            'StudentsContacts',
+            'JudgesContacts',
             'LoginInstance'
         ],
 
@@ -53,6 +56,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 xtype: 'emailTemplate',
                 selector: 'emailTemplate'
             },
+            LivestatsBtn: 'adminMain #LivestatsBtn',
             rolesBtn: 'adminMain #rolesBtnAdmin',
             studentEmail: 'adminStudentView #studentEmail'
         },
@@ -154,8 +158,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             "emailTemplate": {
                 show: 'onEmailTemplateShow'
             },
-            "adminMain Livestats": {
-                show: 'onLivestatsShow'
+            "adminMain livestats": {
+                show: 'onLivestatsListShow'
             },
             "livestats #livestatsGraphBtn": {
                 tap: 'onlivestatsGraphBtnTap'
@@ -172,7 +176,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         var main = this.getMain();
         if (panel.tinyMCEinitialized !== true) {
             tinymce.init({
-                selector: "textarea",
+                selector: "textarea#elm1",
                 theme: "modern",
                 width: main.getWidth(),
                 height: 200,
@@ -952,14 +956,17 @@ Ext.define('OnlineJudges.controller.Admin', {
     //Livestats stuff
     //==============================================================
     onlivestatsGraphBtnTap: function() {
-        var mainView = this.getMain();
+        var navBtn = this.getNavBtn(),
+        mainView = this.getMain(),
+        navBar = mainView.getNavigationBar();
         this.getLogoutBtn().hide();
+
         mainView.push({
             xtype: 'livestatsGraph'
         });
     },
 
-    onLivestatsShow: function() {   
+    onLivestatsListShow: function() {   
         var navBtn = this.getNavBtn(),
             mainView = this.getMain(),
             navBar = mainView.getNavigationBar(),
@@ -967,17 +974,63 @@ Ext.define('OnlineJudges.controller.Admin', {
             store = Ext.getStore('Livestats');
             store.load();
 
+
+
         navBar.setTitle("Livestats");
         navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
-        navBtn.from = 'LivestatsTab';
+        //navBtn.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
+        navBtn.from = 'livestatsTab';
         navBtn.setText('');
-        navBtn.setIconCls('refresh');
-        navBtn.show();
-        
+        navBtn.setIconCls('list');
+
+        navBtn.setListeners({
+            tap: function() {
+                var swidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+                    sheight = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+                    popup = new Ext.Panel({
+                        top: 20,
+                        right: 5,
+                        items: []
+                    });
+                selStudents = {
+                    xtype: 'button',
+                    text: 'Students',
+                    margin: '5',
+                    handler: function() {
+                        popup.hide();
+                        var stre = Ext.getStore('Livestats');
+                            stre.removeAll();
+                            var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
+                            stre.getProxy().setDirectFn(method);
+                            stre.load();
+                        
+                    }
+                }
+                selProjects = {
+                    xtype: 'button',
+                    text: 'Projects',
+                    margin: '5',
+                    handler: function() {
+                        popup.hide();
+                        var stre = Ext.getStore('Livestats');
+                            stre.removeAll();
+                            var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllProjects');
+                            stre.getProxy().setDirectFn(method);
+                            stre.load();
+                        
+                    }
+                }
+                popup.add(selStudents);
+                popup.add(selProjects);
+                popup.show();
+            }
+
+        });
         form.setMasked({
             xtype: 'loadmask',
             message: 'Loading...'
         });
+        form.setMasked(false);
     },
 
     //================================================================

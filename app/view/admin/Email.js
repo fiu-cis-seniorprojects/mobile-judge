@@ -10,13 +10,14 @@ Ext.define('OnlineJudges.view.admin.Email', {
         iconCls: 'reply',
         cls: 'home',
         indicator: false,
-
         items: [
             {
                 xtype: 'panel',
                 name: 'filterPanel',
                 layout: 'auto',
                 scrollable: true,
+                //margin: '5 5 5 5',
+                
 
                 items: [{
                     xtype: 'fieldset',
@@ -25,8 +26,8 @@ Ext.define('OnlineJudges.view.admin.Email', {
                         xtype: 'checkboxfield',
                         name: 'allStudents',
                         label: 'All',
-                        checked: false,
-                        labelWrap: true
+                        checked: false
+                        //labelWrap: true
 
                     },{
                         xtype: 'checkboxfield',
@@ -70,12 +71,19 @@ Ext.define('OnlineJudges.view.admin.Email', {
                         xtype: 'textareafield',
                         name: 'extraEmails'
                     }]
-                }]
+                }
+                , {
+                    xtype: 'selectfield',
+                    label: 'Terms',
+                    displayField: 'id',
+                    store: 'Terms'
+                }
+                ]
             }, {
                 xtype: 'panel',
                 name: 'listPanel',
                 layout: 'vbox',
-                order: 3,
+                margin: '5 5 5 5',
                 items: [{
                     xtype: 'label',
                     html: '<h4><b>Students</b></h4>',
@@ -83,20 +91,11 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     flex: 1
                 }, {
                     xtype: 'list',
-                    itemTpl: '<table><tr><td style="font-size:small" width="40%"><b>{name}</b> </td>    <td width="60%" style="font-size:small">{email}</td></tr></table>',
+                    itemTpl: '{FirstName} {LastName} <a style="font-size:small">({Email})</a>',
                     ui: 'round',
-                    mode: 'MULTI',
-                    flex: 4,
-                    store: { 
-                        fields: ['name', 'email'],
-                        data: [
-                            { name: 'Cowper', email: 'cowper@gmail.com' },
-                            { name: 'Everett', email: 'cowper@gmail.com' },
-                            { name: 'Everett', email: 'cowper@gmail.com' },
-                            { name: 'University', email: 'cowper@gmail.com' },
-                            { name: 'Forest', email: 'cowper@gmail.com' }
-                        ]
-                    }
+                    mode: 'MULTI', 
+                    flex: 3,
+                    store: 'StudentsContacts'
                 }, {
                     xtype: 'label',
                     html: '<h4><b>Judges</b></h4>',
@@ -104,19 +103,11 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     flex: 1
                 }, {
                     xtype: 'list',
-                    itemTpl: '{name}',
+                    itemTpl: '{FirstName} {LastName} <a style="font-size:small">({Email})</a>',
                     mode: 'MULTI',
-                    flex: 4,
+                    flex: 3,
                     ui: 'round',
-                    store: {
-                        fields: ['name'],
-                        data: [
-                            { name: 'Cowper' },
-                            { name: 'Everett' },
-                            { name: 'University' },
-                            { name: 'Forest' }
-                        ]
-                    }
+                    store: 'JudgesContacts'
                 }, {
                     xtype: 'label',
                     html: '<h4><b>Extra e-mails</b></h4>',
@@ -126,7 +117,7 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     xtype: 'list',
                     itemTpl: '{name}',
                     ui: 'round',
-                    flex: 4,
+                    flex: 3,
                     store: {
                         fields: ['name'],
                         data: [
@@ -141,6 +132,7 @@ Ext.define('OnlineJudges.view.admin.Email', {
                 xtype: 'panel',
                 name: 'sendPanel',
                 scrollable: true,
+                margin: '5 5 5 5',
                 items: [
                     {
                         xtype: 'fieldset',
@@ -166,6 +158,13 @@ Ext.define('OnlineJudges.view.admin.Email', {
 
         ]
 
+    },
+    initialize: function () {
+        var store = Ext.getStore('StudentsContacts');
+        if (!store.isLoaded()) store.load();
+
+        var judgesStore = Ext.getStore('JudgesContacts');
+        if (!judgesStore.isLoaded()) judgesStore.load();
     }
 
 });

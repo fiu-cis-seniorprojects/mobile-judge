@@ -9,7 +9,8 @@ Ext.define('OnlineJudges.store.LivestatsGraph', {
         storeId: 'LivestatsGraph',
         proxy: {
             type: 'direct',
-            directFn: 'Ext.php.Livestats.getAll',
+            directFn: 'Ext.php.Livestats.getJudges',
+            paramOrder: 'StudentId',
             paramsAsHash: false,
             reader: {
                 type: 'json',
@@ -23,7 +24,7 @@ Ext.define('OnlineJudges.store.LivestatsGraph', {
                 type: 'int'
             }, 
             {
-                name: 'FirstName',
+                name: 'Name',
                 type: 'string'
             }, 
             {
@@ -45,8 +46,12 @@ Ext.define('OnlineJudges.store.LivestatsGraph', {
             {
                 name: 'location',
                 type: 'string'
+            },
+            {
+                name: 'Accepted',
+                type: 'boolean'
             }
         ],
-        sorters: ['RawGrade', 'ApprovedGrade','FirstName','LastName']
+        sorters: ['RawGrade', 'ApprovedGrade','Name','LastName']
     }
 });

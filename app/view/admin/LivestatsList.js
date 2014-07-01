@@ -3,26 +3,26 @@ Ext.define("OnlineJudges.view.admin.LivestatsList", {
     alias: "widget.livestatsList",
     
     requires:[
-        'Ext.plugin.PullRefresh'
+        'Ext.plugin.PullRefresh',
     ],
 
-    
     config: {
-        itemTpl: [
-            '<div align="left">{FirstName} {LastName}</div>',
-            '<div align="right"><tpl if= \'Grade != null\'>Grade: {Grade}<tpl else>Grade: N/A </tpl></div>',
-            '<div class="x-component-outer">',
-            '<div align="left"  style="font-size:12px">Student ID: {id}</div>', 
-            '<div align="left"  style="font-size:12px"></div>',
-            '</div>'
+        title: 'Livestats',
+        iconCls: 'favorites',
+        itemTpl:[
+            '<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: {RawGrade}<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: {ApprovedGrade}<tpl else>Approved: n/a</tpl></td> </tr></table>'
         ],
-        store: 'LivestatsGraph',
-        onItemDisclosure: false,
-        disableSelection: true,
-        plugins: [{type: 'pullrefresh'}]
+        store: 'Livestats'
+        //onItemDisclosure: false,
+        //disableSelection: true,
+        //plugins: [{type: 'pullrefresh'}]
     },
+
         initialize: function() {
-        var store = Ext.getStore('LivestatsGraph');
-        if (!store.isLoaded()) store.load();
+         var store = Ext.getStore('Livestats');
+             if (!store.isLoaded()) store.load();
+        // var storeGraph = Ext.getStore('LivestatsGraph');
+        //     if (!storeGraph.isLoaded()) storeGraph.load();
+        this.callParent();
     }
 });
