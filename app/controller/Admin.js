@@ -25,6 +25,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             'admin.JudgesOptions',
             'admin.Livestats',
             'admin.LivestatsList',
+            'admin.StatsList',
             'admin.LivestatsGraph'
         ],
         stores: [
