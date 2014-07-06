@@ -67,6 +67,7 @@ Ext.define('OnlineJudges.view.admin.Email', {
                 }, {
                     xtype: 'fieldset',
                     title: "Extra e-mails (one per line)",
+                    name:'extraEmails',
                     items: [{
                         xtype: 'textareafield',
                         name: 'extraEmails'
@@ -106,8 +107,9 @@ Ext.define('OnlineJudges.view.admin.Email', {
                                    '</div>',
                                '</div>'
                     ],
-                    ui: 'round',
+                    ui:'round',
                     flex: 3,
+                    emptyText: '<a style="font-size:12px">The are no students to display<a>',
                     store: 'StudentsContacts',
                     listeners: {
                         itemtap: function (item, num, ev, record) {
@@ -133,7 +135,7 @@ Ext.define('OnlineJudges.view.admin.Email', {
                                '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
                                    '<div class="x-form-label" style="background:none;padding: 0">',
                                        '<div>{FirstName} {LastName}</div>',
-                                       '<div style="font-size:12px">Email: {Email}</div>',
+                                       '<div style="font-size:12px">{Email}</div>',
                                    '</div>',
                                    '<div class="x-component-outer">',
                                        '<div class="x-unsized x-field-input" style="border:0;background:none;">',
@@ -163,18 +165,28 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     flex: 1
                 }, {
                     xtype: 'list',
-                    itemTpl: '{name}',
+                    disableSelection: true,
+                    emptyText: '<a style="font-size:12px">The are no extra e-mails to display<a>',
+                    itemTpl: [
+                               '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
+                                   '<div class="x-form-label" style="background:none;padding: 0">',
+                                       '<div>{Email}</div>',
+                                   '</div>',
+                                   '<div class="x-component-outer">',
+                                       '<div class="x-unsized x-field-input" style="border:0;background:none;">',
+                                           '<input type="checkbox" <tpl if=\'Send === true\'>checked="checked"</tpl> class="x-input-el x-input-checkbox">',
+                                           '<div class="x-field-mask"></div>',
+                                       '</div>',
+                                   '</div>',
+                               '</div>'
+                    ],
                     ui: 'round',
                     flex: 3,
-                    store: {
-                        fields: ['name'],
-                        data: [
-                            { name: 'Cowper' },
-                            { name: 'Everett' },
-                            { name: 'University' },
-                            { name: 'Forest' }
-                        ]
-                    }
+                    store: 'ExtraEmails',
+                    filters: [{
+                        property: 'Term',
+                        value: 'Not display'
+                    }]
                 }]
             }, {
                 xtype: 'panel',
@@ -210,9 +222,13 @@ Ext.define('OnlineJudges.view.admin.Email', {
     initialize: function () {
         var store = Ext.getStore('StudentsContacts');
         if (!store.isLoaded()) store.load();
+        store.filter('Term','NOT DISPLAY')
 
         var judgesStore = Ext.getStore('JudgesContacts');
         if (!judgesStore.isLoaded()) judgesStore.load();
+
+        var termsStore = Ext.getStore('Terms');
+        if (!termsStore.isLoaded()) termsStore.load();
     }
 
 });
