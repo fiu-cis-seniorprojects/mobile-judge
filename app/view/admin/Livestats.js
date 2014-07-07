@@ -96,6 +96,8 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
             if (!store.isLoaded()) store.load();
         var storeGraph = Ext.getStore('LivestatsGraph');
             if (!storeGraph.isLoaded()) storeGraph.load();
+
+
         //store.add(allStudents);
         //this.callParent();
     }

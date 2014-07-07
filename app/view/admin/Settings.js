@@ -159,6 +159,20 @@ Ext.define('OnlineJudges.view.admin.Settings',{
                     }
                 ]
             },
+            {
+                title: 'Stats Refresh Rate',
+                items: [
+                    {
+                        xtype: 'spinnerfield',
+                        label: 'Time in Seconds',
+                        name: 'RefreshRate',
+                        maxValue: 60,
+                        minValue: 1,
+                        stepValue: 1,
+                        defaultValue: 15
+                    }
+                ]
+            },
              {
                  xtype: 'button',
                  itemId: 'questionsBtn',
