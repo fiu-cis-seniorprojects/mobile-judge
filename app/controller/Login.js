@@ -31,6 +31,9 @@ Ext.define('OnlineJudges.controller.Login', {
             },
             "adminMain #logoutBtn": {
                 tap: 'onLogoutJudgesTap'
+            },
+            "studentHome #studentRolesBtn": {
+                tap: 'onStudentRolesBtnTap'
             }
         }
     },
@@ -93,5 +96,68 @@ Ext.define('OnlineJudges.controller.Login', {
         OnlineJudges.map = null;
         Ext.Viewport.down('navigationview').getLayout().setAnimation(false);
         Ext.Viewport.removeAll().add(Ext.create('widget.login'));
+    },
+
+    onStudentRolesBtnTap: function () {
+        var me = this,
+            store = Ext.getStore('LoginInstance'),
+            user = store.getById(0),
+            popup = new Ext.Panel({
+                floating: true,
+                centered: true,
+                modal: true,
+                items: []
+            });
+        Ext.php.LoginMain.getRoles(user.get('email'), user.get('password'), function (res) {
+            var roles = res.Roles.split(";");
+
+            for (i = 0; i < roles.length; i++) {
+                if (roles[i] == "admin") {
+                    adminRoleTab = {
+                        xtype: 'button',
+                        text: 'Admin',
+                        margin: '5',
+                        handler: function () {
+                            popup.hide();
+                            me.loadMainView('adminMain');
+                        }
+                    }
+                    popup.add(adminRoleTab);
+                }
+                else if (roles[i] == "judge") {
+                    judgeRoleTab = {
+                        xtype: 'button',
+                        text: 'Judge',
+                        margin: '5',
+                        handler: function () {
+                            popup.hide();
+                            me.loadMainView('judgeHome');
+                        }
+                    }
+                    popup.add(judgeRoleTab);
+                }
+                else if (roles[i] == "student") {
+                    studentRoleTab = {
+                        xtype: 'button',
+                        text: 'Student',
+                        margin: '5',
+                        handler: function () {
+                            popup.hide();
+                            me.loadMainView('studentHome');
+                        }
+                    }
+                    popup.add(studentRoleTab);
+                }
+            }
+        });
+        popup.add({
+            xtype: 'button',
+            docked: 'bottom',
+            text: 'Cancel',
+            handler: function () {
+                popup.hide();
+            }
+        });
+        popup.show();
     }
 });

@@ -30,7 +30,9 @@ class Students {
                 'Email' => $student->email.'@fiu.edu',
                 'FirstName' => ucfirst($student->firstName),
                 'LastName' => ucfirst($student->lastName),
-                'StudentId' => $student->id
+                'StudentId' => $student->id,
+                'Roles' => 'student',
+                'DefaultRole' => 'student'
             ));
         }
 
