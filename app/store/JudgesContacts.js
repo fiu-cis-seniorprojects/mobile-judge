@@ -41,6 +41,7 @@ Ext.define('OnlineJudges.store.JudgesContacts', {
                 type: 'boolean',
                 defaultValue: true
             }
-        ]
+        ],
+        sorters: 'FirstName'
     }
 });

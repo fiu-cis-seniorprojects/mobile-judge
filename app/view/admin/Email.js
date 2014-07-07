@@ -72,14 +72,7 @@ Ext.define('OnlineJudges.view.admin.Email', {
                         xtype: 'textareafield',
                         name: 'extraEmails'
                     }]
-                }
-                , {
-                    xtype: 'selectfield',
-                    label: 'Terms',
-                    displayField: 'id',
-                    store: 'Terms'
-                }
-                ]
+                }]
             }, {
                 xtype: 'panel',
                 name: 'listPanel',
@@ -131,6 +124,7 @@ Ext.define('OnlineJudges.view.admin.Email', {
                 }, {
                     xtype: 'list',
                     disableSelection: true,
+                    emptyText: '<a style="font-size:12px">The are no judges to display<a>',
                     itemTpl: [
                                '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
                                    '<div class="x-form-label" style="background:none;padding: 0">',
@@ -226,9 +220,14 @@ Ext.define('OnlineJudges.view.admin.Email', {
 
         var judgesStore = Ext.getStore('JudgesContacts');
         if (!judgesStore.isLoaded()) judgesStore.load();
+        judgesStore.filter('Term', 'NOT DISPLAY');
 
         var termsStore = Ext.getStore('Terms');
         if (!termsStore.isLoaded()) termsStore.load();
+
+        var extraStr = Ext.getStore('ExtraEmails');
+        if (!extraStr.isLoaded()) extraStr.load();
+        
     }
 
 });

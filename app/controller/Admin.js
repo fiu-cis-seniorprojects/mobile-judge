@@ -296,6 +296,16 @@ Ext.define('OnlineJudges.controller.Admin', {
     //===========================================================================================
     //Handlers for the Email view
     //===========================================================================================
+    setJudgesStoreFilter: function(){
+        var str = Ext.getStore('JudgesContacts');
+        var main = this.getMain();
+        var curChk = main.down('checkboxfield[name=activeJudges]');
+        str.clearFilter();
+        str.filterBy(function (record) {
+            var term = record.get('Term')
+            if (curChk.getChecked() === true && term === 'Current') return record;
+        });
+    },
     setStudentsStoreFilter: function () {
         var str = Ext.getStore('StudentsContacts');
         var main = this.getMain(),
@@ -323,17 +333,17 @@ Ext.define('OnlineJudges.controller.Admin', {
         }
     },
     onPastStudentsCheck: function (chk, e, eO) {
+        var main = this.getMain();
+        var currentStudents = main.down('email checkboxfield[name=activeStudents]'),
+            pastStudents = main.down('email checkboxfield[name=pastStudents]')
+        allStudents = main.down('email checkboxfield[name=allStudents]');
         if (Ext.isDefined(e)) {
-            var main = this.getMain();
-            var currentStudents = main.down('email checkboxfield[name=activeStudents]'),
-                pastStudents = main .down('email checkboxfield[name=pastStudents]')
-                allStudents = main.down('email checkboxfield[name=allStudents]');
-            if (currentStudents.getChecked() === true) {
+           if (currentStudents.getChecked() === true) {
                 allStudents.check();
             }
-            this.getTerms().showBy(pastStudents);
+            
         }
-        
+        this.getTerms().showBy(pastStudents);
     },
     onPastStudensUncheck: function(chk,e,eO){
         if (Ext.isDefined(e)) {
@@ -393,6 +403,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             var judgesOptions = this.getJudgesOptions();
             judgesOptions.showBy(chkBox);
         }
+        this.setJudgesStoreFilter();
         
     },
     onAllJudgesUnchecked: function (chk, e, eO) {
