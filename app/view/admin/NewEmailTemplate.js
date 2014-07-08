@@ -2,7 +2,6 @@ Ext.define('OnlineJudges.view.admin.NewEmailTemplate', {
     extend: 'Ext.Panel',
     alias: 'widget.emailTemplate',
     scrollable: true,
-    tinyMCEinitialized : false,
 
     config: {
         items: [
@@ -35,7 +34,7 @@ Ext.define('OnlineJudges.view.admin.NewEmailTemplate', {
                 margin: 10,
                 name: 'preview',
                 border: 1,
-                html: ['<form method="post"><textarea id="elm1" name="area"></textarea></form>'],
+                html: ['<form method="post"><textarea class="tinymce" name="area"></textarea></form>'],
                 styleHtmlContent: true
             }
         ]
