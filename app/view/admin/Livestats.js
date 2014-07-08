@@ -103,7 +103,6 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
         var store = Ext.getStore('Livestats');
         store.load();
         //store.refresh();
-        Ext.Msg.alert('refreshed');
         store = Ext.getStore('LivestatsGraph').load();    // Assuming your list component is "listComp"
         //store.refresh();        
         //Ext.Msg.alert('refreshed');
