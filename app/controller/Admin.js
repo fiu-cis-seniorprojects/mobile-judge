@@ -1195,7 +1195,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "admin", false);
+                                            me.confirmAddRole(popup, email, "admin", "student");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1213,7 +1213,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, { email: email, firstName: firstname, lastName: lastname }, "judge", false);
+                                            me.confirmAddRole(popup, { email: email, firstName: firstname, lastName: lastname }, "judge", "student");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1231,7 +1231,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "student", false);
+                                            me.confirmAddRole(popup, email, "student", "student");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1292,7 +1292,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "admin", true);
+                                            me.confirmAddRole(popup, email, "admin", "admin");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1310,7 +1310,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "judge", true);
+                                            me.confirmAddRole(popup, email, "judge", "admin");
                                         }                                        
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1328,7 +1328,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "student", true);
+                                            me.confirmAddRole(popup, email, "student", "admin");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1395,7 +1395,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "admin", false);
+                                            me.confirmAddRole(popup, email, "admin", "judge");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1413,7 +1413,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, { email: email, firstName: firstname, lastName: lastname }, "judge", false);
+                                            me.confirmAddRole(popup, email, "judge", "judge");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1431,7 +1431,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "student", false);
+                                            me.confirmAddRole(popup, email, "student", "judge");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1495,10 +1495,11 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
     },
 
-    confirmAddRole: function (popup, user, role, isMine) {
+    confirmAddRole: function (popup, user, role, from) {
         Ext.Msg.confirm('Add Role', 'Are you sure you want to add this role?', function (btn) {
             if (btn === 'yes') {
-                if (role === "judge" && !isMine) {
+                if (role === "judge" && from === "student") {
+                    Ext.Msg.alert("From student");
                     Ext.php.Invites.send(user, function (result) {
                         var msg = result.success ? "Invitation successfully sent" : "Failed to send invitation",
                             store = Ext.getStore('Invitations');
