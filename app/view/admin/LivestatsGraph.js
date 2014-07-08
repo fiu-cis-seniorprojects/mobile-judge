@@ -31,17 +31,40 @@ Ext.define("OnlineJudges.view.admin.LivestatsGraph", {
                 // For some interactions, you can specify the gesture
                 // to trigger it.
                 gesture: 'itemtaphold',
-                // You can also attach listeners to an interaction.
                 listeners: {
                     show: function (me, item, panel) {
+                        var store = Ext.getStore('LivestatsGraph');
+                        var msg = "<br>-------------------------------";
                         if(item.record.data.LastName != null) {
-                            //panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + "<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location);
-                            panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: n/a <br> Approved Grade: n/a<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location);
+                            for( i = 0; i < store.getAllCount(); i++)
+                                    {
+                                        if(store.getAt(i).get('StuName') === item.record.data.Name && store.getAt(i).get('StuLName') === item.record.data.LastName && store.getAt(i).get('LastName') !== item.record.data.project) {
+                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') + " -- Grade: n/a"; //+ store.getAt(i).get('RawGrade');
+                                        }
+                                    }
+
+                            //panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + "<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location + msg);
+                            panel.setWidth(200);
+                            panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: n/a <br> Approved Grade: n/a<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location + msg);
                         }
+
                         else {
-                            panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade);
-                            panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: n/a <br> Approved Grade: n/a" );
+                            for( i = 0; i < store.getAllCount(); i++)
+                                    {
+                                        if(store.getAt(i).get('Name') === item.record.data.Name) {
+                                            //msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
+                                            msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: n/a Accepted: n/a";
+                                        }
+                                    }
+
+
+                            //panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade);
+                            panel.setWidth(200);
+                            panel.setHeight(200);
+                            panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: n/a <br> Approved Grade: n/a" + msg);
                         }
+
+
                           
                     //panel.setHtml("First Name: " + "First Name "+ "<br>Last Name: " + "last Name"+"<br>Student ID: " + "ID " + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + "<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location);
                     

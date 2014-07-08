@@ -20,11 +20,13 @@ Ext.define('OnlineJudges.view.admin.StudentView', {
                     {
                         label: 'First Name',
                         name: 'FirstName',
+                        itemId: 'studentFName',
                         readOnly:true
                     },
                     {
                         label: 'Last Name',
                         name: 'LastName',
+                        itemId: 'studentLName',
                         readOnly:true
                     },
                     {

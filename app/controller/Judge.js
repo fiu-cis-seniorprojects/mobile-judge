@@ -235,8 +235,6 @@ Ext.define('OnlineJudges.controller.Judge', {
                         floating: true,
                         centered: true,
                         modal: true,
-                        width: swidth / 3,
-                        height: sheight / 3,
                         items: []
                     });
                 Ext.php.LoginMain.getRoles(user.get('email'), user.get('password'), function (res) {

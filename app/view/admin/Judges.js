@@ -10,6 +10,7 @@ Ext.define('OnlineJudges.view.admin.Judges', {
         title: 'Judges',
         itemTpl: [
             '<div>{FirstName} {LastName}</div>',
+            '<div style="font-size: 12px">Email: {Email}</div>',
             '<div style="font-size: 12px">Affiliation: {Affiliation}</div>',
             '<div style="font-size: 12px">Title: {Title}</div>'
         ],
@@ -18,6 +19,6 @@ Ext.define('OnlineJudges.view.admin.Judges', {
         store: 'Judges',
         onItemDisclosure: false,
         disableSelection: true,
-        plugins: [{type: 'pullrefresh'}]
+        plugins: [{ type: 'pullrefresh' }]
     }
 });

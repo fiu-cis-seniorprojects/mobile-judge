@@ -13,7 +13,7 @@ class Livestats {
             join Students as s on s.id = j.StudentId
             left join
             (
-                select st.id, avg(ju.grade) as ApprovedGrade
+                select st.id, st.Grade as ApprovedGrade
                 FROM JudgeStudentGrade as ju 
                 inner join Users as us on ju.StudentId = us.StudentId
                 inner join Students as st on st.id = ju.StudentId
@@ -62,15 +62,29 @@ class Livestats {
     }
 
     //Get $StudentId's information
-    public function getJudges($StudentId) {
+    public function getJudges() {
         $db = new Database();
-        $db->sql("select j.JudgeId AS id, u.FirstName AS Name,u.LastName, j.Grade AS RawGrade, j.Accepted
-      FROM      JudgeStudentGrade as j
-      inner join Users  as u ON u.JudgeId = j.JudgeId
-      where j.StudentId = '".$StudentId."'");
+        $db->sql("select us.FirstName as Name, us.LastName, s.Grade as ApprovedGrade, s.Grade as RawGrade, uss.FirstName as StuName, uss.LastName as StuLName, s.Accepted
+            FROM Users as u
+            inner join JudgeStudentGrade as s on u.StudentId = s.StudentId
+            inner join Users as us on us.JudgeId = s.JudgeId
+            inner join Users as uss on uss.StudentId = s.StudentId
+            union
 
+            SELECT s.Project as Name, s.Project as LastName, s.Grade as ApprovedGrade, k.RawGrade,u.FirstName as StuName, u.LastName as StuLName, k.Accepted
+            from Students as s
+            inner join Users as u on u.StudentId = s.id
+
+            left join
+                        (
+                            select st.id, avg(ju.grade) as RawGrade, ju.Accepted
+                            FROM JudgeStudentGrade as ju 
+                            inner join Users as us on ju.StudentId = us.StudentId
+                            inner join Students as st on st.id = ju.StudentId
+                            group by ju.StudentId       
+                        ) as k on k.id = s.id");
         $res = $db->getResult();
-        if (array_key_exists('id', $res)) $res=array($res);
+        //if (array_key_exists('altId', $res) && array_key_exists('id', $res)) $res=array($res);
         return array('total'=>count($res), 'data'=>$res);
     }
 

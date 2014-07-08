@@ -22,6 +22,10 @@ Ext.define('OnlineJudges.view.student.Home', {
                         align: 'left'
                     },
                     {
+                        text: 'Roles',
+                        itemId: 'studentRolesBtn'
+                    },
+                    {
                         iconCls: 'refresh',
                         align: 'right',
                         handler: function(btn) {
@@ -106,6 +110,12 @@ Ext.define('OnlineJudges.view.student.Home', {
                 ]
             }
         ]
+    },
+
+    loadMainView: function (view, options) {
+        Ext.Viewport.removeAll().add(Ext.create('widget.' + view, Ext.apply({
+            title: 'CIS 4911 Online Judges'
+        }, options || {})));
     },
 
     initialize: function() {

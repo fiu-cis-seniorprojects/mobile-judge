@@ -26,74 +26,16 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
             scrollable: 'true'
         },
         items: [
-        // {
-        //     xtype: "container",
-        //     flex: 1,
-        //     docked: "top",
-        //     minHeight: '20px',
-        //     height: '40px',
-        //     layout: "hbox",
-        //     items: [
-        //         {
-        //             xtype: "container",
-        //             flex: 1,
-        //             height: '20px',
-        //             layout: "vbox",
-        //             xtype:'selectfield',
-        //             label: 'Grouping',
-        //             name: 'Grouping',
-        //             labelWrap: true,
-        //             options: [
-        //             {text:'Students', value: 'Students'},
-        //             {text:'Projects', value: 'Projects'}
-        //             ],
-        //             listeners: {
-        //             change: function(cmp, newValue, oldValue){
-        //                 if(newValue === 'Students')
-        //                 {
-        //                     var msg = "Selected Students";
-        //                     var stre = Ext.getStore('Livestats');
-        //                     stre.removeAll();
-        //                     var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
-        //                     stre.getProxy().setDirectFn(method);
-        //                     stre.load();
-        //                     //var msg = "Selected Students" + stre.getDirectFn();
-        //                     //stre.getProxy().setUrl('Ext.php.Livestats.getAll');
-        //                     //Ext.Msg.alert('Details', msg);
-        //                 }
-        //                 else if(newValue === 'Projects')
-        //                 {
-        //                     //var msg = "Selected Projects";
-        //                     var stre = Ext.getStore('Livestats');
-        //                     stre.removeAll();
-        //                     var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllProjects');
-        //                     stre.getProxy().setDirectFn(method);
-        //                     stre.load();
-        //                     //var msg = "Selected Students" + stre.getDirectFn();
-        //                     //stre.getProxy().setUrl('Ext.php.Livestats.getAll');
-        //                     //Ext.Msg.alert('Details', msg);
-        //                     //Ext.Msg.alert('Details', msg);
-        //                 }
-        //             }
-        //             }
-        //         }
-        //     ]
-        // },
         {
-            xtype: 'livestatsList',
+            xtype: 'statsList',
             flex: 1,
             listeners: {
                             itemtap: function(item, num, ev, record){
-                                //var tempStore = Ext.getStore('LivestatsGraph');
-                                //tempStore.removeAll();
-                                //var method = Ext.direct.manager.parseMethod('Ext.php.Livestats.getJudges');
                                 var store = Ext.getStore('LivestatsGraph');
-                                store.removeAll();
+                                //store.removeAll();
                                 //var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getJudges');
                                 //store.getProxy().setDirectFn(method);
-                                var studentid = record.get('id');
-                                store.getProxy().setExtraParams({ 'StudentId': studentid});
-                                store.load();
+                                //store.load();
                                 var msg = " ";
                                 if(record.get('LastName') != null)
                                 {
@@ -111,7 +53,28 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
                                 {
                                     msg += "<br>Project: " + record.get('project') + "<br>Location: " + record.get('location');
                                 }
-                                msg += "<br>" + store.getCount();
+                                msg += "<br>----------------------------"
+
+                                if(record.get('LastName') != null)
+                                {
+                                    for( i = 0; i < store.getAllCount(); i++)
+                                    {
+                                        if(store.getAt(i).get('StuName') === record.get('Name') && store.getAt(i).get('StuLName') === record.get('LastName') && store.getAt(i).get('LastName') !== record.get('project')) {
+                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') + " -- Grade: n/a"; //+ store.getAt(i).get('RawGrade');
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    for( i = 0; i < store.getAllCount(); i++)
+                                    {
+                                        if(store.getAt(i).get('Name') === record.get('Name')) {
+                                            //msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
+                                            msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + "n/a" + " Accepted: " + "n/a";
+                                        
+                                        }
+                                    }
+                                }
                                 Ext.Msg.alert('Details', msg);
                                 //console.log('itemtap fired');
                         }
@@ -131,8 +94,10 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
         var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
             store.getProxy().setDirectFn(method);
             if (!store.isLoaded()) store.load();
-        //var storeGraph = Ext.getStore('LivestatsGraph');
-        //    if (!storeGraph.isLoaded()) storeGraph.load();
+        var storeGraph = Ext.getStore('LivestatsGraph');
+            if (!storeGraph.isLoaded()) storeGraph.load();
+
+
         //store.add(allStudents);
         //this.callParent();
     }
