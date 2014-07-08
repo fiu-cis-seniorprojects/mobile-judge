@@ -47,6 +47,7 @@ Ext.define('OnlineJudges.store.Livestats', {
                 type: 'string'
             }
         ],
-        sorters: ['RawGrade', 'ApprovedGrade']
+        //sorters: ['RawGrade', 'ApprovedGrade']
+        sorters: ['id']
     }
 });

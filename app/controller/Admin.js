@@ -1,3 +1,4 @@
+var taskLiveStatsTimer;
 Ext.define('OnlineJudges.controller.Admin', {
     extend: 'Ext.app.Controller',
 
@@ -1061,6 +1062,28 @@ Ext.define('OnlineJudges.controller.Admin', {
     //==============================================================
     //Livestats stuff
     //==============================================================
+    // onLiveStatInitilize:function() {
+    //     alert('hello moto');
+    //     var main = this.getMain(),
+    //         spinner = main.down('settings spinnerfield[name=RefreshRate]');
+    //     //var allStudents = { id: 999, FirstName: 'ALL', LastName: 'ALL', Grade: nu
+
+    refreshFunc: function(){
+            var main = this.getMain(),
+             spinner = main.down('settings spinnerfield[name=RefreshRate]');
+
+             var time = spinner.getValue() * 1000;
+            // taskLiveStatsTimer.delay(time);
+
+            clearInterval(taskLiveStatsTimer);
+            taskLiveStatsTimer = setInterval(function() {
+                var store = Ext.StoreMgr.lookup('Livestats');
+                    store.load();
+                var str = Ext.StoreMgr.lookup('LivestatsGraph');
+                    str.load();
+            }, time);
+        },
+
     onLivestatsHide: function() {
         var LivestatsBtn = this.getLivestatsBtn();
             LivestatsBtn.hide();
@@ -1082,9 +1105,9 @@ Ext.define('OnlineJudges.controller.Admin', {
             LivestatsBtn = this.getLivestatsBtn(),
             mainView = this.getMain(),
             navBar = mainView.getNavigationBar(),
-            form = mainView.down('livestats'),
-            store = Ext.getStore('Livestats');
-            store.load();
+            form = mainView.down('livestats');
+            //store = Ext.getStore('Livestats');
+            //store.load();
 
 
 
@@ -1147,6 +1170,8 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
         form.setMasked(false);
 
+        this.getApplication().getController('Admin').refreshFunc();
+    
     },
 
     //================================================================

@@ -20,8 +20,8 @@ Ext.define("OnlineJudges.view.admin.LivestatsList", {
     },
 
         initialize: function() {
-         var store = Ext.getStore('Livestats');
-             if (!store.isLoaded()) store.load();
+        // var store = Ext.getStore('Livestats');
+        //     if (!store.isLoaded()) store.load();
         // var storeGraph = Ext.getStore('LivestatsGraph');
         //     if (!storeGraph.isLoaded()) storeGraph.load();
         this.callParent();
