@@ -26,7 +26,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'admin.Livestats',
             'admin.LivestatsList',
             'admin.StatsList',
-            'admin.LivestatsGraph'
+            'admin.LivestatsGraph',
+            'admin.TermsList'
         ],
         stores: [
             'Questions',
@@ -39,7 +40,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'Terms',
             'StudentsContacts',
             'JudgesContacts',
-            'LoginInstance'
+            'LoginInstance',
+            'ExtraEmails'
         ],
 
         refs: {
@@ -62,6 +64,12 @@ Ext.define('OnlineJudges.controller.Admin', {
             studentEmail: 'adminStudentView #studentEmail',
             studentFName: 'adminStudentView #studentFName',
             studentLName: 'adminStudentView #studentLName',
+            studentEmail: 'adminStudentView #studentEmail',
+            terms: {
+                autoCreate: true,
+                selector: 'termsList',
+                xtype: 'termsList'
+            }
         },
 
         control: {
@@ -179,36 +187,53 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "adminMain adminJudges": {
                 itemtap: 'onJudgesListTap'
+            },
+            "termsList button[name=OKBtn]": {
+                tap: 'onTermsOKTab'
+
             }
+
         }
     },
+    //Funtion used in the TermsList view
+    //==============================================================================================
+    onTermsOKTab: function(btn){
+        var main = this.getMain();
+        var terms = this.getTerms();
+        var list = terms.down('list[name=terms]');
+        var chb = main.down('email checkboxfield[name=pastStudents]');
+        if (list.getSelectionCount() > 0) chb.check();
+        else chb.uncheck();
+        terms.hide();
+        this.setStudentsStoreFilter();
+    },
+    //==============================================================================================
     onEmailTemplateShow: function(panel){
         var main = this.getMain();
-        if (panel.tinyMCEinitialized !== true) {
-            tinymce.init({
-                selector: "textarea#elm1",
-                theme: "modern",
-                width: main.getWidth(),
-                height: 200,
-                plugins: [
-                     "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-                     "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                     "save table contextmenu directionality emoticons template paste textcolor"
-                ],
-                content_css: "css/content.css",
-                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
-                style_formats: [
-                     { title: 'Bold text', inline: 'b' },
-                     { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
-                     { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
-                     { title: 'Example 1', inline: 'span', classes: 'example1' },
-                     { title: 'Example 2', inline: 'span', classes: 'example2' },
-                     { title: 'Table styles' },
-                     { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
-                ]
-            });
-            panel.tinyMCEinitialized = true;
-        }
+
+        tinymce.init({
+            selector: "textarea.tinymce",
+            theme: "modern",
+            width: main.getWidth(),
+            height: 200,
+            plugins: [
+                    "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                    "save table contextmenu directionality emoticons template paste textcolor"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+            style_formats: [
+                    { title: 'Bold text', inline: 'b' },
+                    { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
+                    { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
+                    { title: 'Example 1', inline: 'span', classes: 'example1' },
+                    { title: 'Example 2', inline: 'span', classes: 'example2' },
+                    { title: 'Table styles' },
+                    { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
+            ]
+        });
+        panel.tinyMCEinitialized = true;
+        
         
     },
     //=============================================================================
@@ -281,7 +306,33 @@ Ext.define('OnlineJudges.controller.Admin', {
     //===========================================================================================
     //Handlers for the Email view
     //===========================================================================================
-    onPastJudgesChecked: function(chk, e, eO){
+    setJudgesStoreFilter: function(){
+        var str = Ext.getStore('JudgesContacts');
+        var main = this.getMain();
+        var curChk = main.down('checkboxfield[name=activeJudges]');
+        str.clearFilter();
+        str.filterBy(function (record) {
+            var term = record.get('Term')
+            if (curChk.getChecked() === true && term === 'Current') return record;
+        });
+    },
+    setStudentsStoreFilter: function () {
+        var str = Ext.getStore('StudentsContacts');
+        var main = this.getMain(),
+            currentStudents = main.down('email checkboxfield[name=activeStudents]'),
+            pastStudents = main.down('email checkboxfield[name=pastStudents]');
+        var termsList = this.getTerms().down('list[name=terms]');
+        var terms = termsList.getSelection().map(function (rec) { return rec.get('id') });
+        str.clearFilter();
+        str.filterBy(function (record) {
+            var term = record.get('Term');
+            if ((currentStudents.getChecked() === true && term === 'Current') ||
+                (pastStudents.getChecked() === true && Ext.Array.contains(terms,term))) {
+                return record;
+            }
+        });
+    },
+    onPastJudgesChecked: function (chk, e, eO) {
         if (Ext.isDefined(e)) {
             var main = this.getMain(),
                 allJudges = main.down('email checkboxfield[name=allJudges]'),
@@ -292,22 +343,32 @@ Ext.define('OnlineJudges.controller.Admin', {
         }
     },
     onPastStudentsCheck: function (chk, e, eO) {
+        var main = this.getMain();
+        var currentStudents = main.down('email checkboxfield[name=activeStudents]'),
+            pastStudents = main.down('email checkboxfield[name=pastStudents]')
+        allStudents = main.down('email checkboxfield[name=allStudents]');
         if (Ext.isDefined(e)) {
-            var main = this.getMain(),
-                currentStudents = main.down('email checkboxfield[name=activeStudents]'),
-                allStudents = main.down('email checkboxfield[name=allStudents]');
-            if (currentStudents.getChecked() === true) {
+           if (currentStudents.getChecked() === true) {
                 allStudents.check();
             }
+            
         }
+        this.getTerms().showBy(pastStudents);
     },
     onPastStudensUncheck: function(chk,e,eO){
         if (Ext.isDefined(e)) {
             var main = this.getMain(),
                 allStudents = main.down('email checkboxfield[name=allStudents]');
             allStudents.uncheck();
+           
         }
+        var terms = this.getTerms();
+        terms.hide();
+        var termsList = terms.down('list[name=terms]');
+        termsList.deselectAll();
+        this.setStudentsStoreFilter();
     },
+   
     onActiveStudentsCheck: function(chk, e, eO){
         if (Ext.isDefined(e)) {
             var main = this.getMain(),
@@ -316,7 +377,9 @@ Ext.define('OnlineJudges.controller.Admin', {
             if (pastStudents.getChecked() === true) {
                 allStudents.check();
             }
+
         }
+        this.setStudentsStoreFilter();
     },
     onActiveStudentsUnchecked: function (chk, e, eO) {
         if (Ext.isDefined(e)) {
@@ -324,6 +387,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 allStudents = main.down('email checkboxfield[name=allStudents]');
             allStudents.uncheck();
         }
+        this.setStudentsStoreFilter();
     },
     onActiveJudgesUnchecked: function (chk, e, eO) {
         if (Ext.isDefined(e)) {
@@ -349,6 +413,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             var judgesOptions = this.getJudgesOptions();
             judgesOptions.showBy(chkBox);
         }
+        this.setJudgesStoreFilter();
         
     },
     onAllJudgesUnchecked: function (chk, e, eO) {
@@ -375,7 +440,6 @@ Ext.define('OnlineJudges.controller.Admin', {
            pastStudentsChkBox = main.down('email checkboxfield[name=pastStudents]');
             currentStudentsChckBox.setChecked(false);
             pastStudentsChkBox.setChecked(false);
-
         }
         
     },
@@ -397,7 +461,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         if (newValue === 'CREATE_NEW') {
             this.getLogoutBtn().hide();
             backBtn.hide();
-            main.push(this.getEmailTemplate());
+            main.push({xtype:'emailTemplate'});
             navBtn.setText('Save');
             navBtn.setIconCls('');
         }
@@ -406,7 +470,9 @@ Ext.define('OnlineJudges.controller.Admin', {
     //Handlers for the email view
     //===========================================================================================
     onEmailHide: function () {
-        var backBtn = this.getBackBtn();
+        var backBtn = this.getBackBtn(),
+            logoutBtn = this.getLogoutBtn();
+        if(Ext.isDefined(logoutBtn)) logoutBtn.show();
         if (Ext.isDefined(backBtn)) backBtn.hide();
     },
     onEmailActiveItemChange: function (container, value, oldValue, eOpts) {
@@ -422,6 +488,15 @@ Ext.define('OnlineJudges.controller.Admin', {
             backBtn.show();
             navBtn.setText('');
             navBtn.setIconCls('arrow_right');
+
+            var extraEmails = oldValue.down('textareafield[name=extraEmails]');
+            var str = Ext.getStore('ExtraEmails');
+            str.removeAll();
+            var emails = extraEmails.getValue().split(/\n/);
+            for (i = 0; i < emails.length; i++){
+                if(emails[i].length > 0 ) str.add({ Email: emails[i]});
+            }
+           
         } else {
             navBtn.setText('');
             navBtn.setIconCls('arrow_right');
@@ -433,8 +508,9 @@ Ext.define('OnlineJudges.controller.Admin', {
         var main = this.getMain(),
             navBar = main.getNavigationBar(),
             navBtn = this.getNavBtn(),
-            backBtn = this.getBackBtn();
-           
+            backBtn = this.getBackBtn(),
+            logoutBtn = this.getLogoutBtn();
+        logoutBtn.hide();
         navBtn.show();
         navBar.setTitle('Email');
         if (email.getActiveItem().name === 'sendPanel') {
@@ -454,7 +530,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         navBtn.from = 'Email';
     },
     //===========================================================================================
-    //Back Button handler used in th email module
+    //Back Button handler used in the email module
     //===========================================================================================
     onBackBtnTap: function(){
         var main = this.getMain(),
@@ -1173,7 +1249,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "admin", false);
+                                            me.confirmAddRole(popup, email, "admin", "student");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1191,7 +1267,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, { email: email, firstName: firstname, lastName: lastname }, "judge", false);
+                                            me.confirmAddRole(popup, { email: email, firstName: firstname, lastName: lastname }, "judge", "student");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1209,7 +1285,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "student", false);
+                                            me.confirmAddRole(popup, email, "student", "student");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1270,7 +1346,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "admin", true);
+                                            me.confirmAddRole(popup, email, "admin", "admin");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1288,7 +1364,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "judge", true);
+                                            me.confirmAddRole(popup, email, "judge", "admin");
                                         }                                        
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1306,7 +1382,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "student", true);
+                                            me.confirmAddRole(popup, email, "student", "admin");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1373,7 +1449,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "admin", false);
+                                            me.confirmAddRole(popup, email, "admin", "judge");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1391,7 +1467,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, { email: email, firstName: firstname, lastName: lastname }, "judge", false);
+                                            me.confirmAddRole(popup, email, "judge", "judge");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1409,7 +1485,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                                 listeners: {
                                     check: function (chk, e, eO) {
                                         if (Ext.isDefined(e)) {
-                                            me.confirmAddRole(popup, email, "student", false);
+                                            me.confirmAddRole(popup, email, "student", "judge");
                                         }
                                     },
                                     uncheck: function (chk, e, eO) {
@@ -1473,10 +1549,11 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
     },
 
-    confirmAddRole: function (popup, user, role, isMine) {
+    confirmAddRole: function (popup, user, role, from) {
         Ext.Msg.confirm('Add Role', 'Are you sure you want to add this role?', function (btn) {
             if (btn === 'yes') {
-                if (role === "judge" && !isMine) {
+                if (role === "judge" && from === "student") {
+                    Ext.Msg.alert("From student");
                     Ext.php.Invites.send(user, function (result) {
                         var msg = result.success ? "Invitation successfully sent" : "Failed to send invitation",
                             store = Ext.getStore('Invitations');

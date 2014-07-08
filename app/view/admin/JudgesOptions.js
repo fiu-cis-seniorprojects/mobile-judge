@@ -13,25 +13,29 @@ Ext.define('OnlineJudges.view.admin.JudgesOptions', {
                         xtype: 'checkboxfield',
                         name: 'invitedJudges',
                         label: 'Invited',
-                        labelWrap: true
+                        labelWrap: true,
+                        labelWidth: '60%'
                     },
                      {
                          xtype: 'checkboxfield',
                          name: 'pendingJudges',
                          label: 'Pending',
-                         labelWrap: true
+                         labelWrap: true,
+                         labelWidth: '60%'
                      },
                       {
                           xtype: 'checkboxfield',
                           name: 'acceptedJudges',
                           label: 'Accepted',
-                          labelWrap: true
+                          labelWrap: true,
+                          labelWidth: '60%'
                       },
                       {
                           xtype: 'checkboxfield',
                           name: 'declinedJudges',
                           label: 'Declined',
-                          labelWrap: true
+                          labelWrap: true,
+                          labelWidth: '60%'
                       }
                 ]
             },
