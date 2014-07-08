@@ -102,11 +102,10 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
         var task = Ext.create('Ext.util.DelayedTask', function() {
         var store = Ext.getStore('Livestats');
         store.load();
-        store.refresh();
-        //str.load();
         //store.refresh();
-        // Assuming your list component is "listComp"
+        store = Ext.getStore('LivestatsGraph').load();    // Assuming your list component is "listComp"
         //store.refresh();        
+        //Ext.Msg.alert('refreshed');
         // The task will be called after each 10000 ms
         //task.delay(1000);
         }, this);
