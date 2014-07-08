@@ -1147,28 +1147,6 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
         form.setMasked(false);
 
-        var task = Ext.create('Ext.util.DelayedTask', function() {
-    //load the list's store here. The list will be automatically updated
-        var store = Ext.getStore('Livestats').load();    // Assuming your list component is "listComp"
-        store.refresh();
-        //store = Ext.getStore('LivestatsGraph').load();    // Assuming your list component is "listComp"
-        //store.refresh();        
-        Ext.Msg.alert('refreshed');
-        // The task will be called after each 10000 ms
-        task.delay(1000);
-        }, this);
-     
-        //The function will start after 0 milliseconds
-        //so we want to start instantly at first
-        var time = settings.RefreshRate;
-        //popup.add(time);
-        //popup.show();
-        task.delay(time);
-         
-        //to stop the task, just call the cancel method
-        //task.cancel();
-
-
     },
 
     //================================================================

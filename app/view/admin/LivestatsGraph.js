@@ -111,6 +111,7 @@ Ext.define("OnlineJudges.view.admin.LivestatsGraph", {
             // It will be destroyed when the interaction is destroyed.
             var button = Ext.ComponentQuery.query("interaction[type=panzoom]")[0].getModeToggleButton();
             Ext.ComponentQuery.query("titlebar")[0].add(button);
+
         }
     }
 });
