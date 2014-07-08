@@ -97,7 +97,27 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
         var storeGraph = Ext.getStore('LivestatsGraph');
             if (!storeGraph.isLoaded()) storeGraph.load();
 
-
+        //Function to check for now stuff
+        var task = Ext.create('Ext.util.DelayedTask', function() {
+        //load the list's store here. The list will be automatically updated
+        var store = Ext.getStore('Livestats').load();    // Assuming your list component is "listComp"
+        store.refresh();
+        store = Ext.getStore('LivestatsGraph').load();    // Assuming your list component is "listComp"
+        store.refresh();        
+        Ext.Msg.alert('refreshed');
+        // The task will be called after each 10000 ms
+        task.delay(1000);
+        }, this);
+     
+        //The function will start after 0 milliseconds
+        //so we want to start instantly at first
+        //var time = Ext.getView('settings').RefreshRate;
+        //popup.add(time);
+        //popup.show();
+        task.delay(1000);
+         
+        //to stop the task, just call the cancel method
+        //task.cancel();
         //store.add(allStudents);
         //this.callParent();
     }
