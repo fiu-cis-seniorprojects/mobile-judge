@@ -187,6 +187,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "adminMain adminJudges": {
                 itemtap: 'onJudgesListTap'
+            },
             "termsList button[name=OKBtn]": {
                 tap: 'onTermsOKTab'
 
