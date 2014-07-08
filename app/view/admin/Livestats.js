@@ -40,15 +40,15 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
                                 if(record.get('LastName') != null)
                                 {
                                     msg = "Name: " + record.get('Name') + " " + record.get('LastName');
-                                    //msg += "<br>ID: " + record.get('id');
-                                    msg += "<br>ID: n/a";
+                                    msg += "<br>ID: " + record.get('id');
+                                    //msg += "<br>ID: n/a";
                                 } 
                                 else
                                 {
                                     msg = "Project: " + record.get('Name');
                                 }
-                                //msg += "<br> Raw Grade: " + record.get('RawGrade') + "<br>Approved Grade: " + record.get('ApprovedGrade');
-                                msg += "<br> Raw Grade: n/a<br>Approved Grade: n/a";
+                                msg += "<br> Raw Grade: " + record.get('RawGrade') + "<br>Approved Grade: " + record.get('ApprovedGrade');
+                                //msg += "<br> Raw Grade: n/a<br>Approved Grade: n/a";
                                 if(record.get('project') != null )
                                 {
                                     msg += "<br>Project: " + record.get('project') + "<br>Location: " + record.get('location');
@@ -91,6 +91,7 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
      initialize: function() {
         //var allStudents = { id: 999, FirstName: 'ALL', LastName: 'ALL', Grade: null };
         var store = Ext.getStore('Livestats');
+        var str = Ext.getStore('LivestatsGraph');
         var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
             store.getProxy().setDirectFn(method);
             if (!store.isLoaded()) store.load();
@@ -99,14 +100,15 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
 
         //Function to check for now stuff
         var task = Ext.create('Ext.util.DelayedTask', function() {
-        //load the list's store here. The list will be automatically updated
-        var store = Ext.getStore('Livestats').load();    // Assuming your list component is "listComp"
+        var store = Ext.getStore('Livestats');
+        store.load();
         //store.refresh();
+        Ext.Msg.alert('refreshed');
         store = Ext.getStore('LivestatsGraph').load();    // Assuming your list component is "listComp"
         //store.refresh();        
         //Ext.Msg.alert('refreshed');
         // The task will be called after each 10000 ms
-        task.delay(1000);
+        //task.delay(1000);
         }, this);
      
         //The function will start after 0 milliseconds
