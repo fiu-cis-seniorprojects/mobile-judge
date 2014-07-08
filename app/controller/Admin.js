@@ -952,7 +952,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         navBtn.from = 'questionsView';
         navBtn.show();
 
-        Ext.Msg.alert("" + navBtn.from);
+        //Ext.Msg.alert("" + navBtn.from);
 
         if (!store.isLoaded()) store.load();
     },
@@ -1048,7 +1048,7 @@ Ext.define('OnlineJudges.controller.Admin', {
 
         else if (navBtn.from === 'questionsView') {
             navBtn.from = 'settingsTab'
-            Ext.Msg.alert("" + navBtn.from);
+            //Ext.Msg.alert("" + navBtn.from);
             navBtn.setText("Save");
             navBtn.setIconCls('');
             navBar.setTitle("Settings");
@@ -1152,7 +1152,7 @@ Ext.define('OnlineJudges.controller.Admin', {
     //================================================================
     //Roles stuff
     //================================================================
-    onAdminLoadRoles: function() {
+    onAdminLoadRoles: function () {
         var me = this,
             mainView = this.getMain(),
             navBar = mainView.getNavigationBar(),
@@ -1161,6 +1161,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             rolesBtn = this.getRolesBtn();
 
         me.onHomeTabShow();
+
 
         rolesBtn.setListeners({
             tap: function () {
