@@ -32,19 +32,21 @@ Ext.define("OnlineJudges.view.admin.LivestatsGraph", {
                 // to trigger it.
                 gesture: 'itemtaphold',
                 listeners: {
+                    //panel.setWidth(400);
                     show: function (me, item, panel) {
+                        panel.setWidth(300);
                         var store = Ext.getStore('LivestatsGraph');
                         var msg = "<br>-------------------------------";
                         if(item.record.data.LastName != null) {
                             for( i = 0; i < store.getAllCount(); i++)
                                     {
                                         if(store.getAt(i).get('StuName') === item.record.data.Name && store.getAt(i).get('StuLName') === item.record.data.LastName && store.getAt(i).get('LastName') !== item.record.data.project) {
-                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') + " "+ store.getAt(i).get('RawGrade');
+                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') + " -- "+ store.getAt(i).get('RawGrade');
                                         }
                                     }
 
                             panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + "<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location + msg);
-                            panel.setWidth(200);
+                            //panel.setWidth(200);
                             //panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: n/a <br> Approved Grade: n/a<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location + msg);
                         }
 
@@ -59,8 +61,8 @@ Ext.define("OnlineJudges.view.admin.LivestatsGraph", {
 
 
                             panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + msg);
-                            panel.setWidth(200);
-                            panel.setHeight(200);
+                            //panel.setWidth(200);
+                            //panel.setHeight(200);
                             //panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: n/a <br> Approved Grade: n/a" + msg);
                         }
 

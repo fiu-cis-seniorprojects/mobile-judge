@@ -1075,16 +1075,19 @@ Ext.define('OnlineJudges.controller.Admin', {
             var main = this.getMain(),
              spinner = main.down('settings spinnerfield[name=RefreshRate]');
 
-             var time = spinner.getValue() * 1000;
+
+            var time = spinner.getValue() * 1000;
             // taskLiveStatsTimer.delay(time);
 
             clearInterval(taskLiveStatsTimer);
-            taskLiveStatsTimer = setInterval(function() {
-                var store = Ext.StoreMgr.lookup('Livestats');
-                    store.load();
-                var str = Ext.StoreMgr.lookup('LivestatsGraph');
-                    str.load();
-            }, time);
+            if(time != 0){
+                taskLiveStatsTimer = setInterval(function() {
+                    var store = Ext.StoreMgr.lookup('Livestats');
+                        store.load();
+                    var str = Ext.StoreMgr.lookup('LivestatsGraph');
+                        str.load();
+                }, time);
+            }
         },
 
     onLivestatsHide: function() {
