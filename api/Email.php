@@ -30,4 +30,36 @@ class Email {
 		if(array_key_exists('Email', $res)) $res=array($res);
 		return array('total'=>count($res), 'data'=>$res);
 	}
+	public function getEmailTemplates(){
+		$db = new Database();
+		$db->sql('select * from onlinejudges.emailtemplates');
+		$res = $db->getResult();
+		if(array_key_exists('TemplateID', $res)) $res = array($res);
+		return array('total'=>count($res), 'data'=>$res);
+	}
+
+	public function addTemplate($templateTitle, $subject, $body){
+		$db = new Database();
+		$success = $db->insert('emailTemplates', 
+			array('TemplateTitle'=>$templateTitle,
+				'Subject'=>$subject,
+				'Body'=>$body));
+		$res = $db->getResult();
+		if(!$success) return array('success'=>false,'msg'=>$res);
+		$data = array('id'=>intval($res[0]), 
+			'TemplateTitle'=>$templateTile,
+			'Subject'=>$subject,
+			'Body'=>$body);
+		return array('success'=>$success, 'data'=>$data);
+	}
+
+	public function updateTemplate($template){
+		$db = new Database();
+		$success = $db->update('emailTemplates',
+			array('TemplateTitle'=>$template->TemplateTitle,
+				'Subject'=>$template->Subject,
+				'Body'=>$template->Body), "TemplateID = ".$template->TemplateID);
+		if(!$success) return array('success'=>false,'msg'=>$db->getResult());
+		return array('success'=>true, 'data'=>$template);
+	}
 }
