@@ -151,8 +151,26 @@ class Judges {
                 group by s.id
                 order by count(g.JudgeId), rand()
                 limit '.$maxStudents);
-
-        $db->sql("insert into Users (Email, FirstName, LastName, Password, JudgeId) VALUES ('".$data->Email."', '".$data->FirstName."', '".$data->LastName."', password('".$data->Password."'), ".$id.");");
+                
+        $db->select('Users', 'Email,FirstName,LastName,StudentId,JudgeId,Roles,DefaultRole', null, "Email ='".$data->Email."'");
+        $studentUser = $db->getResult();
+        
+        if (count($studentUser) > 0) {
+            $newRoles = "";
+            $defaultRole = "judge";
+            
+            if ($studentUser['Roles'] == "admin;student") {$newRoles = "admin;judge;student";}
+            else if ($studentUser['Roles'] == "student") {$newRoles = "judge;student";}
+            else if ($studentUser['Roles'] == "") {$newRoles = "judge";}
+            
+            $success = $db->update('Users', array('Roles'=>$newRoles), "Email ='".$data->Email."';");
+            if (!$success) return "Roles update failed";
+            $success = $db->update('Users', array('DefaultRole'=>$defaultRole), "Email ='".$data->Email."';");
+            if (!$success) return "Default update failed";
+        }
+        else {
+            $db->sql("insert into Users (Email, FirstName, LastName, Password, JudgeId, Roles, DefaultRole) VALUES ('".$data->Email."', '".$data->FirstName."', '".$data->LastName."', password('".$data->Password."'), ".$id.", judge, judge);");
+        }
 
         $date = date_format(DateTime::createFromFormat('Y-m-d', $res['Date']), "l, F j");
         $sent = mail($data->Email,'Confirmation: '.$res['Subject'], '<html>

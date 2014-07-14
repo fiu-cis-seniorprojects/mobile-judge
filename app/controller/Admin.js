@@ -1,3 +1,4 @@
+var taskLiveStatsTimer;
 Ext.define('OnlineJudges.controller.Admin', {
     extend: 'Ext.app.Controller',
 
@@ -1077,7 +1078,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         navBtn.from = 'questionsView';
         navBtn.show();
 
-        Ext.Msg.alert("" + navBtn.from);
+        //Ext.Msg.alert("" + navBtn.from);
 
         if (!store.isLoaded()) store.load();
     },
@@ -1174,7 +1175,7 @@ Ext.define('OnlineJudges.controller.Admin', {
 
         else if (navBtn.from === 'questionsView') {
             navBtn.from = 'settingsTab'
-            Ext.Msg.alert("" + navBtn.from);
+            //Ext.Msg.alert("" + navBtn.from);
             navBtn.setText("Save");
             navBtn.setIconCls('');
             navBar.setTitle("Settings");
@@ -1187,6 +1188,28 @@ Ext.define('OnlineJudges.controller.Admin', {
     //==============================================================
     //Livestats stuff
     //==============================================================
+    // onLiveStatInitilize:function() {
+    //     alert('hello moto');
+    //     var main = this.getMain(),
+    //         spinner = main.down('settings spinnerfield[name=RefreshRate]');
+    //     //var allStudents = { id: 999, FirstName: 'ALL', LastName: 'ALL', Grade: nu
+
+    refreshFunc: function(){
+            var main = this.getMain(),
+             spinner = main.down('settings spinnerfield[name=RefreshRate]');
+
+             var time = spinner.getValue() * 1000;
+            // taskLiveStatsTimer.delay(time);
+
+            clearInterval(taskLiveStatsTimer);
+            taskLiveStatsTimer = setInterval(function() {
+                var store = Ext.StoreMgr.lookup('Livestats');
+                    store.load();
+                var str = Ext.StoreMgr.lookup('LivestatsGraph');
+                    str.load();
+            }, time);
+        },
+
     onLivestatsHide: function() {
         var LivestatsBtn = this.getLivestatsBtn();
             LivestatsBtn.hide();
@@ -1198,6 +1221,9 @@ Ext.define('OnlineJudges.controller.Admin', {
         navBar = mainView.getNavigationBar();
         this.getLogoutBtn().hide();
 
+        var store = Ext.getStore('Livestats');
+        store.setSorters('id');
+
         mainView.push({
             xtype: 'livestatsGraph'
         });
@@ -1208,11 +1234,12 @@ Ext.define('OnlineJudges.controller.Admin', {
             LivestatsBtn = this.getLivestatsBtn(),
             mainView = this.getMain(),
             navBar = mainView.getNavigationBar(),
-            form = mainView.down('livestats'),
-            store = Ext.getStore('Livestats');
-            store.load();
+            form = mainView.down('livestats');
+            //store = Ext.getStore('Livestats');
+            //store.load();
 
-
+        var store = Ext.getStore('Livestats');
+        store.setSorters('id');
 
         navBar.setTitle("Stats");
         navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
@@ -1273,12 +1300,14 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
         form.setMasked(false);
 
+        this.getApplication().getController('Admin').refreshFunc();
+    
     },
 
     //================================================================
     //Roles stuff
     //================================================================
-    onAdminLoadRoles: function() {
+    onAdminLoadRoles: function () {
         var me = this,
             mainView = this.getMain(),
             navBar = mainView.getNavigationBar(),
@@ -1287,6 +1316,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             rolesBtn = this.getRolesBtn();
 
         me.onHomeTabShow();
+
 
         rolesBtn.setListeners({
             tap: function () {

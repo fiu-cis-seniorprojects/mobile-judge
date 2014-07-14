@@ -60,7 +60,7 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
                                     for( i = 0; i < store.getAllCount(); i++)
                                     {
                                         if(store.getAt(i).get('StuName') === record.get('Name') && store.getAt(i).get('StuLName') === record.get('LastName') && store.getAt(i).get('LastName') !== record.get('project')) {
-                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') + " -- Grade: n/a"; //+ store.getAt(i).get('RawGrade');
+                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') +"  -- "+ store.getAt(i).get('RawGrade');
                                         }
                                     }
                                 }
@@ -69,8 +69,8 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
                                     for( i = 0; i < store.getAllCount(); i++)
                                     {
                                         if(store.getAt(i).get('Name') === record.get('Name')) {
-                                            //msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
-                                            msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + "n/a" + " Accepted: " + "n/a";
+                                            msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
+                                            //msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + "n/a" + " Accepted: " + "n/a";
                                         
                                         }
                                     }
@@ -97,29 +97,10 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
             if (!store.isLoaded()) store.load();
         var storeGraph = Ext.getStore('LivestatsGraph');
             if (!storeGraph.isLoaded()) storeGraph.load();
-
-        //Function to check for now stuff
-        var task = Ext.create('Ext.util.DelayedTask', function() {
-        var store = Ext.getStore('Livestats');
-        store.load();
-        //store.refresh();
-        store = Ext.getStore('LivestatsGraph').load();    // Assuming your list component is "listComp"
-        //store.refresh();        
-        //Ext.Msg.alert('refreshed');
-        // The task will be called after each 10000 ms
-        //task.delay(1000);
-        }, this);
-     
-        //The function will start after 0 milliseconds
-        //so we want to start instantly at first
-        //var time = Ext.getView('settings').RefreshRate;
-        //popup.add(time);
-        //popup.show();
-        task.delay(1000);
          
         //to stop the task, just call the cancel method
         //task.cancel();
         //store.add(allStudents);
-        //this.callParent();
+        this.callParent();
     }
 });

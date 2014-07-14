@@ -20,6 +20,11 @@ Ext.define('OnlineJudges.view.judge.Home', {
                 },
                 {
                     align: 'right',
+                    itemId: 'judgeGraphBtn',
+                    text: 'Stats'
+                },
+                {
+                    align: 'right',
                     hidden: true,
                     itemId: 'submitBtn',
                     text: 'Submit',

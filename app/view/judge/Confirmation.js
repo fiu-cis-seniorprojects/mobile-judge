@@ -131,13 +131,23 @@ Ext.define('OnlineJudges.view.judge.Confirmation', {
                                 placeHolder: 'email@example.com'
                             },
                             {
-                                placeHolder: 'Password',
-                                name: 'Password'
-                            },
-                            {
-                                placeHolder: 'Retype Password',
-                                name: 'Confirm'
-                            }
+                                xtype: 'fieldset',
+                                title: 'If you already have an account, type any password but login with your existing password.',
+                                margin: '.5em .5em 1.5em',
+                                defaults: {
+                                    xtype: 'passwordfield'
+                                },
+                                items: [
+                                    {
+                                        placeHolder: 'Password',
+                                        name: 'Password'
+                                    },
+                                    {
+                                        placeHolder: 'Retype Password',
+                                        name: 'Confirm'
+                                    }
+                                ]
+                            },                            
                         ]
                     }
                 ]
