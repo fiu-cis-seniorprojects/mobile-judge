@@ -490,13 +490,16 @@ Ext.define('OnlineJudges.controller.Admin', {
             navBtn.setText('');
             navBtn.setIconCls('arrow_right');
 
-            var extraEmails = oldValue.down('textareafield[name=extraEmails]');
-            var str = Ext.getStore('ExtraEmails');
-            str.removeAll();
-            var emails = extraEmails.getValue().split(/\n/);
-            for (i = 0; i < emails.length; i++){
-                if(emails[i].length > 0 ) str.add({ Email: emails[i]});
+            var extraEmails = main.down('email textareafield[name=extraEmails]');
+            if (extraEmails !== null) {
+                var str = Ext.getStore('ExtraEmails');
+                str.removeAll();
+                var emails = extraEmails.getValue().split(/\n/);
+                for (i = 0; i < emails.length; i++) {
+                    if (emails[i].length > 0) str.add({ Email: emails[i] });
+                }
             }
+            
            
         } else {
             navBtn.setText('');
@@ -1095,6 +1098,9 @@ Ext.define('OnlineJudges.controller.Admin', {
         navBar = mainView.getNavigationBar();
         this.getLogoutBtn().hide();
 
+        var store = Ext.getStore('Livestats');
+        store.setSorters('id');
+
         mainView.push({
             xtype: 'livestatsGraph'
         });
@@ -1109,7 +1115,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             //store = Ext.getStore('Livestats');
             //store.load();
 
-
+        var store = Ext.getStore('Livestats');
+        store.setSorters('id');
 
         navBar.setTitle("Stats");
         navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";
@@ -1247,6 +1254,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                         popup.hide();
                     }
                 });
+                Ext.Viewport.add(popup);
                 popup.show();
             }
         });

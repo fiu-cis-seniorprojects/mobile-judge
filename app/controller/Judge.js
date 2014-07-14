@@ -5,7 +5,8 @@ Ext.define('OnlineJudges.controller.Judge', {
         views:[
             'judge.Home',
             'judge.Confirmation',
-            'FiuMap'
+            'FiuMap',
+            'judge.JudgeGraph'
         ],
 
         stores: [
@@ -21,7 +22,8 @@ Ext.define('OnlineJudges.controller.Judge', {
             submitBtn: 'judgeHome #submitBtn',
             showMapBtn: 'judgeHome #showMapBtn',
             wizard: 'judgeConfirmation',
-            rolesBtn: 'judgeHome #rolesBtnJudge'
+            rolesBtn: 'judgeHome #rolesBtnJudge',
+            judgeGraphBtn: 'judgeHome #judgeGraphBtn'
         },
 
         control: {
@@ -48,6 +50,10 @@ Ext.define('OnlineJudges.controller.Judge', {
             },
             "adminStudentView #showMapBtn": {
                 tap: 'onShowMapBtnTap'
+            },
+            "judgeHome #judgeGraphBtn":
+            {
+                tap: 'onShowJudgeGraphBtnTap'
             }
         }
     },
@@ -144,6 +150,7 @@ Ext.define('OnlineJudges.controller.Judge', {
         this.getLogoutBtn().show();
         this.getShowMapBtn().show();
         this.getSubmitBtn().hide();
+        this.getJudgeGraphBtn().show();
     },
 
     onJudgeStudentsListShow: function(view){
@@ -213,6 +220,53 @@ Ext.define('OnlineJudges.controller.Judge', {
         });
 
         view.push(Ext.create('widget.formpanel', form).setValues(values));
+    },
+
+    //======================================================================
+    //Livestats stuff
+    //======================================================================
+    onShowJudgeGraphBtnTap: function() {
+        var mainView = this.getJudgeHome(),
+        navBar = mainView.getNavigationBar();
+        this.getLogoutBtn().hide();
+        this.getShowMapBtn().hide();
+        this.getJudgeGraphBtn().hide();
+
+
+        var store = Ext.getStore('Livestats');
+        store.load();
+        store.setSorters('RawGrade', 'ApprovedGrade');
+        
+        var count = 0;
+        for(i = 0; i < store.getAllCount; i++)
+        {
+            if(store.getAt(i).get('RawGrade') == null) {
+                count = count + 1;
+            }
+
+        }
+        if(count < 3)
+        { store.removeAll(); }
+        clearInterval(taskLiveStatsTimer);
+            taskLiveStatsTimer = setInterval(function() {
+                var store = Ext.StoreMgr.lookup('Livestats');
+                    store.load();
+                    for(i = 0; i < store.getAllCount; i++)
+                    {
+                        if(store.getAt(i).get('RawGrade') == null) {
+                            count++;
+                        }
+
+                    }
+                    if(count < 3)
+                    { store.removeAll(); }
+                var str = Ext.StoreMgr.lookup('LivestatsGraph');
+                    str.load();
+            }, 15000);
+
+        mainView.push({
+            xtype: 'judgeGraph'
+        });
     },
     //======================================================================
     //Roles stuff
