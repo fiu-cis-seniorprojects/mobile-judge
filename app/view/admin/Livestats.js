@@ -60,7 +60,7 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
                                     for( i = 0; i < store.getAllCount(); i++)
                                     {
                                         if(store.getAt(i).get('StuName') === record.get('Name') && store.getAt(i).get('StuLName') === record.get('LastName') && store.getAt(i).get('LastName') !== record.get('project')) {
-                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') +"  -- Grade: n/a"; //+ store.getAt(i).get('RawGrade');
+                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') +"  -- "+ store.getAt(i).get('RawGrade');
                                         }
                                     }
                                 }
@@ -69,8 +69,8 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
                                     for( i = 0; i < store.getAllCount(); i++)
                                     {
                                         if(store.getAt(i).get('Name') === record.get('Name')) {
-                                            //msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
-                                            msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + "n/a" + " Accepted: " + "n/a";
+                                            msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
+                                            //msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + "n/a" + " Accepted: " + "n/a";
                                         
                                         }
                                     }

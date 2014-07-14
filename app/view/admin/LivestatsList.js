@@ -10,8 +10,8 @@ Ext.define("OnlineJudges.view.admin.LivestatsList", {
         title: 'LivestatsList',
         iconCls: 'favorites',
         itemTpl:[
-            //'<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: {RawGrade}<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: {ApprovedGrade}<tpl else>Approved: n/a</tpl></td> </tr></table>'
-        '<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: n/a<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: n/a<tpl else>Approved: n/a</tpl></td> </tr></table>'
+            '<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: {RawGrade}<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: {ApprovedGrade}<tpl else>Approved: n/a</tpl></td> </tr></table>'
+            //'<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: n/a<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: n/a<tpl else>Approved: n/a</tpl></td> </tr></table>'
         ],
         store: 'Livestats'
         //onItemDisclosure: false,
