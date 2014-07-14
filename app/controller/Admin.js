@@ -41,7 +41,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'StudentsContacts',
             'JudgesContacts',
             'LoginInstance',
-            'ExtraEmails'
+            'ExtraEmails',
+            'EmailTemplates'
         ],
 
         refs: {
@@ -149,6 +150,12 @@ Ext.define('OnlineJudges.controller.Admin', {
                 uncheck: "onPastStudensUncheck",
                 check: "onPastStudentsCheck"
             },
+            "email button[name=addTemplate]":{
+                tap: 'onAddTemplateTap'
+            },
+            "email button[name=editTemplate]":{
+                tap: 'onEditTemplateTap'
+            },
             "judgesOptions checkboxfield[name=invitedJudges]": {
                 check: 'onInvitedJudgesCheck',
                 uncheck: 'onInvitedJudgesUncheck'
@@ -169,6 +176,13 @@ Ext.define('OnlineJudges.controller.Admin', {
             "emailTemplate": {
                 show: 'onEmailTemplateShow'
             },
+            "emailTemplate tabpanel[name=templateTabs]":{
+                activeitemchange: 'onTemplateTabsItemChange'
+            },
+            "emailTemplate button[name=insertPlaceHolder]":{
+                tap: 'onInsertPlaceHolderTap'
+            },
+
             "adminMain livestats": {
                 show: 'onLivestatsListShow',
                 hide: 'onLivestatsHide'
@@ -208,34 +222,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         this.setStudentsStoreFilter();
     },
     //==============================================================================================
-    onEmailTemplateShow: function(panel){
-        var main = this.getMain();
 
-        tinymce.init({
-            selector: "textarea.tinymce",
-            theme: "modern",
-            width: main.getWidth(),
-            height: 200,
-            plugins: [
-                    "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                    "save table contextmenu directionality emoticons template paste textcolor"
-            ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
-            style_formats: [
-                    { title: 'Bold text', inline: 'b' },
-                    { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
-                    { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
-                    { title: 'Example 1', inline: 'span', classes: 'example1' },
-                    { title: 'Example 2', inline: 'span', classes: 'example2' },
-                    { title: 'Table styles' },
-                    { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
-            ]
-        });
-        panel.tinyMCEinitialized = true;
-        
-        
-    },
     //=============================================================================
     //Handlers for the judgesOptions view
     //=============================================================================
@@ -306,13 +293,65 @@ Ext.define('OnlineJudges.controller.Admin', {
     //===========================================================================================
     //Handlers for the Email view
     //===========================================================================================
+    onEmailTemplateShow: function (panel) {
+        var main = this.getMain();
+        var backBtn = this.getBackBtn();
+        var navBtn = this.getNavBtn();
+        navBtn.setText('Save');
+        backBtn.hide();
+
+        //tinymce.init({
+        //    selector: "textarea.tinymce",
+        //    theme: "modern",
+        //    width: main.getWidth(),
+        //    height: 200,
+        //    plugins: [
+        //            "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+        //            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+        //            "save table contextmenu directionality emoticons template paste textcolor"
+        //    ],
+        //    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+        //    style_formats: [
+        //            { title: 'Bold text', inline: 'b' },
+        //            { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
+        //            { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
+        //            { title: 'Example 1', inline: 'span', classes: 'example1' },
+        //            { title: 'Example 2', inline: 'span', classes: 'example2' },
+        //            { title: 'Table styles' },
+        //            { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
+        //    ]
+        //});
+
+
+
+    },
+    onAddTemplateTap: function(){
+        var main = this.getMain();
+        var navBar = main.getNavigationBar();
+
+        main.push({ xtype: 'emailTemplate' });
+        var navBtn = this.getNavBtn();
+        navBtn.from = 'emailTemplateSave';
+        navBar.setTitle('Template');
+    },
+    onEditTemplateTap: function(){
+        var main = this.getMain();
+        var navBar = main.getNavigationBar();
+        var dropDown = main.down('email selectfield[name=templates]');
+        var template = main.push({ xtype: 'emailTemplate' });
+        template.setRecord(dropDown.getRecord());
+        template.down('fieldset').setRecord(dropDown.getRecord());
+        var navBtn = this.getNavBtn();
+        navBtn.from = 'emailTemplateUpdate';
+        navBar.setTitle('Template');
+    },
     setJudgesStoreFilter: function(){
         var str = Ext.getStore('JudgesContacts');
         var main = this.getMain();
         var curChk = main.down('checkboxfield[name=activeJudges]');
         str.clearFilter();
         str.filterBy(function (record) {
-            var term = record.get('Term')
+            var term = record.get('Term');
             if (curChk.getChecked() === true && term === 'Current') return record;
         });
     },
@@ -323,8 +362,14 @@ Ext.define('OnlineJudges.controller.Admin', {
             pastStudents = main.down('email checkboxfield[name=pastStudents]');
         var termsList = this.getTerms().down('list[name=terms]');
         var terms = termsList.getSelection().map(function (rec) { return rec.get('id') });
+        //str.load();
         str.clearFilter();
+        str.each(function (item) {
+            item.set('Send', true);
+        });
         str.filterBy(function (record) {
+            //var name = record.get('FirstName');
+            //if (name === 'Alicia') return record;
             var term = record.get('Term');
             if ((currentStudents.getChecked() === true && term === 'Current') ||
                 (pastStudents.getChecked() === true && Ext.Array.contains(terms,term))) {
@@ -456,15 +501,41 @@ Ext.define('OnlineJudges.controller.Admin', {
     //===========================================================================================
     onTemplateFieldChange: function (select, newValue, oldValue, eOpts) {
         var main = this.getMain(),
-            navBtn = this.getNavBtn(),
-            backBtn = this.getBackBtn();
-        if (newValue === 'CREATE_NEW') {
-            this.getLogoutBtn().hide();
-            backBtn.hide();
-            main.push({xtype:'emailTemplate'});
-            navBtn.setText('Save');
-            navBtn.setIconCls('');
+           subjectField = main.down('email textfield[name=subject]'),
+           bodyPanel = main.down('email panel[name=bodyPanel]');
+        var record = select.getRecord();
+        var subject;
+        var body;
+        if (record !== null) {
+            subject = record.get('Subject');
+            body = record.get('Body');
+        } else {
+            subject = '';
+            body = '';
         }
+        subjectField.setValue(subject);
+        bodyPanel.setHtml(body);
+    },
+    onTemplateTabsItemChange: function(tabpanel, newValue, oldValue ){
+        if (newValue.name === 'preview') {
+            var main = this.getMain();
+            var textArea = main.down('emailTemplate textareafield[name=Body]')
+            var prevPanel = main.down('emailTemplate panel[name=preview]');
+            prevPanel.setHtml(textArea.getValue().replace(/\n/, "<br/>"));
+            //
+        }
+    },
+    onInsertPlaceHolderTap: function(){
+        var main = this.getMain();
+        var textArea = main.down('emailTemplate textareafield[name=Body]');
+        var dropDown = main.down('emailTemplate selectfield[name=placeHolders]');
+        var placeHolder = dropDown.getValue();
+        var selectionStart = textArea.element.select('textarea').elements[0].selectionStart;
+        var currentText = textArea.getValue();
+        var firstHalf = currentText.substring(0, selectionStart);
+        var secondHalf = currentText.substring(selectionStart, currentText.length)
+        var final = firstHalf.concat(placeHolder).concat(secondHalf);
+        textArea.setValue(final);
     },
     //===========================================================================================
     //Handlers for the email view
@@ -720,10 +791,10 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
     },
 
-    onNavBtnTap: function (button) {
+    onNavBtnTap: function () {
         var me = this,
             mainView = me.getMain();
-
+        var button = this.getNavBtn();
         if (button.from === 'homeTab') {
             Ext.php.Settings.getSummary(function (data) {
                 mainView.down('adminHome').setValues(data);
@@ -889,17 +960,68 @@ Ext.define('OnlineJudges.controller.Admin', {
                 }
             });
         }
-
-
-
         else if (button.from === "Email") {
-            var email = this.getMain().down("email");
+            var email = me.getMain().down("email");
             if (email.getActiveItem().name === 'sendPanel') {
-                Ext.Msg.Alert("Not yet", "Not implemented yet", Ext.emptyFN)
+                Ext.Msg.alert("Not yet", "Not implemented yet", Ext.emptyFN)
             } else {
                 email.next();
             }
 
+        } else if (button.from === 'emailTemplateSave') {
+            var main = this.getMain();
+            var title = main.down('emailTemplate textfield[name=TemplateTitle]');
+            var subject = main.down('emailTemplate textfield[name=Subject]');
+            var body = main.down('emailTemplate textareafield[name=Body]');
+            var htmlBody = body.getValue().replace(/\n/, "<br/>");
+            Ext.php.Email.addTemplate(title.getValue(),subject.getValue(),htmlBody,
+                function (result) {
+                    if (result.success === true) {
+                        Ext.Msg.alert("Confirmation", "A new template was created successfully", 
+                            function () {
+                                mainView.pop();
+                                me.onHomeBack();
+                                Ext.getStore('EmailTemplates').load();
+
+                            });
+                    } else {
+                        Ext.Msg.alert("Error", result.msg, Ext.emptyFN);
+                    }             
+                });
+            
+        } else if (button.from === 'emailTemplateUpdate') {
+            var main = this.getMain();
+            var template = main.down('emailTemplate');
+            var title = main.down('emailTemplate textfield[name=TemplateTitle]');
+            var subject = main.down('emailTemplate textfield[name=Subject]');
+            var body = main.down('emailTemplate textareafield[name=Body]');
+            var htmlBody = body.getValue().replace(/\n/, "<br/>");
+
+            var values = {
+                TemplateID: template.getRecord().get('TemplateID'),
+                TemplateTitle: title.getValue(),
+                Subject: subject.getValue(),
+                Body: htmlBody
+            };
+            
+            Ext.php.Email.updateTemplate(values,
+                function (result) {
+                    if (result.success === true) {
+                        
+                        Ext.Msg.alert("Confirmation", "Email template updated succesfully",
+                            function () {
+                                mainView.pop();
+                                me.onHomeBack();
+                                Ext.getStore('EmailTemplates').load();
+                                var select = main.down('email selectfield[name=templates]');
+                                select.setValue(null);
+                            });
+                    } else {
+                        Ext.Msg.alert('Error', result.msg, Ext.emptyFN);
+                    }
+                });
+
+           
         }
     },
 
@@ -1041,12 +1163,13 @@ Ext.define('OnlineJudges.controller.Admin', {
             navBtn.from = 'studentJudges';
         }
 
-        else if (navBtn.from === 'Email') {
+        else if (navBtn.from === 'emailTemplateSave' || navBtn.from === 'emailTemplateUpdate') {
             navBar.setTitle('Email');
             navBtn.setText('Send');
-            this.getLogoutBtn().show();
             var backBtn = this.getBackBtn();
             backBtn.show();
+            this.getLogoutBtn().hide();
+            navBtn.from = 'Email'
         }
 
         else if (navBtn.from === 'questionsView') {

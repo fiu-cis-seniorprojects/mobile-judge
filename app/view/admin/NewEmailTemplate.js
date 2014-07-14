@@ -1,41 +1,83 @@
 Ext.define('OnlineJudges.view.admin.NewEmailTemplate', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.form.Panel',
     alias: 'widget.emailTemplate',
     scrollable: true,
-
     config: {
         items: [
             {
-                xtype: 'fieldset',
-                items: [
-                    {
-                        xtype: 'selectfield',
-                        label: 'Fields:',
-                        options: [
-                            { text: 'Sender\'s email', value: 'sender email' },
-                            { text: 'Sender\'s Name', value: 'sender name' },
-                            { text: 'Recipient\'s email', value: 'recipient email' },
-                            { text: 'Recipient\'s Name', value: 'recipient name' },
-                            { text: 'Recipient\'s Last Name', value: 'recipient last name' },
-                            { text: 'Recipient\'s Title', value: 'recipient title' }
+                xtype: 'textfield',
+                name: 'TemplateTitle',
+                label: 'Title'
+            },
+            {
+                xtype: 'textfield',
+                name: 'Subject',
+                label: 'Subject'
+            },
+            {
+                xtype: 'selectfield',
+                name: 'placeHolders',
+                label: 'Fields:',
+                options: [
+                    { text: 'Sender\'s email', value: 'SENDER_EMAIL' },
+                    { text: 'Sender\'s Name', value: 'SENDER_NAME' },
+                    { text: 'Recipient\'s email', value: 'RECIPIENT_EMAIL' },
+                    { text: 'Recipient\'s Name', value: 'RECIPIENT_NAME' },
+                    { text: 'Recipient\'s Last Name', value: 'RECIPIENT_LAST_NAME' },
+                    { text: 'Recipient\'s Title', value: 'recipient title' }
 
-                        ]
-                    } 
                 ]
-
             }, {
                 xtype: 'button',
-                ui: 'action',
+                name: 'insertPlaceHolder',
                 text: 'Insert',
                 margin: 10
             },
-             {
-                xtype: 'panel',
-                margin: 10,
-                name: 'preview',
-                border: 1,
-                html: ['<form method="post"><textarea class="tinymce" name="area"></textarea></form>'],
-                styleHtmlContent: true
+            {
+                xtype: 'tabpanel',
+                name: 'templateTabs',
+                layout: {
+                    type: 'card',
+                    animation: null
+                },
+                margin: '5 5 5 5',
+                height: '350px',
+                items: [
+                    {
+                        title: 'Edit',
+                        xtype: 'panel',
+                        items: [
+                            {
+                                xtype: 'fieldset',
+                                name: 'bodyFieldset',
+                                items: [
+                                    {
+                                        xtype: 'textareafield',
+                                        name: 'Body',
+                                        itemId:'templateBody',
+                                        label: 'Body',
+                                        labelAlign: 'top',
+                                        height: '320px'
+                                    }
+                                ]
+                            }
+                        ]
+
+                    },
+                    {
+                        title: 'Preview',
+                        name: 'preview',
+                        height: '350px',
+                        items: [
+                            {
+                                xtype: 'panel',
+                                name: 'preview',
+                                styleHtmlContent: true
+                            }
+                        ]
+                    }
+                ]
+
             }
         ]
     }
