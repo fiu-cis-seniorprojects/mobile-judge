@@ -1587,7 +1587,6 @@ Ext.define('OnlineJudges.controller.Admin', {
         Ext.Msg.confirm('Add Role', 'Are you sure you want to add this role?', function (btn) {
             if (btn === 'yes') {
                 if (role === "judge" && from === "student") {
-                    Ext.Msg.alert("From student");
                     Ext.php.Invites.send(user, function (result) {
                         var msg = result.success ? "Invitation successfully sent" : "Failed to send invitation",
                             store = Ext.getStore('Invitations');
