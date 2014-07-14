@@ -185,7 +185,6 @@ Ext.define('OnlineJudges.view.admin.Email', {
             }, {
                 xtype: 'panel',
                 name: 'sendPanel',
-                scrollable: true,
                 margin: '5 5 5 5',
                 items: [
                     {
@@ -193,17 +192,42 @@ Ext.define('OnlineJudges.view.admin.Email', {
                         items: [
                             {
                                 xtype: 'selectfield',
+                                name: 'templates',
                                 label: 'Template:',
-                                options: [
-                                    { text: 'First Option', value: 'first' },
-                                    { text: 'Second Option', value: 'second' },
-                                    { text: 'Third Option', value: 'third' },
-                                    { text: 'Create a new one', value: 'CREATE_NEW'}
-                                ]
+                                store: 'EmailTemplates',
+                                displayField: 'TemplateTitle',
+                                autoSelect: false
                             }, {
                                 xtype: 'textfield',
+                                name: 'subject',
                                 label: 'Subject:',
                                 name: 'subject'
+                            }, {
+                                xtype: 'panel',
+                                layout: 'hbox',
+                                margin: '5 5 5 5',
+                                items: [
+                                    {
+                                        xtype: 'button',
+                                        name: 'editTemplate',
+                                        docked: 'right',
+                                        iconCls: 'compose',
+                                        margin: '5 5 5 5',
+                                    },
+                                    {
+                                        xtype: 'button',
+                                        name: 'addTemplate',
+                                        docked: 'right',
+                                        iconCls: 'add',
+                                        margin: '5 5 5 5',
+                                    }
+                                ]
+                            }, {
+                                xtype: 'panel',
+                                name: 'bodyPanel',
+                                scrollable: true,
+                                styleHtmlContent: true,
+                                minHeight: '300px'
                             }
                         ]
                     }
@@ -227,6 +251,9 @@ Ext.define('OnlineJudges.view.admin.Email', {
 
         var extraStr = Ext.getStore('ExtraEmails');
         if (!extraStr.isLoaded()) extraStr.load();
+
+        var tplStr = Ext.getStore('EmailTemplates');
+        if(!tplStr.isLoaded()) tplStr.load()
         
     }
 
