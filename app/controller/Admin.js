@@ -891,6 +891,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             navBtn.hide();
             GradeSaveBtn = this.getGradeSaveBtn();
             GradeSaveBtn.show();
+            store = Ext.getStore('PendingGrades');
+            store.load();
 
         }
     },

@@ -49,7 +49,23 @@ Ext.define('OnlineJudges.view.admin.Main', {
                     align: 'right',
                     hidden: true,
                     text: 'Save',
-                    itemId: 'GradeSaveBtn'
+                    itemId: 'GradeSaveBtn',
+                    listeners: {
+                        tap: function() {
+                            var store = Ext.getStore('PendingGrades');
+                            for(i =0; i < store.getAllCount();i++)
+                            {
+                                        Ext.php.PendingGrades.setAccept(store.getAt(i).get('id'), store.getAt(i).get('StudentId'), store.getAt(i).get('Accepted'), function (result) {
+                                            //main.setMasked(false);
+
+                                            if (result.success === true) {
+                                                
+                                            }
+                                            else Ext.Msg.alert('Error', result.msg, Ext.emptyFn);
+                                        });
+                            }
+                        }
+                    }
                 }
             ]
         },

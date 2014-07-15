@@ -17,43 +17,37 @@ class PendingGrades {
         return array('total'=>count($res), 'data'=>$res);
     }
 
-    public function getByStudent($studentId) {
+    public function setAccept($judgeId, $studentId, $acceptance) {
         $db = new Database();
 
-        $db->select('Users','Judges.id,Users.Email,Users.FirstName,Users.LastName,Judges.Title,Judges.Affiliation,JudgeStudentGrade.QuestionValues,JudgeStudentGrade.Grade,JudgeStudentGrade.Accepted,JudgeStudentGrade.Comments,JudgeStudentGrade.StudentId',
-                    'Judges ON Users.JudgeId = Judges.id JOIN JudgeStudentGrade ON Users.JudgeId = JudgeStudentGrade.JudgeId',
-                    'JudgeStudentGrade.StudentId = '.$studentId);
+        $success = $db->update('JudgeStudentGrade', array('Accepted' => $acceptance ? 1 : 0), 'JudgeId = '.$judgeId.' and StudentId = '.$studentId);
+        $msg = $db->getResult();
+        if (!$success) return array('success'=> false, 'msg' => $msg);
 
+        $db->select('JudgeStudentGrade', 'Grade, Accepted', null, 'StudentId = '.$studentId);
         $res = $db->getResult();
-        if (array_key_exists('id', $res)) $res=array($res);
-        return array('total'=>count($res), 'data'=>$res);
+        if (array_key_exists('Grade', $res)) $res=array($res);
+
+        $grade = 0; $reviewed = 0; $accepted = 0; $total = 0;
+        foreach($res as $judge) {
+            $total++;
+            if (is_null($judge['Accepted'])) continue;
+            if (intval($judge['Accepted']) === 1) {
+                $accepted++;
+                $grade += intval($judge['Grade']);
+            }
+            $reviewed++;
+        }
+
+        if ($total == $reviewed && $accepted > 0) {
+            $grade /= $accepted;
+
+            $db->update('Students',array('Grade'=>$grade),'id = '.$studentId);
+            return array('success'=> true, 'grade' => $grade);
+        }
+        else {
+            $db->sql('UPDATE Students SET Grade = NULL WHERE id = '.$studentId.';');
+            return array('success'=> true, 'grade' => null);
+        }
     }
-
-    public function gradeStudent($judgeId, $studentId, $questions, $comments) {
-        $db = new Database();
-
-        $db->select('JudgeStudentGrade','Accepted',null,'JudgeId = '.$judgeId.' and StudentId = '.$studentId);
-        $res = $db->getResult();
-
-        if (count($res) > 0 && $res['Accepted'] == 1) return false;
-
-        $db->sql('UPDATE Students SET Grade = NULL WHERE id = '.$studentId.';');
-        $db->delete('JudgeStudentGrade','JudgeId = '.$judgeId.' and StudentId = '.$studentId);
-
-        $grade = 0;
-        foreach($questions as $value)
-            $grade += $value;
-
-        $db->insert('JudgeStudentGrade', array(
-            'JudgeId' => $judgeId,
-            'StudentId' => $studentId,
-            'QuestionValues' => json_encode($questions),
-            'Grade' => $grade,
-            'Comments' => $comments
-        ));
-
-        return $grade;
-    }
-
- 
 }
