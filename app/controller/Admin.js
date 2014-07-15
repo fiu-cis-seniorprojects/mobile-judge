@@ -28,7 +28,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'admin.LivestatsList',
             'admin.StatsList',
             'admin.LivestatsGraph',
-            'admin.TermsList'
+            'admin.TermsList',
+            'admin.PastJudgesOptions'
         ],
         stores: [
             'Questions',
@@ -55,6 +56,11 @@ Ext.define('OnlineJudges.controller.Admin', {
                 autoCreate: true,
                 selector: 'judgesOptions',
                 xtype: 'judgesOptions'
+            },
+            pastJudgesOptions: {
+                autoCreate: true,
+                selector: 'pastJudgesOptions',
+                xtype: 'pastJudgesOptions'
             },
             emailTemplate: {
                 autoCreate: true,
@@ -174,6 +180,9 @@ Ext.define('OnlineJudges.controller.Admin', {
                 check: 'onDeclinedJudgesCheck'
                 
             },
+            "judgesOptions button[name=ok]":{
+                tap: 'onJudgesOptionOKTap'
+            },
             "emailTemplate": {
                 show: 'onEmailTemplateShow'
             },
@@ -206,9 +215,17 @@ Ext.define('OnlineJudges.controller.Admin', {
             "termsList button[name=OKBtn]": {
                 tap: 'onTermsOKTab'
 
+            },
+            "pastJudgesOptions button[name=OKBtn]": {
+                tap: 'onPastJOptionsOKTap'
             }
 
         }
+    },
+    onPastJOptionsOKTap: function(){
+        var pjo = this.getPastJudgesOptions();
+        pjo.hide();
+        this.setJudgesStoreFilter();
     },
     //Funtion used in the TermsList view
     //==============================================================================================
@@ -217,8 +234,16 @@ Ext.define('OnlineJudges.controller.Admin', {
         var terms = this.getTerms();
         var list = terms.down('list[name=terms]');
         var chb = main.down('email checkboxfield[name=pastStudents]');
-        if (list.getSelectionCount() > 0) chb.check();
-        else chb.uncheck();
+        //var current = main.down('email checkboxfield[name=activeStudents]');
+        var all = main.down('email checkboxfield[name=allStudents]');
+
+        if (list.getSelectionCount() > 0) {
+            chb.check();
+        }
+        else {
+            chb.uncheck();
+            all.uncheck();
+        }
         terms.hide();
         this.setStudentsStoreFilter();
     },
@@ -227,6 +252,97 @@ Ext.define('OnlineJudges.controller.Admin', {
     //=============================================================================
     //Handlers for the judgesOptions view
     //=============================================================================
+    onJudgesOptionOKTap: function(){
+        var jOptions = this.getJudgesOptions();
+        var pendingChk = jOptions.down('checkboxfield[name=pendingJudges]');
+        var acceptedChk = jOptions.down('checkboxfield[name=acceptedJudges]');
+        var declinedChk = jOptions.down('checkboxfield[name=declinedJudges]');
+
+        var main = this.getMain();
+        var activeJudges = main.down('checkboxfield[name=activeJudges]');
+        if (pendingChk.getChecked() === false && acceptedChk.getChecked() === false
+            && declinedChk.getChecked() === false)
+            activeJudges.uncheck();
+        jOptions.hide();
+    },
+    setJudgesStoreFilter: function () {
+        var str = Ext.getStore('JudgesContacts');
+        var main = this.getMain();
+        var activeJudges = main.down('checkboxfield[name=activeJudges]');
+        var pastJudges = main.down('checkboxfield[name=pastJudges]');
+        var jOptions = this.getJudgesOptions();
+        var pendingChk = jOptions.down('checkboxfield[name=pendingJudges]');
+        var acceptedChk = jOptions.down('checkboxfield[name=acceptedJudges]');
+        var declinedChk = jOptions.down('checkboxfield[name=declinedJudges]');
+
+        var pastJO = this.getPastJudgesOptions();
+        var pastTermsList = pastJO.down('list[name=terms]');
+        var pastTerms = pastTermsList.getSelection().map(function (rec) { return rec.get('id') });
+        var pastPending = pastJO.down('checkboxfield[name=pendingJudges]');
+        var pastAccepted = pastJO.down('checkboxfield[name=acceptedJudges]');
+        var pastDeclined = pastJO.down('checkboxfield[name=declinedJudges]');
+
+
+        str.clearFilter();
+        str.load();
+        //str.each(function (item) {
+        //    item.set('Send', true);
+        //});
+
+        str.filterBy(function (record) {
+            var terms = record.get('Term').split(',');
+            var resp = record.get('Response');
+            var responses = resp.split(',');
+
+            if (activeJudges.getChecked() === true) {
+                //Check if it is pending
+                if (pendingChk.getChecked() === true) {
+                    for (var i = 0; i < terms.length; i++) {
+                        if (terms[i] === "Current" && responses[i] === '-1')
+                            return record;
+                    }
+                }
+                //Checking accepted
+                if (acceptedChk.getChecked() === true && responses !== null) {
+                    for (var i = 0; i < terms.length; i++) {
+                        if (terms[i] === "Current" && responses[i] === '1')
+                            return record;
+                    }
+                }
+                //Check declined
+                if (declinedChk.getChecked() === true && responses !== null) {
+                    for (var i = 0; i < terms.length; i++) {
+                        if (terms[i] === "Current" && responses[i] === '0')
+                            return record;
+                    }
+                }
+            } else if (pastJudges.getChecked() === true) {
+                for (var i = 0; i < terms.length; i++) {
+                    var wasTermSelected = false;
+                    for (var j = 0; j < pastTerms.length; j++)
+                        if (pastTerms[j] === terms[i]) wasTermSelected = true;
+                    if (!wasTermSelected) continue;
+
+                    //Checking past pending
+                    if (pastPending.getChecked() === true && responses[i] === '-1') {
+                        return record;
+                    }
+
+                    //Checking past accepted
+                    if (pastAccepted.getChecked() === true && responses[i] === '1') {
+                        return record;
+                    }
+
+                    //Checking past declined
+                    if (pastDeclined.getChecked() === true && responses[i] === '0') {
+                        return record;
+                    }
+                }
+            }
+
+            
+        });
+    },
     onDeclinedJudgesCheck:function(chk, e, eO){
         if (Ext.isDefined(e)) {
             var jo = this.getJudgesOptions(),
@@ -237,6 +353,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 invitedJudges.check();
             }
         }
+        this.setJudgesStoreFilter();
     }, 
     onAcceptedJudgesCheck: function(chk, e, eO){
         if (Ext.isDefined(e)) {
@@ -248,6 +365,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 invitedJudges.check();
             }
         }
+        this.setJudgesStoreFilter();
     },
     onPendingJudgesCheck: function(chk,e,eO){
         if (Ext.isDefined(e)) {
@@ -260,6 +378,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             }
 
         }
+        this.setJudgesStoreFilter();
     },
     onPendingJudgesUncheck: function (chk, e, eO) {
         if (Ext.isDefined(e)) {
@@ -267,6 +386,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 invitedJudges = jo.down('checkboxfield[name=invitedJudges]');
             invitedJudges.uncheck();
         }
+        this.setJudgesStoreFilter();
     },
     onInvitedJudgesUncheck: function(chk, e, eO){
         if (Ext.isDefined(e)) {
@@ -278,6 +398,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             acceptedJudges.uncheck();
             declinedJudges.uncheck();
         }
+        this.setJudgesStoreFilter();
     },
     onInvitedJudgesCheck: function (chk, e, eO) {
         if (Ext.isDefined(e)) {
@@ -346,16 +467,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         navBtn.from = 'emailTemplateUpdate';
         navBar.setTitle('Template');
     },
-    setJudgesStoreFilter: function(){
-        var str = Ext.getStore('JudgesContacts');
-        var main = this.getMain();
-        var curChk = main.down('checkboxfield[name=activeJudges]');
-        str.clearFilter();
-        str.filterBy(function (record) {
-            var term = record.get('Term');
-            if (curChk.getChecked() === true && term === 'Current') return record;
-        });
-    },
+   
     setStudentsStoreFilter: function () {
         var str = Ext.getStore('StudentsContacts');
         var main = this.getMain(),
@@ -365,17 +477,15 @@ Ext.define('OnlineJudges.controller.Admin', {
         var terms = termsList.getSelection().map(function (rec) { return rec.get('id') });
         //str.load();
         str.clearFilter();
-        str.each(function (item) {
-            item.set('Send', true);
-        });
+        str.load();
         str.filterBy(function (record) {
-            var name = record.get('FirstName');
-            if (name === 'Alicia') return record;
-            //var term = record.get('Term');
-            //if ((currentStudents.getChecked() === true && term === 'Current') ||
-            //    (pastStudents.getChecked() === true && Ext.Array.contains(terms,term))) {
-            //    return record;
-            //}
+            //var name = record.get('FirstName');
+            //if (name === 'Alicia') return record;
+            var term = record.get('Term');
+            if ((currentStudents.getChecked() === true && term === 'Current') ||
+                (pastStudents.getChecked() === true && Ext.Array.contains(terms,term))) {
+                return record;
+            }
         });
     },
     onPastJudgesChecked: function (chk, e, eO) {
@@ -386,6 +496,9 @@ Ext.define('OnlineJudges.controller.Admin', {
             if (currentJudges.getChecked()) {
                 allJudges.check();
             }
+            var pJO = this.getPastJudgesOptions();
+            var pastJudges = main.down('email checkboxfield[name=pastJudges]');
+            pJO.showBy(pastJudges);
         }
     },
     onPastStudentsCheck: function (chk, e, eO) {
@@ -442,6 +555,12 @@ Ext.define('OnlineJudges.controller.Admin', {
                         judgesOptions = this.getJudgesOptions();
                 
             allJudgesCk.uncheck();
+            var invited = judgesOptions.down('checkboxfield[name=invitedJudges]');
+            invited.uncheck();
+            var pending = judgesOptions.down('checkboxfield[name=pendingJudges]');
+            pending.uncheck();
+            var declined = judgesOptions.down('checkboxfield[name=declinedJudges]');
+            declined.uncheck();
             judgesOptions.hide();
 
         }
@@ -459,7 +578,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             var judgesOptions = this.getJudgesOptions();
             judgesOptions.showBy(chkBox);
         }
-        this.setJudgesStoreFilter();
+        
         
     },
     onAllJudgesUnchecked: function (chk, e, eO) {
@@ -962,6 +1081,25 @@ Ext.define('OnlineJudges.controller.Admin', {
             });
         }
         else if (button.from === "Email") {
+            var sendFunction = function (r) {
+                var to = r.get('Email');
+                var fname = r.get('FirstName');
+                var lname = r.get('LastName');
+                var subject = template.get('Subject');
+                var body = template.get('Body');
+                var bodyReady = body.replace('RECIPIENT_NAME', name).
+                    replace('RECIPIENT_LAST_NAME', lname).
+                    replace('RECIPIENT_EMAIL', to).
+                    replace('SENDER_NAME', 'Masoud Sadjadi').
+                    replace('SENDER_EMAIL', 'sadjadi@cs.fiu.edu');
+                var from = ' Masoud Sadjadi <sadjadi@cs.fiu.edu>';
+                Ext.php.Email.sendEmail(to, subject, bodyReady, from,
+                    function (result) {
+                        //Ext.Msg.alert(result);
+                    });
+
+            };
+             
             var email = me.getMain().down("email");
             if (email.getActiveItem().name === 'sendPanel') {
                 var templateSelect = email.down('selectfield[name=templates]');
@@ -970,24 +1108,11 @@ Ext.define('OnlineJudges.controller.Admin', {
                     Ext.Msg.alert("Error", "Please select a template", Ext.emptyFN);
                 } else {
                      var studentsStr = Ext.getStore('StudentsContacts');
-                     studentsStr.each(function (r) {
-                         var to = r.get('Email');
-                         var fname = r.get('FirstName');
-                         var lname = r.get('LastName');
-                         var subject = template.get('Subject');
-                         var body = template.get('Body');
-                         var bodyReady = body.replace('RECIPIENT_NAME', name).
-                             replace('RECIPIENT_LAST_NAME', lname).
-                             replace('RECIPIENT_EMAIL', to).
-                             replace('SENDER_NAME', 'Masoud Sadjadi').
-                             replace('SENDER_EMAIL', 'sadjadi@cs.fiu.edu');
-                         var from = ' Masoud Sadjadi <sadjadi@cs.fiu.edu>';
-                         Ext.php.Email.sendEmail(to, subject, bodyReady, from,
-                         function (result) {
-                             Ext.Msg.alert(result.success);
-                         });
-
-                     });
+                     studentsStr.each(sendFunction);
+                     var extraEStr = Ext.getStore('ExtraEmails');
+                     extraEStr.each(sendFunction);
+                     var judgeStore = Ext.getSelection('JudgesContacts');
+                     judgeStore.each(sendFunction);
                 }
 
                

@@ -41,15 +41,11 @@ Ext.define('OnlineJudges.view.admin.JudgesOptions', {
             },
             {
                 xtype: 'button',
+                name: 'ok',
                 ui: 'action',
                 margin: 5,
                 text: 'OK',
-                listeners: {
-                    tap: function (btn) {
-                        var judgesOptions = btn.up('judgesOptions');
-                        judgesOptions.hide();
-                    }
-                }
+         
             }
         ]
     }
