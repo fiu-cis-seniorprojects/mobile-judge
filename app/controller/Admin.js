@@ -222,7 +222,6 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "pastJudgesOptions button[name=OKBtn]": {
                 tap: 'onPastJOptionsOKTap'
-            }
             },
             "settings #myDefaultRoleBtn": {
                 tap: 'onMyDefaultRoleBtnTap'
