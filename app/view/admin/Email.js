@@ -180,12 +180,23 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     filters: [{
                         property: 'Term',
                         value: 'Not display'
-                    }]
+                    }],
+                    listeners: {
+                        itemtap: function (item, num, ev, record) {
+                            var flag = record.get('Send');
+                            if (flag === true) {
+                                record.set('Send', false);
+                            } else {
+                                record.set('Send', true);
+                            }
+                        }
+                    }
                 }]
             }, {
                 xtype: 'panel',
                 name: 'sendPanel',
                 margin: '5 5 5 5',
+                scrollable:true,
                 items: [
                     {
                         xtype: 'fieldset',
@@ -229,6 +240,7 @@ Ext.define('OnlineJudges.view.admin.Email', {
                                 styleHtmlContent: true,
                                 minHeight: '300px'
                             }
+
                         ]
                     }
                 ]
