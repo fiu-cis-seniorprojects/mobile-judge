@@ -195,6 +195,14 @@ Ext.define('OnlineJudges.view.admin.Settings',{
             },
             {
                 xtype: 'button',
+                itemId: 'myDefaultRoleBtn',
+                ui: 'action-round',
+                text: 'Default Role',
+                margin: '10 10 10 10'
+
+            },
+            {
+                xtype: 'button',
                 ui: 'decline',
                 itemId: 'resetBtn',
                 text: 'Reset App',
