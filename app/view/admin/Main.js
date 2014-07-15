@@ -80,6 +80,9 @@ Ext.define('OnlineJudges.view.admin.Main', {
                             },
                             {
                                 xtype: 'adminInvitations'
+                            },
+                            {
+                                xtype: 'pendingGrades'
                             }
                         ]
                     },

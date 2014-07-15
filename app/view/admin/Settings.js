@@ -169,7 +169,7 @@ Ext.define('OnlineJudges.view.admin.Settings',{
                         maxValue: 60,
                         minValue: 0,
                         stepValue: 1,
-                        defaultValue: 15
+                        defaultValue: 0
                     }
                 ]
             },

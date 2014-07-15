@@ -13,6 +13,7 @@ require_once 'Students.php';
 require_once 'Livestats.php';
 require_once 'Email.php';
 require_once 'LoginMain.php';
+require_once 'PendingGrades.php';
 
 ExtDirect::$allowCors = true;
-ExtDirect::provide( array('Settings','Judges','Students','Invites','Questions', 'Livestats','Email','LoginMain'/*,'History'*/) );
+ExtDirect::provide( array('Settings','Judges','Students','Invites','Questions', 'Livestats','Email','LoginMain', 'PendingGrades'/*,'History'*/) );

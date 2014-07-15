@@ -28,7 +28,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'admin.LivestatsList',
             'admin.StatsList',
             'admin.LivestatsGraph',
-            'admin.TermsList'
+            'admin.TermsList',
+            'admin.PendingGrades'
         ],
         stores: [
             'Questions',
@@ -43,7 +44,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             'JudgesContacts',
             'LoginInstance',
             'ExtraEmails',
-            'EmailTemplates'
+            'EmailTemplates',
+            'PendingGrades'
         ],
 
         refs: {
@@ -753,6 +755,12 @@ Ext.define('OnlineJudges.controller.Admin', {
         }
         else if (title === 'Invitations') {
             navBtn.hide();
+        }
+        else if (title === 'Pending Grades'){
+            navBtn.from = "pendingGradesTab";
+            navBtn.setText('Save');
+            navBtn.setIconCls('');
+            navBtn.show();
         }
     },
 
