@@ -1225,16 +1225,19 @@ Ext.define('OnlineJudges.controller.Admin', {
             var main = this.getMain(),
              spinner = main.down('settings spinnerfield[name=RefreshRate]');
 
-             var time = spinner.getValue() * 1000;
+
+            var time = spinner.getValue() * 1000;
             // taskLiveStatsTimer.delay(time);
 
             clearInterval(taskLiveStatsTimer);
-            taskLiveStatsTimer = setInterval(function() {
-                var store = Ext.StoreMgr.lookup('Livestats');
-                    store.load();
-                var str = Ext.StoreMgr.lookup('LivestatsGraph');
-                    str.load();
-            }, time);
+            if(time != 0){
+                taskLiveStatsTimer = setInterval(function() {
+                    var store = Ext.StoreMgr.lookup('Livestats');
+                        store.load();
+                    var str = Ext.StoreMgr.lookup('LivestatsGraph');
+                        str.load();
+                }, time);
+            }
         },
 
     onLivestatsHide: function() {
@@ -1296,6 +1299,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
                             stre.getProxy().setDirectFn(method);
                             stre.load();
+                            LivestatsBtn.setText("Students");
                         
                     }
                 }
@@ -1310,6 +1314,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllProjects');
                             stre.getProxy().setDirectFn(method);
                             stre.load();
+                            LivestatsBtn.setText("Projects");
                         
                     }
                 }
@@ -1737,7 +1742,6 @@ Ext.define('OnlineJudges.controller.Admin', {
         Ext.Msg.confirm('Add Role', 'Are you sure you want to add this role?', function (btn) {
             if (btn === 'yes') {
                 if (role === "judge" && from === "student") {
-                    Ext.Msg.alert("From student");
                     Ext.php.Invites.send(user, function (result) {
                         var msg = result.success ? "Invitation successfully sent" : "Failed to send invitation",
                             store = Ext.getStore('Invitations');

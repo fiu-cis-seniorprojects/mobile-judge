@@ -234,6 +234,8 @@ Ext.define('OnlineJudges.controller.Judge', {
 
 
         var store = Ext.getStore('Livestats');
+        var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
+        store.getProxy().setDirectFn(method);
         store.load();
         store.setSorters('RawGrade', 'ApprovedGrade');
         
