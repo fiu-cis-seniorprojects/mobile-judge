@@ -29,7 +29,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             'admin.StatsList',
             'admin.LivestatsGraph',
             'admin.TermsList',
-            'admin.PendingGrades'
+            'admin.PendingGrades',
             'admin.PastJudgesOptions'
         ],
         stores: [
