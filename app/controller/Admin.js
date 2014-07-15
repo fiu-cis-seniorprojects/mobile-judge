@@ -1119,7 +1119,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                      studentsStr.each(sendFunction);
                      var extraEStr = Ext.getStore('ExtraEmails');
                      extraEStr.each(sendFunction);
-                     var judgeStore = Ext.getSelection('JudgesContacts');
+                     var judgeStore = Ext.getStore('JudgesContacts');
                      judgeStore.each(sendFunction);
                 }
 
