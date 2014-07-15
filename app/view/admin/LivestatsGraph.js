@@ -34,18 +34,20 @@ Ext.define("OnlineJudges.view.admin.LivestatsGraph", {
                 listeners: {
                     //panel.setWidth(400);
                     show: function (me, item, panel) {
-                        panel.setWidth(300);
+                        panel.setWidth('90%');
+                        panel.setHeight('60%');
                         var store = Ext.getStore('LivestatsGraph');
                         var msg = "<br>-------------------------------";
                         if(item.record.data.LastName != null) {
                             for( i = 0; i < store.getAllCount(); i++)
                                     {
                                         if(store.getAt(i).get('StuName') === item.record.data.Name && store.getAt(i).get('StuLName') === item.record.data.LastName && store.getAt(i).get('LastName') !== item.record.data.project) {
-                                            msg += "<br>" + store.getAt(i).get('Name') + " " + store.getAt(i).get('LastName') + " -- "+ store.getAt(i).get('RawGrade');
+                                            //Alert(store.getAt(i).get('Name').toString().charAt(0));
+                                            msg += "<br>" + store.getAt(i).get('Name').toString().charAt(0) + ". " + store.getAt(i).get('LastName') + " -- "+ store.getAt(i).get('RawGrade');
                                         }
                                     }
 
-                            panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + "<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location + msg);
+                            panel.setHtml("<center>" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + "<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location + msg + "</center>");
                             //panel.setWidth(200);
                             //panel.setHtml("" + item.record.data.Name + " " + item.record.data.LastName+"<br>Student ID: " + item.record.data.StudentId + "<br> Raw Grade: n/a <br> Approved Grade: n/a<br> Project: " + item.record.data.project + "<br> Location: " + item.record.data.location + msg);
                         }
@@ -54,13 +56,13 @@ Ext.define("OnlineJudges.view.admin.LivestatsGraph", {
                             for( i = 0; i < store.getAllCount(); i++)
                                     {
                                         if(store.getAt(i).get('Name') === item.record.data.Name) {
-                                            msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
+                                            msg += "<br>" + store.getAt(i).get('StuName').toString().charAt(0) + ". "+ store.getAt(i).get('StuLName') + " -- Raw: " + store.getAt(i).get('RawGrade') + " Accepted: " + store.getAt(i).get('ApprovedGrade');
                                             //msg += "<br>" + store.getAt(i).get('StuName') + " "+ store.getAt(i).get('StuLName') + " -- Raw: n/a Accepted: n/a";
                                         }
                                     }
 
 
-                            panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + msg);
+                            panel.setHtml("<center>" + item.record.data.Name + "<br> Raw Grade: " + item.record.data.RawGrade + "<br> Approved Grade: " + item.record.data.ApprovedGrade + msg + "</center>");
                             //panel.setWidth(200);
                             //panel.setHeight(200);
                             //panel.setHtml("" + item.record.data.Name + "<br> Raw Grade: n/a <br> Approved Grade: n/a" + msg);

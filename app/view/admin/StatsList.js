@@ -12,7 +12,7 @@ Ext.define("OnlineJudges.view.admin.StatsList", {
         itemTpl:[
             //<tpl if= \'id == 2643936\'>TESTER</td><tpl else> --- </tpl> 
             //'<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</tpl> <td width="30%" align="center"><tpl if= \'id == 2643936\'> Raw: {RawGrade}<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'id == 2643936\'>Approved: {ApprovedGrade}<tpl else>Approved: n/a</tpl></td> </tr></table>'
-            '<table width="100%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: {RawGrade}<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: {ApprovedGrade}<tpl else>Approved: n/a</tpl></td> </tr></table>'
+            '<table width="100%"; style="font-size:80%"><tr> <td width="40%" align="left">{Name} {LastName}</td> <td width="30%" align="center"><tpl if= \'RawGrade != null\'> Raw: {RawGrade}<tpl else>Raw: n/a</tpl></td> <td width="30%" align="right"><tpl if= \'ApprovedGrade != null\'>Approved: {ApprovedGrade}<tpl else>Approved: n/a</tpl></td> </tr></table>'
         ],
         store: 'Livestats'
         //onItemDisclosure: false,

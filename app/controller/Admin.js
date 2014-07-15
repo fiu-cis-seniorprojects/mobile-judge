@@ -1272,6 +1272,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
                             stre.getProxy().setDirectFn(method);
                             stre.load();
+                            LivestatsBtn.setText("Students");
                         
                     }
                 }
@@ -1286,6 +1287,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                             var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllProjects');
                             stre.getProxy().setDirectFn(method);
                             stre.load();
+                            LivestatsBtn.setText("Projects");
                         
                     }
                 }

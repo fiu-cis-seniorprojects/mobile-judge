@@ -42,7 +42,7 @@ Ext.define('OnlineJudges.view.admin.Main', {
                 {
                     align: 'right',
                     hidden: true,
-                    text: 'Selection',
+                    text: 'Students',
                     itemId: 'LivestatsBtn'
                 }
             ]
