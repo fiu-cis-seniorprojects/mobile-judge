@@ -369,13 +369,13 @@ Ext.define('OnlineJudges.controller.Admin', {
             item.set('Send', true);
         });
         str.filterBy(function (record) {
-            //var name = record.get('FirstName');
-            //if (name === 'Alicia') return record;
-            var term = record.get('Term');
-            if ((currentStudents.getChecked() === true && term === 'Current') ||
-                (pastStudents.getChecked() === true && Ext.Array.contains(terms,term))) {
-                return record;
-            }
+            var name = record.get('FirstName');
+            if (name === 'Alicia') return record;
+            //var term = record.get('Term');
+            //if ((currentStudents.getChecked() === true && term === 'Current') ||
+            //    (pastStudents.getChecked() === true && Ext.Array.contains(terms,term))) {
+            //    return record;
+            //}
         });
     },
     onPastJudgesChecked: function (chk, e, eO) {
@@ -964,11 +964,38 @@ Ext.define('OnlineJudges.controller.Admin', {
         else if (button.from === "Email") {
             var email = me.getMain().down("email");
             if (email.getActiveItem().name === 'sendPanel') {
-                Ext.Msg.alert("Not yet", "Not implemented yet", Ext.emptyFN)
+                var templateSelect = email.down('selectfield[name=templates]');
+                var template = templateSelect.getRecord();
+                if (!Ext.isDefined(template)) {
+                    Ext.Msg.alert("Error", "Please select a template", Ext.emptyFN);
+                } else {
+                     var studentsStr = Ext.getStore('StudentsContacts');
+                     studentsStr.each(function (r) {
+                         var to = r.get('Email');
+                         var fname = r.get('FirstName');
+                         var lname = r.get('LastName');
+                         var subject = template.get('Subject');
+                         var body = template.get('Body');
+                         var bodyReady = body.replace('RECIPIENT_NAME', name).
+                             replace('RECIPIENT_LAST_NAME', lname).
+                             replace('RECIPIENT_EMAIL', to).
+                             replace('SENDER_NAME', 'Masoud Sadjadi').
+                             replace('SENDER_EMAIL', 'sadjadi@cs.fiu.edu');
+                         var from = ' Masoud Sadjadi <sadjadi@cs.fiu.edu>';
+                         Ext.php.Email.sendEmail(to, subject, bodyReady, from,
+                         function (result) {
+                             Ext.Msg.alert(result.success);
+                         });
+
+                     });
+                }
+
+               
+                //Ext.Msg.alert("Not yet", string, Ext.emptyFN)
             } else {
                 email.next();
             }
-
+       
         } else if (button.from === 'emailTemplateSave') {
             var main = this.getMain();
             var title = main.down('emailTemplate textfield[name=TemplateTitle]');

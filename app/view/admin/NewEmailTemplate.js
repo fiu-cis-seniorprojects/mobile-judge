@@ -24,7 +24,7 @@ Ext.define('OnlineJudges.view.admin.NewEmailTemplate', {
                     { text: 'Recipient\'s email', value: 'RECIPIENT_EMAIL' },
                     { text: 'Recipient\'s Name', value: 'RECIPIENT_NAME' },
                     { text: 'Recipient\'s Last Name', value: 'RECIPIENT_LAST_NAME' },
-                    { text: 'Recipient\'s Title', value: 'recipient title' }
+                    //{ text: 'Recipient\'s Title', value: 'recipient title' }
 
                 ]
             }, {
