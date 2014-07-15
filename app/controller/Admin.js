@@ -69,6 +69,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 xtype: 'emailTemplate',
                 selector: 'emailTemplate'
             },
+            GradeSaveBtn: 'adminMain #GradeSaveBtn',
             LivestatsBtn: 'adminMain #LivestatsBtn',
             rolesBtn: 'adminMain #rolesBtnAdmin',
             studentEmail: 'adminStudentView #studentEmail',
@@ -79,7 +80,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 autoCreate: true,
                 selector: 'termsList',
                 xtype: 'termsList'
-            }
+            },
         },
 
         control: {
@@ -98,7 +99,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "adminMain tabpanel tabpanel": {
                 show: 'onPeopleTabShow',
-                activeitemchange: 'onPeopleTabChange'
+                activeitemchange: 'onPeopleTabChange',
+                hide: 'onPeopleTabHide'
             },
             "adminMain adminStudents": {
                 itemtap: 'onStudentsListTap'
@@ -220,6 +222,9 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "pastJudgesOptions button[name=OKBtn]": {
                 tap: 'onPastJOptionsOKTap'
+            },
+            "settings #myDefaultRoleBtn": {
+                tap: 'onMyDefaultRoleBtnTap'
             }
 
         }
@@ -865,21 +870,33 @@ Ext.define('OnlineJudges.controller.Admin', {
             navBtn.setText("Load");
             navBtn.setIconCls('');
             navBtn.show();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
+
         }
         else if (title === 'Judges') {
             navBtn.from = "judgesTab";
             navBtn.setText('');
             navBtn.setIconCls('add');
             navBtn.show();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
         }
         else if (title === 'Invitations') {
             navBtn.hide();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
         }
         else if (title === 'Pending Grades'){
             navBtn.from = "pendingGradesTab";
-            navBtn.setText('Save');
+            navBtn.setText('');
             navBtn.setIconCls('');
-            navBtn.show();
+            navBtn.hide();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.show();
+            store = Ext.getStore('PendingGrades');
+            store.load();
+
         }
     },
 
@@ -1186,6 +1203,11 @@ Ext.define('OnlineJudges.controller.Admin', {
         }
     },
 
+    onPeopleTabHide: function(tabpanel){
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
+
+    },
     onPeopleTabShow: function (tabpanel) {
         this.onPeopleTabChange(0, tabpanel.getActiveItem());
     },
@@ -1843,6 +1865,77 @@ Ext.define('OnlineJudges.controller.Admin', {
                 }
             }
         });
+        popup.show();
+    },
+
+    onMyDefaultRoleBtnTap: function () {
+        var me = this,
+            store = Ext.getStore('LoginInstance'),
+            user = store.getById(0),
+            email = user.get('email');
+        popup = new Ext.Panel({
+            floating: true,
+            centered: true,
+            modal: true,
+            items: [
+                {
+                    xtype: 'fieldset',
+                    name: 'meDefaultRoleFieldSet',
+                    items: [
+                        {
+                            xtype: 'radiofield',
+                            name: 'DefaultRoleRadio',
+                            label: 'Admin',
+                            labelWrap: true,
+                        },
+                        {
+                            xtype: 'radiofield',
+                            name: 'DefaultRoleRadio',
+                            label: 'Judge',
+                            labelWrap: true,
+                        },
+                        {
+                            xtype: 'radiofield',
+                            name: 'DefaultRoleRadio',
+                            label: 'Student',
+                            labelWrap: true,                            
+                        },
+                    ]
+                },
+                {
+                    xtype: 'button',
+                    docked: 'bottom',
+                    text: 'OK',
+                    handler: function () {
+                        var newDefaultRole = "";
+
+                        if (popup.down('radiofield[label=Admin]').isChecked()) { newDefaultRole = "admin"; }
+                        else if (popup.down('radiofield[label=Judge]').isChecked()) { newDefaultRole = "judge"; }
+                        else if (popup.down('radiofield[label=Student]').isChecked()) { newDefaultRole = "student"; }
+
+                        Ext.php.LoginMain.setDefaultRole(email, newDefaultRole, function (res) {
+                            Ext.Msg.alert("" + res);
+                        });
+                        popup.hide();
+                    }
+                }
+            ]
+        });
+
+        Ext.php.LoginMain.getDefaultRole(email, function (res) {
+            var defaultRole = res.DefaultRole;
+
+            if (defaultRole === "admin") {
+                popup.down('radiofield[label=Admin]').check();
+            }
+            else if (defaultRole === "judge") {
+                popup.down('radiofield[label=Judge]').check();
+            }
+            else if (defaultRole === "student") {
+                popup.down('radiofield[label=Student]').check();
+            }
+        });
+
         popup.show();
     },
 

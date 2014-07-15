@@ -60,6 +60,31 @@ class LoginMain {
         return $res;
     }
     
+    public function getDefaultRole($username) {
+        $db = new Database();
+
+        $db->select('Users', 'Email,FirstName,LastName,StudentId,JudgeId,Roles,DefaultRole', null, "Email ='".$username."';");
+        $res = $db->getResult();
+        
+        if (count($res) == 0) return null;
+
+        return $res;
+    }
+    
+    public function setDefaultRole($username, $newDefaultRole) {
+        $db = new Database();
+
+        $db->select('Users', 'Email,FirstName,LastName,StudentId,JudgeId,Roles,DefaultRole', null, "Email ='".$username."';");
+        $res = $db->getResult();
+        
+        if (count($res) == 0) return null;
+
+        $success = $db->update('Users', array('DefaultRole'=>$newDefaultRole), "Email ='".$username."';");
+        if (!$success) return "Set Default Failed!";
+    
+        return "Set Default Successful";
+    }
+    
     public function removeRole($username, $role) {
         $db = new Database();
         
