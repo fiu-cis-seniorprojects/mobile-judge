@@ -62,4 +62,8 @@ class Email {
 		if(!$success) return array('success'=>false,'msg'=>$db->getResult());
 		return array('success'=>true, 'data'=>$template);
 	}
+	public function sendEmail($to, $subject, $body, $from){
+		$sent = mail($to, $subject, $body, "From: ".$from);
+		return $sent;
+	}
 }
