@@ -69,6 +69,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 xtype: 'emailTemplate',
                 selector: 'emailTemplate'
             },
+            GradeSaveBtn: 'adminMain #GradeSaveBtn',
             LivestatsBtn: 'adminMain #LivestatsBtn',
             rolesBtn: 'adminMain #rolesBtnAdmin',
             studentEmail: 'adminStudentView #studentEmail',
@@ -98,7 +99,8 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "adminMain tabpanel tabpanel": {
                 show: 'onPeopleTabShow',
-                activeitemchange: 'onPeopleTabChange'
+                activeitemchange: 'onPeopleTabChange',
+                hide: 'onPeopleTabHide'
             },
             "adminMain adminStudents": {
                 itemtap: 'onStudentsListTap'
@@ -865,21 +867,31 @@ Ext.define('OnlineJudges.controller.Admin', {
             navBtn.setText("Load");
             navBtn.setIconCls('');
             navBtn.show();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
+
         }
         else if (title === 'Judges') {
             navBtn.from = "judgesTab";
             navBtn.setText('');
             navBtn.setIconCls('add');
             navBtn.show();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
         }
         else if (title === 'Invitations') {
             navBtn.hide();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
         }
         else if (title === 'Pending Grades'){
             navBtn.from = "pendingGradesTab";
-            navBtn.setText('Save');
+            navBtn.setText('');
             navBtn.setIconCls('');
-            navBtn.show();
+            navBtn.hide();
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.show();
+
         }
     },
 
@@ -1186,6 +1198,11 @@ Ext.define('OnlineJudges.controller.Admin', {
         }
     },
 
+    onPeopleTabHide: function(tabpanel){
+            GradeSaveBtn = this.getGradeSaveBtn();
+            GradeSaveBtn.hide();
+
+    },
     onPeopleTabShow: function (tabpanel) {
         this.onPeopleTabChange(0, tabpanel.getActiveItem());
     },

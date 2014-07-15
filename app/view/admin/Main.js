@@ -44,6 +44,12 @@ Ext.define('OnlineJudges.view.admin.Main', {
                     hidden: true,
                     text: 'Students',
                     itemId: 'LivestatsBtn'
+                },
+                {
+                    align: 'right',
+                    hidden: true,
+                    text: 'Save',
+                    itemId: 'GradeSaveBtn'
                 }
             ]
         },
