@@ -49,6 +49,6 @@ Ext.define('OnlineJudges.store.PendingGrades', {
                 type: 'boolean'
             }
         ],
-        sorters:['StudentId', 'JudgeId']
+        sorters:['SFName', 'SLName', 'JSName', 'JLName']
     }
 });

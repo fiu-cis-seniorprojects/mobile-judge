@@ -7,7 +7,7 @@ Ext.define('OnlineJudges.view.admin.PendingGrades', {
     ],
 
     config: {
-        title: 'Pending Grades',
+        title: 'Grades',
         itemTpl: [
             '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
                                    '<div class="x-form-label" style="background:none;padding: 0;width:90%">',

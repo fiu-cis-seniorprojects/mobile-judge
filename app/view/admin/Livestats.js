@@ -32,10 +32,6 @@ Ext.define('OnlineJudges.view.admin.Livestats', {
             listeners: {
                             itemtap: function(item, num, ev, record){
                                 var store = Ext.getStore('LivestatsGraph');
-                                //store.removeAll();
-                                //var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getJudges');
-                                //store.getProxy().setDirectFn(method);
-                                //store.load();
                                 var msg = " ";
                                 if(record.get('LastName') != null)
                                 {
