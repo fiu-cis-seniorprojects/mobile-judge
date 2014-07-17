@@ -884,7 +884,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             GradeSaveBtn = this.getGradeSaveBtn();
             GradeSaveBtn.hide();
         }
-        else if (title === 'Pending Grades'){
+        else if (title === 'Grades'){
             navBtn.from = "pendingGradesTab";
             navBtn.setText('');
             navBtn.setIconCls('');
