@@ -80,7 +80,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 autoCreate: true,
                 selector: 'termsList',
                 xtype: 'termsList'
-            }
+            },
         },
 
         control: {
@@ -222,6 +222,9 @@ Ext.define('OnlineJudges.controller.Admin', {
             },
             "pastJudgesOptions button[name=OKBtn]": {
                 tap: 'onPastJOptionsOKTap'
+            },
+            "settings #myDefaultRoleBtn": {
+                tap: 'onMyDefaultRoleBtnTap'
             }
 
         }
@@ -1133,7 +1136,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                      studentsStr.each(sendFunction);
                      var extraEStr = Ext.getStore('ExtraEmails');
                      extraEStr.each(sendFunction);
-                     var judgeStore = Ext.getSelection('JudgesContacts');
+                     var judgeStore = Ext.getStore('JudgesContacts');
                      judgeStore.each(sendFunction);
                 }
 
@@ -1862,6 +1865,77 @@ Ext.define('OnlineJudges.controller.Admin', {
                 }
             }
         });
+        popup.show();
+    },
+
+    onMyDefaultRoleBtnTap: function () {
+        var me = this,
+            store = Ext.getStore('LoginInstance'),
+            user = store.getById(0),
+            email = user.get('email');
+        popup = new Ext.Panel({
+            floating: true,
+            centered: true,
+            modal: true,
+            items: [
+                {
+                    xtype: 'fieldset',
+                    name: 'meDefaultRoleFieldSet',
+                    items: [
+                        {
+                            xtype: 'radiofield',
+                            name: 'DefaultRoleRadio',
+                            label: 'Admin',
+                            labelWrap: true,
+                        },
+                        {
+                            xtype: 'radiofield',
+                            name: 'DefaultRoleRadio',
+                            label: 'Judge',
+                            labelWrap: true,
+                        },
+                        {
+                            xtype: 'radiofield',
+                            name: 'DefaultRoleRadio',
+                            label: 'Student',
+                            labelWrap: true,                            
+                        },
+                    ]
+                },
+                {
+                    xtype: 'button',
+                    docked: 'bottom',
+                    text: 'OK',
+                    handler: function () {
+                        var newDefaultRole = "";
+
+                        if (popup.down('radiofield[label=Admin]').isChecked()) { newDefaultRole = "admin"; }
+                        else if (popup.down('radiofield[label=Judge]').isChecked()) { newDefaultRole = "judge"; }
+                        else if (popup.down('radiofield[label=Student]').isChecked()) { newDefaultRole = "student"; }
+
+                        Ext.php.LoginMain.setDefaultRole(email, newDefaultRole, function (res) {
+                            Ext.Msg.alert("" + res);
+                        });
+                        popup.hide();
+                    }
+                }
+            ]
+        });
+
+        Ext.php.LoginMain.getDefaultRole(email, function (res) {
+            var defaultRole = res.DefaultRole;
+
+            if (defaultRole === "admin") {
+                popup.down('radiofield[label=Admin]').check();
+            }
+            else if (defaultRole === "judge") {
+                popup.down('radiofield[label=Judge]').check();
+            }
+            else if (defaultRole === "student") {
+                popup.down('radiofield[label=Student]').check();
+            }
+        });
+
         popup.show();
     },
 
