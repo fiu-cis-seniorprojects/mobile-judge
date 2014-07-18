@@ -83,6 +83,7 @@ Ext.define('OnlineJudges.view.admin.Main', {
                             type: 'card',
                             animation: null
                         },
+                        style:'font-size:90%',
                         title: 'People',
                         centered: false,
                         iconCls: 'team',

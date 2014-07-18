@@ -18,11 +18,12 @@ Ext.define("OnlineJudges.view.judge.JudgeGraph", {
         theme:'Demo',
         store: "Livestats",
         cls: "chart",
+        title: "Grades",
         //innerPadding: 10,
         animate: true,
-        legend: {
-            position: "top"
-        },
+        // legend: {
+        //     position: "top"
+        // },
         interactions: [
             'panzoom'
         ],

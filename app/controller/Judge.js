@@ -225,6 +225,35 @@ Ext.define('OnlineJudges.controller.Judge', {
     //======================================================================
     //Livestats stuff
     //======================================================================
+    refreshFunc: function() {
+        var store = Ext.getStore('Livestats');
+        var count = 0;
+        for(i = 0; i < store.getAllCount(); i++)
+        {
+            if(store.getAt(i).get('RawGrade') != null) {
+                count = count + 1;
+            }
+
+        }
+        if(count < 3)
+        { store.removeAll();}
+
+        clearInterval(taskLiveStatsTimer);
+            taskLiveStatsTimer = setInterval(function() {
+                var store = Ext.StoreMgr.lookup('Livestats');
+                    store.load();
+                    for(i = 0; i < store.getAllCount(); i++)
+                    {
+                        if(store.getAt(i).get('RawGrade') != null) {
+                            count = count + 1;
+                        }
+
+                    }
+                    if(count < 3)
+                    { store.removeAll();}
+            }, 15000);
+    },
+
     onShowJudgeGraphBtnTap: function() {
         var mainView = this.getJudgeHome(),
         navBar = mainView.getNavigationBar();
@@ -239,32 +268,7 @@ Ext.define('OnlineJudges.controller.Judge', {
         store.load();
         store.setSorters('RawGrade', 'ApprovedGrade');
         
-        var count = 0;
-        for(i = 0; i < store.getAllCount; i++)
-        {
-            if(store.getAt(i).get('RawGrade') == null) {
-                count = count + 1;
-            }
-
-        }
-        if(count < 3)
-        { store.removeAll(); }
-        clearInterval(taskLiveStatsTimer);
-            taskLiveStatsTimer = setInterval(function() {
-                var store = Ext.StoreMgr.lookup('Livestats');
-                    store.load();
-                    for(i = 0; i < store.getAllCount; i++)
-                    {
-                        if(store.getAt(i).get('RawGrade') == null) {
-                            count++;
-                        }
-
-                    }
-                    if(count < 3)
-                    { store.removeAll(); }
-                var str = Ext.StoreMgr.lookup('LivestatsGraph');
-                    str.load();
-            }, 15000);
+        this.getApplication().getController('Judge').refreshFunc();
 
         mainView.push({
             xtype: 'judgeGraph'
