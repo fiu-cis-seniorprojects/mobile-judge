@@ -71,4 +71,18 @@ class Email {
 		$sent = mail($to, $subject, $body, "From: ".$from."\r\nMIME-Version: 1.0\r\nContent-type: text/html; charset=iso-8859-1\r\n");
 		return $sent;
 	}
+	public function getContact($email){
+		$db = new Database();
+		$db->sql('select FirstName, LastName, Email from Users where Email = \''.$email.'\'' );
+		$res = $db->getResult();
+		$total = 0;
+		if(array_key_exists('LastName', $res)){ 
+			$res = array($res);
+			$total = count($res);
+
+		}else{
+			$res = $email;
+		} 
+		return array('total'=>$total, 'data'=>$res);
+	}
 }
