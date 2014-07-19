@@ -17,6 +17,14 @@ Ext.define('OnlineJudges.store.ExtraEmails', {
                 type: 'string'
             },
             {
+                name: 'FirstName',
+                type: 'string'
+            },
+            {
+                name: 'LastName',
+                type: 'string'
+            },
+            {
                 name: 'Send',
                 type: 'boolean',
                 defaultValue: true

@@ -693,7 +693,19 @@ Ext.define('OnlineJudges.controller.Admin', {
                 str.removeAll();
                 var emails = extraEmails.getValue().split(/\n/);
                 for (i = 0; i < emails.length; i++) {
-                    if (emails[i].length > 0) str.add({ Email: emails[i] });
+                    Ext.php.Email.getContact(emails[i], function (res) {
+                        if (res.total > 0) {
+                            var firstName = '', lastName = '', email='';
+                            firstName = res.data[0].FirstName;
+                            lastName = res.data[0].LastName;
+                            email = res.data[0].Email;
+                            str.add({ Email: email, FirstName: firstName, LastName: lastName });
+                        } else {
+                            str.add({ Email: res.data, FirstName: '', LastName: '' });
+                        }
+                        
+                    });
+                    
                 }
             }
             
@@ -1106,22 +1118,33 @@ Ext.define('OnlineJudges.controller.Admin', {
             });
         }
         else if (button.from === "Email") {
+            var sentEmail = 0; var errorEmails = 0;
             var sendFunction = function (r) {
-                var to = r.get('Email');
-                var fname = r.get('FirstName');
-                var lname = r.get('LastName');
-                var subject = template.get('Subject');
-                var body = template.get('Body');
-                var bodyReady = body.replace('RECIPIENT_NAME', name).
-                    replace('RECIPIENT_LAST_NAME', lname).
-                    replace('RECIPIENT_EMAIL', to).
-                    replace('SENDER_NAME', 'Masoud Sadjadi').
-                    replace('SENDER_EMAIL', 'sadjadi@cs.fiu.edu');
-                var from = ' Masoud Sadjadi <sadjadi@cs.fiu.edu>';
-                Ext.php.Email.sendEmail(to, subject, bodyReady, from,
-                    function (result) {
-                        //Ext.Msg.alert(result);
-                    });
+                var send = r.get('Send');
+                if (send === true) {
+                    var to = r.get('Email');
+
+                    var fname = r.get('FirstName');
+                    if (!Ext.isDefined(fname)) fname = '';
+
+                    var lname = r.get('LastName');
+                    if (!Ext.isDefined(lname)) lname = '';
+
+                    var subject = template.get('Subject');
+                    var body = template.get('Body');
+                    var bodyReady = body.replace('RECIPIENT_NAME', name).
+                        replace('RECIPIENT_LAST_NAME', lname).
+                        replace('RECIPIENT_EMAIL', to).
+                        replace('SENDER_NAME', 'Masoud Sadjadi').
+                        replace('SENDER_EMAIL', 'sadjadi@cs.fiu.edu');
+                    var from = ' Masoud Sadjadi <sadjadi@cs.fiu.edu>';
+                    Ext.php.Email.sendEmail(to, subject, bodyReady, from,
+                        function (result) {
+                            if (result === true) sentEmail++;
+                            else errorEmails++;
+                        });
+                }
+               
 
             };
              
@@ -1138,6 +1161,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                      extraEStr.each(sendFunction);
                      var judgeStore = Ext.getStore('JudgesContacts');
                      judgeStore.each(sendFunction);
+                     Ext.Msg.alert("There were " + sentEmail + " successfully and " + errorEmails + " emails failed");
                 }
 
                
