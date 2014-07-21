@@ -231,6 +231,16 @@ Ext.define('OnlineJudges.controller.Admin', {
     },
     onPastJOptionsOKTap: function(){
         var pjo = this.getPastJudgesOptions();
+        var main = this.getMain();
+        var pendingtPjo = pjo.down('checkboxfield[name=pendingJudges]');
+        var acceptedPjo = pjo.down('checkboxfield[name=acceptedJudges]');
+        var declinedPjo = pjo.down('checkboxfield[name=declinedJudges]');
+        var listPjo = pjo.down('list[name=terms]');
+        var pastMain = main.down('checkboxfield[name=pastJudges]');
+        if (pendingtPjo.getChecked() === false && acceptedPjo.getChecked() === false
+            && declinedPjo.getChecked() === false && listPjo.getSelection().length == 0) {
+            pastMain.uncheck();
+        }
         pjo.hide();
         this.setJudgesStoreFilter();
     },
@@ -496,7 +506,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
     },
     onPastJudgesChecked: function (chk, e, eO) {
-        if (Ext.isDefined(e)) {
+        //if (Ext.isDefined(e)) {
             var main = this.getMain(),
                 allJudges = main.down('email checkboxfield[name=allJudges]'),
                 currentJudges = main.down('email checkboxfield[name=activeJudges]');
@@ -506,7 +516,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             var pJO = this.getPastJudgesOptions();
             var pastJudges = main.down('email checkboxfield[name=pastJudges]');
             pJO.showBy(pastJudges);
-        }
+        //}
     },
     onPastStudentsCheck: function (chk, e, eO) {
         var main = this.getMain();
@@ -575,7 +585,7 @@ Ext.define('OnlineJudges.controller.Admin', {
     },
    
     onActiveJudgesChecked: function (chkBox, e, eO) {
-        if (Ext.isDefined(e)) {
+       // if (Ext.isDefined(e)) {
             var main = this.getMain(),
                 pastJudges = main.down("email checkboxfield[name=pastJudges]"),
                 allJudges = main.down("email checkboxfield[name=allJudges]");
@@ -584,7 +594,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             }
             var judgesOptions = this.getJudgesOptions();
             judgesOptions.showBy(chkBox);
-        }
+       // }
         
         
     },
@@ -693,19 +703,22 @@ Ext.define('OnlineJudges.controller.Admin', {
                 str.removeAll();
                 var emails = extraEmails.getValue().split(/\n/);
                 for (i = 0; i < emails.length; i++) {
-                    Ext.php.Email.getContact(emails[i], function (res) {
-                        if (res.total > 0) {
-                            var firstName = '', lastName = '', email='';
-                            firstName = res.data[0].FirstName;
-                            lastName = res.data[0].LastName;
-                            email = res.data[0].Email;
-                            str.add({ Email: email, FirstName: firstName, LastName: lastName });
-                        } else {
-                            str.add({ Email: res.data, FirstName: '', LastName: '' });
-                        }
-                        
-                    });
-                    
+                    if (emails[i].length > 0) {
+                        Ext.php.Email.getContact(emails[i], function (res) {
+                            if (res.total > 0) {
+                                var firstName = '', lastName = '', email = '';
+                                firstName = res.data[0].FirstName;
+                                lastName = res.data[0].LastName;
+                                email = res.data[0].Email;
+                                str.add({ Email: email, FirstName: firstName, LastName: lastName });
+                            } else {
+                                str.add({ Email: res.data, FirstName: '', LastName: '' });
+                            }
+
+                        });
+
+                    }
+                   
                 }
             }
             
