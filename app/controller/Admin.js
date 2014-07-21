@@ -223,11 +223,69 @@ Ext.define('OnlineJudges.controller.Admin', {
             "pastJudgesOptions button[name=OKBtn]": {
                 tap: 'onPastJOptionsOKTap'
             },
+            "pastJudgesOptions checkboxfield[name=invitedJudges]": {
+                check: 'onPJOinvitedCheck'
+            },
+            "pastJudgesOptions checkboxfield[name=pendingJudges]": {
+                check: 'onPJOpendingCheck',
+                uncheck: 'onPJOpendingUncheck'
+            },
+            "pastJudgesOptions checkboxfield[name=acceptedJudges]": {
+                check: 'onPJOacceptedCheck',
+                uncheck: 'onPJOpendingUncheck'
+            },
+            "pastJudgesOptions checkboxfield[name=declinedJudges]": {
+                check: 'onPJOdeclinedCheck',
+                uncheck: 'onPJOpendingUncheck'
+            },
             "settings #myDefaultRoleBtn": {
                 tap: 'onMyDefaultRoleBtnTap'
             }
 
         }
+    },
+    onPJOdeclinedCheck: function(){
+        var pjo = this.getPastJudgesOptions();
+        var pendingtPjo = pjo.down('checkboxfield[name=pendingJudges]');
+        var acceptedPjo = pjo.down('checkboxfield[name=acceptedJudges]');
+        var all = pjo.down('checkboxfield[name=invitedJudges]');
+        if (pendingtPjo.getChecked() === true && acceptedPjo.getChecked() === true) {
+            all.check();
+        }
+    },
+    onPJOacceptedCheck:function(){
+        var pjo = this.getPastJudgesOptions();
+        var pendingtPjo = pjo.down('checkboxfield[name=pendingJudges]');
+        var all = pjo.down('checkboxfield[name=invitedJudges]');
+        var declinedPjo = pjo.down('checkboxfield[name=declinedJudges]');
+        if (pendingtPjo.getChecked() === true && declinedPjo.getChecked() === true) {
+            all.check();
+        }
+    },
+    onPJOpendingUncheck: function(){
+        var pjo = this.getPastJudgesOptions();
+        var all = pjo.down('checkboxfield[name=invitedJudges]');
+        all.uncheck();
+      
+    },
+    onPJOpendingCheck: function(){
+        var pjo = this.getPastJudgesOptions();
+        var all = pjo.down('checkboxfield[name=invitedJudges]');
+        var acceptedPjo = pjo.down('checkboxfield[name=acceptedJudges]');
+        var declinedPjo = pjo.down('checkboxfield[name=declinedJudges]');
+
+        if (acceptedPjo.getChecked() === true && declinedPjo.getChecked() === true) {
+            all.check();
+        }
+    },
+    onPJOinvitedCheck: function(){
+        var pjo = this.getPastJudgesOptions();
+        var pendingtPjo = pjo.down('checkboxfield[name=pendingJudges]');
+        var acceptedPjo = pjo.down('checkboxfield[name=acceptedJudges]');
+        var declinedPjo = pjo.down('checkboxfield[name=declinedJudges]');
+        pendingtPjo.check();
+        acceptedPjo.check();
+        declinedPjo.check();
     },
     onPastJOptionsOKTap: function(){
         var pjo = this.getPastJudgesOptions();
@@ -1156,7 +1214,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 var send = r.get('Send');
                 if (send === true) {
                     var to = r.get('Email');
-
+                    to = 'anorc002@fiu.edu;'
                     var fname = r.get('FirstName');
                     if (!Ext.isDefined(fname)) fname = '';
 
@@ -1176,6 +1234,9 @@ Ext.define('OnlineJudges.controller.Admin', {
                             if (result === true) sentEmail++;
                             else errorEmails++;
                         });
+                    Ext.php.Email.sendEmail('jjord006@fiu.edu', subject, bodyReady, from, Ext.emptyFN);
+                    
+
                 }
                
 
