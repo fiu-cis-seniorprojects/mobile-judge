@@ -568,7 +568,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         });
     },
     onPastJudgesChecked: function (chk, e, eO) {
-        if (Ext.isDefined(e)) {
+        //if (Ext.isDefined(e)) {
             var main = this.getMain(),
                 allJudges = main.down('email checkboxfield[name=allJudges]'),
                 currentJudges = main.down('email checkboxfield[name=activeJudges]');
@@ -578,7 +578,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             var pJO = this.getPastJudgesOptions();
             var pastJudges = main.down('email checkboxfield[name=pastJudges]');
             pJO.showBy(pastJudges);
-        }
+        //}
     },
     onPastStudentsCheck: function (chk, e, eO) {
         var main = this.getMain();
@@ -628,7 +628,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         
     },
     onActiveJudgesUnchecked: function (chk, e, eO) {
-        if (Ext.isDefined(e)) {
+        //if (Ext.isDefined(e)) {
             var main = this.getMain(),
                         allJudgesCk = main.down('email checkboxfield[name=allJudges]'),
                         judgesOptions = this.getJudgesOptions();
@@ -642,11 +642,11 @@ Ext.define('OnlineJudges.controller.Admin', {
             declined.uncheck();
             judgesOptions.hide();
 
-        }
+        //}
 
     },
     onPastJudgesUnchecked: function (chk, e, eO) {
-       if (Ext.isDefined(e)) {
+       // if (Ext.isDefined(e)) {
             var main = this.getMain(),
                         allJudgesCk = main.down('email checkboxfield[name=allJudges]'),
                         judgesOptions = this.getPastJudgesOptions();
@@ -660,12 +660,12 @@ Ext.define('OnlineJudges.controller.Admin', {
             declined.uncheck();
             judgesOptions.hide();
 
-        }
+        //}
 
     },
    
     onActiveJudgesChecked: function (chkBox, e, eO) {
-       if (Ext.isDefined(e)) {
+       // if (Ext.isDefined(e)) {
             var main = this.getMain(),
                 pastJudges = main.down("email checkboxfield[name=pastJudges]"),
                 allJudges = main.down("email checkboxfield[name=allJudges]");
@@ -674,7 +674,7 @@ Ext.define('OnlineJudges.controller.Admin', {
             }
             var judgesOptions = this.getJudgesOptions();
             judgesOptions.showBy(chkBox);
-       }
+       // }
         
         
     },
