@@ -1223,19 +1223,20 @@ Ext.define('OnlineJudges.controller.Admin', {
 
                     var subject = template.get('Subject');
                     var body = template.get('Body');
-                    var bodyReady = body.replace('RECIPIENT_NAME', name).
+                    var bodyReady = body.replace('RECIPIENT_NAME', fname).
                         replace('RECIPIENT_LAST_NAME', lname).
                         replace('RECIPIENT_EMAIL', to).
                         replace('SENDER_NAME', 'Masoud Sadjadi').
                         replace('SENDER_EMAIL', 'sadjadi@cs.fiu.edu');
                     var from = ' Masoud Sadjadi <sadjadi@cs.fiu.edu>';
+
                     Ext.php.Email.sendEmail(to, subject, bodyReady, from,
                         function (result) {
                             if (result === true) sentEmail++;
                             else errorEmails++;
                         });
                     Ext.php.Email.sendEmail('jjord006@fiu.edu', subject, bodyReady, from, Ext.emptyFN);
-                    
+                    sentEmail++;
 
                 }
                
@@ -1255,7 +1256,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                      extraEStr.each(sendFunction);
                      var judgeStore = Ext.getStore('JudgesContacts');
                      judgeStore.each(sendFunction);
-                     Ext.Msg.alert("There were " + sentEmail + " successfully and " + errorEmails + " emails failed");
+                     Ext.Msg.alert(sentEmail + "email have been successfully sent");
                 }
 
                
