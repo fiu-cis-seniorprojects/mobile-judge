@@ -164,7 +164,8 @@ Ext.define('OnlineJudges.view.admin.Email', {
                     itemTpl: [
                                '<div class="x-container x-field-checkbox x-field x-label-align-left x-field-labeled" style="background:none">',
                                    '<div class="x-form-label" style="background:none;padding: 0">',
-                                       '<div>{Email}</div>',
+                                        '<div>{FirstName} {LastName}</div>',
+                                       '<div  style="font-size:12px">{Email}</div>',
                                    '</div>',
                                    '<div class="x-component-outer">',
                                        '<div class="x-unsized x-field-input" style="border:0;background:none;">',
