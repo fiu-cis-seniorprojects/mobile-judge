@@ -80,7 +80,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 autoCreate: true,
                 selector: 'termsList',
                 xtype: 'termsList'
-            },
+            }
         },
 
         control: {
@@ -357,6 +357,9 @@ Ext.define('OnlineJudges.controller.Admin', {
         var pastAccepted = pastJO.down('checkboxfield[name=acceptedJudges]');
         var pastDeclined = pastJO.down('checkboxfield[name=declinedJudges]');
 
+        if (activeJudges === null) {
+            return;
+        }
 
         str.clearFilter();
         str.load();
@@ -548,6 +551,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         var main = this.getMain(),
             currentStudents = main.down('email checkboxfield[name=activeStudents]'),
             pastStudents = main.down('email checkboxfield[name=pastStudents]');
+        if (currentStudents === null) return;
         var termsList = this.getTerms().down('list[name=terms]');
         var terms = termsList.getSelection().map(function (rec) { return rec.get('id') });
         //str.load();
