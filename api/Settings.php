@@ -71,28 +71,28 @@ class Settings {
     }
 
     public function reset() {
-//        $db = new Database();
-//
-//        $db->delete('History','Term = (SELECT Term FROM Settings)');
-//
-//        $db->sql('INSERT INTO History (Term,Email,FirstName,LastName,Grade,Response)
-//                SELECT x.Term, u.Email, u.FirstName, u.LastName, s.Grade, NULL AS Response
-//                FROM Students AS s
-//                LEFT OUTER JOIN Users AS u ON u.StudentId = s.id AND u.StudentId IS NOT NULL
-//                INNER JOIN Settings AS x
-//                UNION
-//                SELECT x.Term, i.Email, COALESCE(u.FirstName,i.FirstName) AS FirstName, COALESCE(u.LastName,i.LastName) AS LastName, NULL AS Grade, i.Response
-//                FROM JudgeInvitations AS i
-//                LEFT OUTER JOIN Users u ON u.Email = i.Email AND u.JudgeId IS NOT NULL
-//                INNER JOIN Settings AS x');
-//
-//        $db->delete('JudgeStudentGrade','1=1');
-//        $db->delete('JudgeStudentConflicts','1=1');
-//        $db->delete('Users','NOT(StudentId IS NULL AND JudgeId IS NULL)');
-//        $db->delete('Judges','1=1');
-//        $db->delete('JudgeInvitations','1=1');
-//        //$db->delete('Questions','1=1');
-//        $db->delete('Students','1=1');
+       $db = new Database();
+
+       $db->delete('History','Term = (SELECT Term FROM Settings)');
+
+       $db->sql('INSERT INTO History (Term,Email,FirstName,LastName,Grade,Response)
+               SELECT x.Term, u.Email, u.FirstName, u.LastName, s.Grade, NULL AS Response
+               FROM Students AS s
+               LEFT OUTER JOIN Users AS u ON u.StudentId = s.id AND u.StudentId IS NOT NULL
+               INNER JOIN Settings AS x
+               UNION
+               SELECT x.Term, i.Email, COALESCE(u.FirstName,i.FirstName) AS FirstName, COALESCE(u.LastName,i.LastName) AS LastName, NULL AS Grade, i.Response
+               FROM JudgeInvitations AS i
+               LEFT OUTER JOIN Users u ON u.Email = i.Email AND u.JudgeId IS NOT NULL
+               INNER JOIN Settings AS x');
+
+       $db->delete('JudgeStudentGrade','1=1');
+       $db->delete('JudgeStudentConflicts','1=1');
+       $db->delete('Users','NOT(StudentId IS NULL AND JudgeId IS NULL) AND Email != "admin"');
+       $db->delete('Judges','1=1');
+       $db->delete('JudgeInvitations','1=1');
+       //$db->delete('Questions','1=1');
+       $db->delete('Students','1=1');
 
         return true;
     }
