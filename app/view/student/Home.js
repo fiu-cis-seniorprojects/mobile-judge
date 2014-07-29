@@ -22,7 +22,7 @@ Ext.define('OnlineJudges.view.student.Home', {
                         align: 'left'
                     },
                     {
-                        text: 'Roles',
+                        text: 'Student',
                         itemId: 'studentRolesBtn'
                     },
                     {

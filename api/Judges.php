@@ -167,9 +167,13 @@ class Judges {
             if (!$success) return "Roles update failed";
             $success = $db->update('Users', array('DefaultRole'=>$defaultRole), "Email ='".$data->Email."';");
             if (!$success) return "Default update failed";
+			$success = $db->sql("UPDATE Users SET Password=password('".$data->Password."') WHERE Email ='".$data->Email."';");// and Password=NULL;");
+            if (!$success) return "Password update failed";
+			$success = $db->update('Users', array('JudgeId'=>".$id."), "Email ='".$data->Email."';");
+            if (!$success) return "ID update failed";
         }
         else {
-            $db->sql("insert into Users (Email, FirstName, LastName, Password, JudgeId, Roles, DefaultRole) VALUES ('".$data->Email."', '".$data->FirstName."', '".$data->LastName."', password('".$data->Password."'), ".$id.", judge, judge);");
+            $db->sql("insert into Users (Email, FirstName, LastName, Password, JudgeId, Roles, DefaultRole) VALUES ('".$data->Email."', '".$data->FirstName."', '".$data->LastName."', password('".$data->Password."'), ".$id.", 'judge', 'judge');");
         }
 
         $date = date_format(DateTime::createFromFormat('Y-m-d', $res['Date']), "l, F j");

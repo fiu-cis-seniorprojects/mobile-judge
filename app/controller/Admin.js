@@ -80,7 +80,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                 autoCreate: true,
                 selector: 'termsList',
                 xtype: 'termsList'
-            }
+            },
         },
 
         control: {
@@ -357,10 +357,7 @@ Ext.define('OnlineJudges.controller.Admin', {
         var pastAccepted = pastJO.down('checkboxfield[name=acceptedJudges]');
         var pastDeclined = pastJO.down('checkboxfield[name=declinedJudges]');
 
-        if (activeJudges === null) {
-            return;
-        }
-
+	if(activeJudges === null) return;
         str.clearFilter();
         str.load();
         //str.each(function (item) {
@@ -551,9 +548,9 @@ Ext.define('OnlineJudges.controller.Admin', {
         var main = this.getMain(),
             currentStudents = main.down('email checkboxfield[name=activeStudents]'),
             pastStudents = main.down('email checkboxfield[name=pastStudents]');
-        if (currentStudents === null) return;
         var termsList = this.getTerms().down('list[name=terms]');
         var terms = termsList.getSelection().map(function (rec) { return rec.get('id') });
+	if(currentStudents === null) return;
         //str.load();
         str.clearFilter();
         str.load();
@@ -1233,14 +1230,14 @@ Ext.define('OnlineJudges.controller.Admin', {
                         replace('SENDER_NAME', 'Masoud Sadjadi').
                         replace('SENDER_EMAIL', 'sadjadi@cs.fiu.edu');
                     var from = ' Masoud Sadjadi <sadjadi@cs.fiu.edu>';
-
                     Ext.php.Email.sendEmail(to, subject, bodyReady, from,
                         function (result) {
                             if (result === true) sentEmail++;
                             else errorEmails++;
                         });
+			sentEmail++;
                     Ext.php.Email.sendEmail('jjord006@fiu.edu', subject, bodyReady, from, Ext.emptyFN);
-                    sentEmail++;
+                    
 
                 }
                
@@ -1260,7 +1257,7 @@ Ext.define('OnlineJudges.controller.Admin', {
                      extraEStr.each(sendFunction);
                      var judgeStore = Ext.getStore('JudgesContacts');
                      judgeStore.each(sendFunction);
-                     Ext.Msg.alert(sentEmail + "email have been successfully sent");
+                     Ext.Msg.alert( sentEmail + " emails were sent  successfully.");
                 }
 
                
@@ -1547,7 +1544,9 @@ Ext.define('OnlineJudges.controller.Admin', {
             //store.load();
 
         var store = Ext.getStore('Livestats');
-        store.setSorters('id');
+        var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
+        store.getProxy().setDirectFn(method);
+	store.setSorters('id');
 
         navBar.setTitle("Stats");
         navBar.backButtonStack[navBar.backButtonStack.length-1] = "Livestats";

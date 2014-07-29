@@ -52,23 +52,45 @@ Ext.define('OnlineJudges.controller.Login', {
 
         store.removeAll();
         if (!Ext.isEmpty(values.email) && !Ext.isEmpty(values.password)) {
-            Ext.php.LoginMain.login(values.email, values.password, function (user) {
-                
-                if (!user) Ext.Msg.alert('Error', 'Invalid Username or Password', Ext.emptyFn);
-                else if (user.DefaultRole == "admin") {
-                    OnlineJudges.user = user;
-                    store.add({ id: 0, email: values.email, password: values.password, roles: user.Roles, defaultrole: user.DefaultRole });
-                    me.loadMainView('adminMain', { title: 'Home' });
+            var isStudent = "";
+            Ext.php.LoginMain.getDefaultRole(values.email, function (userDef) {
+                if (userDef.DefaultRole == 'student')
+                    isStudent = "true";
+                else
+                    isStudent = "false";
+
+                if (isStudent === "false") {
+                    Ext.php.LoginMain.login(values.email, values.password, function (user) {
+
+                        if (!user) Ext.Msg.alert('Error', 'Invalid Username or Password', Ext.emptyFn);
+                        else if (user.DefaultRole == "admin") {
+                            OnlineJudges.user = user;
+                            store.add({ id: 0, email: values.email, password: values.password, roles: user.Roles, defaultrole: user.DefaultRole });
+                            me.loadMainView('adminMain', { title: 'Home' });
+                        }
+                        else if (user.DefaultRole == 'judge') {
+                            if (!user.AllowLogin) Ext.Msg.alert('Dear ' + user.FirstName, 'The grading has not started yet', Ext.emptyFn);
+                            else {
+                                OnlineJudges.user = user;
+                                store.add({ id: 0, email: values.email, password: values.password, roles: user.Roles, defaultrole: user.DefaultRole });
+                                me.loadMainView('judgeHome');
+                            }
+                        }
+                        else if (user.DefaultRole == 'student') {
+                            token = window.localStorage.getItem('token');
+
+                            Ext.php.Students.login(token, function (data) {
+                                if (Ext.isString(data)) window.location = data; // redirect
+                                else if (data != null) {
+                                    OnlineJudges.user = user;
+                                    store.add({ id: 0, email: values.email, password: values.password, roles: user.Roles, defaultrole: user.DefaultRole });
+                                    me.loadMainView('studentHome');
+                                }
+                            });
+                        }
+                    });
                 }
-                else if (user.DefaultRole == 'judge') {
-                    if (!user.AllowLogin) Ext.Msg.alert('Dear ' + user.FirstName, 'The grading has not started yet', Ext.emptyFn);
-                    else {
-                        OnlineJudges.user = user;
-                        store.add({ id: 0, email: values.email, password: values.password, roles: user.Roles, defaultrole: user.DefaultRole });
-                        me.loadMainView('judgeHome');
-                    }
-                }
-                else if (user.DefaultRole == 'student') {
+                else if (isStudent === "true") {
                     token = window.localStorage.getItem('token');
 
                     Ext.php.Students.login(token, function (data) {
@@ -80,6 +102,7 @@ Ext.define('OnlineJudges.controller.Login', {
                         }
                     });
                 }
+
             });
         }
     },

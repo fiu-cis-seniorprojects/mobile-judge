@@ -132,7 +132,7 @@ Ext.define('OnlineJudges.view.judge.Confirmation', {
                             },
                             {
                                 xtype: 'fieldset',
-                                title: 'If you already have an account, type any password but login with your existing password.',
+                                title: 'Password must be 8 characters with at least one letter and number.',
                                 margin: '.5em .5em 1.5em',
                                 defaults: {
                                     xtype: 'passwordfield'

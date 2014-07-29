@@ -130,7 +130,7 @@ class Invites {
 <table style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0;width:100%">
 <tbody style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0"><tr style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0">
 <td align="center" style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0">
-<p style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0;margin-bottom:10px;font-weight:400;font-size:14px;line-height:1.6"><img height="300" width="600" src="http://www.fiusports.com/Portals/1/DigArticle/18384/FIU_ATH_logo_H_SpotU.jpg" style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0;max-width:100%"></p>
+<p style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0;margin-bottom:10px;font-weight:400;font-size:14px;line-height:1.6"><img height="300" width="600" src="https://c2.staticflickr.com/4/3475/3230851751_b596f68f7b.jpg" style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Helvetica,Arial,sans-serif;margin:0;padding:0;max-width:100%"></p>
 </td>
 </tr>
 </tbody></table>

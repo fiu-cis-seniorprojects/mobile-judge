@@ -32,7 +32,7 @@ Ext.define('OnlineJudges.view.judge.Home', {
                 },
                 {
                     xtype: 'button',
-                    text: 'Roles',
+                    text: 'Judge',
                     itemId: 'rolesBtnJudge'
                 }
             ]

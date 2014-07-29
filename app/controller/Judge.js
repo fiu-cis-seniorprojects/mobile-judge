@@ -107,7 +107,7 @@ Ext.define('OnlineJudges.controller.Judge', {
                 result = 'Your account was created successfully';
             }
 
-            Ext.Msg.alert('Registration', result, Ext.emptyFn);
+            Ext.Msg.alert('Registration', ""+result, Ext.emptyFn);
         });
     },
 
@@ -228,30 +228,13 @@ Ext.define('OnlineJudges.controller.Judge', {
     refreshFunc: function() {
         var store = Ext.getStore('Livestats');
         var count = 0;
-        for(i = 0; i < store.getAllCount(); i++)
-        {
-            if(store.getAt(i).get('RawGrade') != null) {
-                count = count + 1;
-            }
-
-        }
-        if(count < 3)
-        { store.removeAll();}
 
         clearInterval(taskLiveStatsTimer);
             taskLiveStatsTimer = setInterval(function() {
-                var store = Ext.StoreMgr.lookup('Livestats');
+                var count = 0;
+		var store = Ext.StoreMgr.lookup('Livestats');
                     store.load();
-                    for(i = 0; i < store.getAllCount(); i++)
-                    {
-                        if(store.getAt(i).get('RawGrade') != null) {
-                            count = count + 1;
-                        }
-
-                    }
-                    if(count < 3)
-                    { store.removeAll();}
-            }, 15000);
+            }, 10000);
     },
 
     onShowJudgeGraphBtnTap: function() {
@@ -263,7 +246,7 @@ Ext.define('OnlineJudges.controller.Judge', {
 
 
         var store = Ext.getStore('Livestats');
-        var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAll');
+        var method = Ext.direct.Manager.parseMethod('Ext.php.Livestats.getAllControlled');
         store.getProxy().setDirectFn(method);
         store.load();
         store.setSorters('RawGrade', 'ApprovedGrade');

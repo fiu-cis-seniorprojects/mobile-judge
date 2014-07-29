@@ -27,6 +27,42 @@ class Livestats {
         return array('total'=>count($res), 'data'=>$res);
     }
 
+    public function getAllControlled() {
+        $db = new Database();
+        $db->sql('select s.id, avg(j.grade) as RawGrade, k.ApprovedGrade, u.FirstName as Name, u.LastName, s.project, s.location
+            FROM JudgeStudentGrade as j 
+            join Users as u on j.StudentId = u.StudentId
+            join Students as s on s.id = j.StudentId
+            left join
+            (
+                select st.id, st.Grade as ApprovedGrade
+                FROM JudgeStudentGrade as ju 
+                inner join Users as us on ju.StudentId = us.StudentId
+                inner join Students as st on st.id = ju.StudentId
+                where ju.Accepted = 1 and ju.grade is not null
+                group by ju.StudentId       
+            ) as k on k.id = s.id
+            where j.grade is not null
+            group by j.StudentId');
+        $res = $db->getResult();
+        $cou = count($res);
+        console.log($cou);
+        if (array_key_exists('id', $res)) $res=array($res);
+        //$res=array($res);
+        //if(count($res) <= 3) return array('total'=>null, 'data'=>null);
+        //return array('total'=>count($res), 'data'=>$res);
+        
+        if(count($res) < 4) {
+
+            return array('total'=>count($res), 'data'=>null);
+        }
+        else
+        {
+            //if (array_key_exists('id', $res)) $res=array($res);
+            return array('total'=>count($res), 'data'=>$res);
+        }
+    }
+
     public function getAllProjects() {
         $db = new Database();
         $db->sql('select s.project as Name, avg(j.grade) as RawGrade, k.ApprovedGrade

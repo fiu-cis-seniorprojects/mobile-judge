@@ -36,7 +36,7 @@ Ext.define('OnlineJudges.view.admin.Main', {
                 },
                 {
                     xtype: 'button',
-                    text: 'Roles',
+                    text: 'Admin',
                     itemId: 'rolesBtnAdmin'   
                 },
                 {
